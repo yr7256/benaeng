@@ -1,20 +1,8 @@
-<style>
-    h1,h2,h3 {
-        font-weight: 900;
-    }
-    .summary {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        padding: 8px 16px;
-        display: flex;
-    }
-</style>
-
 <span>2023-04-17</span>
 
 # TanStack Query(React Query)
 
-<div class="summary">
+<div style="display: flex; background-color: rgba(255, 255,255, 0.1); padding: 8px 16px; border-radius: 8px;">
     <div style="margin-right: 8px">💡</div>
     <div>
     <b>react-query</b>는 v4 버전부터 <b>TanStack Query</b>로 명칭이 정정되었습니다.
@@ -156,3 +144,55 @@ function Todos() {
 - **fetchStatus** : queryFn의 실행상태
 
 두 데이터를 조합하여 Background refetch나 stale-while-validate 동작을 모두 설명할 수 있다고 합니다! ~~무슨 소리인지 대해서는 좀 더 학습이...필요할 것같습니다~~
+
+---
+
+2023-04-18
+
+# 알고리즘 문제: BOJ 3584
+
+## GOLD 4: 가장 가까운 공통 조상
+
+트리 만들고 root까지 올라가면서 경로를 탐색 후 이를 비교해서 얻어보자
+
+```python
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+class Node:
+  def __init__(self, id):
+    self.id = id
+    self.parent = None
+
+
+T = int(input())
+
+for t in range(T):
+  N = int(input())
+  nodes = [Node(i) for i in range(N+1)]
+  for n in range(N-1):
+    (parent, child) = list(map(int, input().split()))
+    nodes[child].parent = nodes[parent]
+
+
+  (node1, node2) = list(map(int, input().split()))
+
+  node1 = nodes[node1]
+  node2 = nodes[node2]
+  route1 = deque([node1.id])
+  route2 = deque([node2.id])
+
+  while node1.parent:
+    node1 = node1.parent
+    route1.appendleft(node1.id)
+  while node2.parent:
+    node2 = node2.parent
+    route2.appendleft(node2.id)
+
+  idx = 0
+  while idx < len(route1) and idx < len(route2) and route1[idx] == route2[idx]:
+    idx += 1
+
+  print(route1[idx-1])
+```
