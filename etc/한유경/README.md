@@ -196,3 +196,10 @@ for t in range(T):
 
   print(route1[idx-1])
 ```
+
+
+
+<br>
+2024-04-19
+# Figma를 이용한 목업디자인 진행
+![image.png](./image.png)
