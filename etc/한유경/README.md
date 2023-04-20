@@ -198,8 +198,28 @@ for t in range(T):
 ```
 
 
+<br>
+
+2024-04-19
+
+# Figma를 이용한 목업디자인 진행
+
+![image.png](./image.png)
+
 
 <br>
-2024-04-19
+
+2024-04-20
+
 # Figma를 이용한 목업디자인 진행
-![image.png](./image.png)
+
+<div style="display: flex;">
+<img src="./image-1.png" width="30">
+<img src="./image-2.png" width="60">
+
+![image-1.png](./image-1.png)
+
+![image-2.png](./image-2.png)
+
+</div>
+
