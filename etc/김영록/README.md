@@ -70,3 +70,20 @@ visited[y-x-1] = 1
 ans = 0
 dfs(1)
 print(ans)
+
+
+### 230420 TIL
+
+Flutter, Firebase Cloud Messaging 연동
+
+Flutter 에 Firebase 연동하기
+1. Firebase CLI 설치
+2. Firebase login
+3. FlutterFire CLI 설치
+4. flutterfire configure 명령어 실행
+5. firebase_core 플러그인 설치
+6. flutterfire configure 명령어 실행
+
+Firebase Cloud Messaging 연동하기
+1. firebase_messaging, flutter_local_notifications 설치
+2. Flutter 에서 기기의 FCM Token 값 찾은 후, 메시지 전송
