@@ -109,3 +109,23 @@ JPA를 사용하면 이런 과정을 JPA가 대신 처리
 데이터 접근 추상화와 벤더 독립성
 데이터베이스 기술에 종속되지 않도록 한다.
 데이타베이스를 변경하면 JPA에게 다른 데이터베이스를 사용한다고 알려주면 됨.
+
+
+프록시 팩토리
+스프링은 유사한 구체적인 기술들이 있을 때, 그것들을 통합해서 일관성 있게 접근할 수 있고 편리하게 사용할 수 있도록 추상화된 기술을 제공한다. 동적 프록시를 통합해서 프록시 팩토리라는 기능을 제공하는데, 프록시 팩토리는 인터페이스가 있으면 JDK 프록시를 사용하고, 구체 클래스가 있다면 CGLIB를 사용한다. 이 내용은 설정을 통해 변경할 수도 있다.
+
+
+Advice
+Advice는 프록시에 적용하는 부가 기능 로직이다.
+
+JDK 동적 프록시가 제공하는 InvocationHandler와 CGLIB가 제공하는 MethodInterceptor의 개념과 유사한데, 이 둘을 추상화 한 것이다. 프록시 팩토리를 사용한다면 이 둘 대신에 Advice를 사용하면 된다.
+
+Advice를 만드는 방법은 다양하지만, MethodInterceptor를 구현해서 만들어보자.
+
+package org.aopalliance.intercept;
+
+  public interface MethodInterceptor extends Interceptor {
+      Object invoke(MethodInvocation invocation) throws Throwable;
+}
+MethodInvocation invocation : 내부에는 다음 메서드를 호출하는 방법, 현재 프록시 객체 인스턴스, args , 메서드 정보 등이 포함되어 있다.
+MethodInterceptor는 Interceptor를 상속하고, Interceptor는 Advice 인터페이스를 상속한다.
