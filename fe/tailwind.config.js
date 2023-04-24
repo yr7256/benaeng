@@ -4,6 +4,9 @@ export default {
 	content: ['./home.tsx', './src/**/*.{ts,tsx}'],
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: ['NanumSquareNeo-Variable'],
+			},
 			colors: {
 				green: '#00C981',
 				yellow: '#FFC702',
@@ -15,6 +18,7 @@ export default {
 				black: '#000000',
 				white: '#FFFFFF',
 				gray: '#EEEEEE',
+				kakao: '#FFC329',
 				'dark/background': '#000000',
 				'dark/component': '#202020',
 				'dark/stroke': '#444444',
