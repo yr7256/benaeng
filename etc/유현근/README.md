@@ -129,3 +129,19 @@ package org.aopalliance.intercept;
 }
 MethodInvocation invocation : 내부에는 다음 메서드를 호출하는 방법, 현재 프록시 객체 인스턴스, args , 메서드 정보 등이 포함되어 있다.
 MethodInterceptor는 Interceptor를 상속하고, Interceptor는 Advice 인터페이스를 상속한다.
+
+
+Aspect Ver1
+```
+@Slf4j
+@Aspect
+public class AspectV1 {
+
+    @Around("execution(* hello.aop.order..*(..))")
+    public Object doLog(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("[log] {}", joinPoint.getSignature());
+        return joinPoint.proceed();
+    }
+
+}
+```
