@@ -8,8 +8,8 @@ import { Report, Calendar, FoodAnalysis } from './components/analysis';
 
 function App() {
 	return (
-		<div className="App">
-			<div className="h-screen w-screen dark:bg-dark/background bg-light/background">
+		<div className="App dark">
+			<div className="w-screen h-screen dark:bg-dark/background bg-light/background">
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
