@@ -9,7 +9,9 @@ import App from './App';
 import store from './store/store';
 import './index.css';
 
-export const persistor = persistStore(store);
+const persistor = persistStore(store);
+
+export default persistor;
 
 // 데이터가 stale 상태일 때 윈도우 포커싱 돼도 refetch 실행 x
 const client = new QueryClient({

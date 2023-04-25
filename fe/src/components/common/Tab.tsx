@@ -7,13 +7,14 @@ interface TabProps {
 	onTabClick: (tabNumber: string) => void;
 }
 
-const Tab: React.FC<TabProps> = ({ labels, activeTab, onTabClick }) => {
+function Tab({ labels, activeTab, onTabClick }: TabProps) {
 	return (
 		<ul className="flex list-none tabs-container border-2 border-light/stroke">
-			{labels.map((label, index) => (
+			{labels.map(label => (
 				<li
-					key={index}
+					key={label}
 					onClick={() => onTabClick(label)}
+					role="presentation"
 					className={`inline-block cursor-pointer text-green tab-container ${
 						activeTab === label ? 'bg-green text-white' : ''
 					}`}
@@ -23,6 +24,6 @@ const Tab: React.FC<TabProps> = ({ labels, activeTab, onTabClick }) => {
 			))}
 		</ul>
 	);
-};
+}
 
 export default Tab;

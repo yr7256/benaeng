@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Route, Routes } from 'react-router';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
-import { Report, Calendar, FoodAnalysis } from './components/analysis';
+import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
 
 function App() {
 	return (
-		<div className="App dark">
+		<div className="App">
 			<div className="w-screen h-screen dark:bg-dark/background bg-light/background">
 				<Routes>
 					<Route index path="/" element={<Home />} />
@@ -16,10 +14,10 @@ function App() {
 					<Route path="/foods/:id" element={<FoodDetail />} />
 					<Route path="/foods/barcode" caseSensitive element={<BarcodeReader />} />
 					<Route path="/analysis/:type" element={<Analysis />}>
-            <Route path="report" element={<Report />} />
-            <Route path="calendar" element={<Calendar />} />
-            <Route path="food" element={<FoodAnalysis />} />
-          </Route>
+						<Route path="report" element={<MonthlyReport />} />
+						<Route path="calendar" element={<RefrigeratorCalendar />} />
+						<Route path="food" element={<FoodAnalysis />} />
+					</Route>
 					<Route path="/notice" element={<Notice />} />
 					<Route path="/setting" element={<Setting />} />
 				</Routes>
