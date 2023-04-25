@@ -4,6 +4,10 @@ export default {
 	content: ['./home.tsx', './src/**/*.{ts,tsx}'],
 	theme: {
 		extend: {
+			maxWidth: {
+				'88': '22rem',
+				'60': '15rem',
+			},
 			width: {
 				'88': '22rem',
 			},
