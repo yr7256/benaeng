@@ -4,6 +4,7 @@
   border-radius: 20rem;
   align-items: center;
   border-radius: 1.25rem;
+  @apply bg-light/component dark:bg-dark/component;
 }
 
 .tab-container {

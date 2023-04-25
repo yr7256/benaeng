@@ -6,10 +6,11 @@
 }
 
 .DateBox-Container {
-  width: 100%;
+  width: 18.875rem;
   flex: 1;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  margin: auto;
 }
 
 .ControlDate-Container {
@@ -18,4 +19,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.otherMonth {
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.WeekBox-Container {
+  border-bottom: 1px solid;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.Check-Container {
+  font-size: 0.75rem;
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.Check-Container > * {
+  margin-right: 0.5rem;
 }
