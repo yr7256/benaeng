@@ -16,10 +16,10 @@ function App() {
 					<Route path="/foods/:id" element={<FoodDetail />} />
 					<Route path="/foods/barcode" caseSensitive element={<BarcodeReader />} />
 					<Route path="/analysis/:type" element={<Analysis />}>
-            <Route path="report" element={<Report />} />
-            <Route path="calendar" element={<Calendar />} />
-            <Route path="food" element={<FoodAnalysis />} />
-          </Route>
+						<Route path="report" element={<Report />} />
+						<Route path="calendar" element={<Calendar />} />
+						<Route path="food" element={<FoodAnalysis />} />
+					</Route>
 					<Route path="/notice" element={<Notice />} />
 					<Route path="/setting" element={<Setting />} />
 				</Routes>
