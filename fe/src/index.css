@@ -29,6 +29,9 @@ button {
     @apply border-light/stroke dark:border-dark/stroke;
   }
   .component {
-    @apply bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text rounded-lg;
+    @apply rounded-lg bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text;
+  }
+  .text {
+    @apply text-black dark:text-white;
   }
 }
