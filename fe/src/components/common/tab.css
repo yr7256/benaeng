@@ -1,0 +1,16 @@
+.tabs-container {
+  width: 22.875rem;
+  height: 2.5rem;
+  border-radius: 20rem;
+  align-items: center;
+  border-radius: 1.25rem;
+}
+
+.tab-container {
+  width: 7.5rem;
+  height: 2rem;
+  border-radius: 1.25rem;
+  font-size: 14px;
+  align-items: center;
+  line-height: 2rem;
+}
