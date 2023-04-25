@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Report, Calendar, FoodAnalysis } from '../components/analysis';
+import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from '../components/analysis';
 import Tab from '../components/common/Tab';
 
 type TabMapping = {
 	[key: string]: string;
 };
 
-const Analysis: React.FC = () => {
+function Analysis() {
 	const { type } = useParams() as { type: string };
 	const [activeTab, setActiveTab] = useState<string>('');
 	const navigate = useNavigate();
@@ -23,14 +23,21 @@ const Analysis: React.FC = () => {
 		navigate(`/analysis/${tabMapping[tabLabel]}`);
 	};
 
+	useEffect(() => {
+		const label = Object.keys(tabMapping).find(key => tabMapping[key] === type);
+		if (label) {
+			setActiveTab(label);
+		}
+	}, [type]);
+
 	return (
 		<div>
 			<Tab labels={Object.keys(tabMapping)} activeTab={activeTab} onTabClick={handleTabClick} />
-			{type === 'report' && <Report />}
-			{type === 'calendar' && <Calendar />}
+			{type === 'report' && <MonthlyReport />}
+			{type === 'calendar' && <RefrigeratorCalendar />}
 			{type === 'food' && <FoodAnalysis />}
 		</div>
 	);
-};
+}
 
 export default Analysis;

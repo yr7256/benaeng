@@ -1,0 +1,21 @@
+.Calendar-Container {
+  width: 22.875rem;
+  height: 22.125rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.DateBox-Container {
+  width: 100%;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.ControlDate-Container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
