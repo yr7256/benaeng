@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Accordion } from './Accordion';
+import Accordion from './Accordion';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
@@ -9,7 +9,6 @@ const meta = {
 	tags: ['autodocs'],
 	argTypes: {
 		label: {
-			defaultValue: '유제품',
 			type: {
 				name: 'string',
 				required: true,
@@ -30,11 +29,16 @@ export const Primary: Story = {
 	args: {
 		primary: true,
 		label: 'Accordion',
+		open: true,
+		children: undefined,
 	},
 };
 
 export const Default: Story = {
 	args: {
+		primary: false,
 		label: 'Accordion',
+		open: true,
+		children: undefined,
 	},
 };
