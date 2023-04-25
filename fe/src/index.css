@@ -23,3 +23,12 @@
 button {
   all: unset;
 }
+
+@layer components {
+  .stroke {
+    @apply border-light/stroke dark:border-dark/stroke;
+  }
+  .component {
+    @apply bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text rounded-lg;
+  }
+}
