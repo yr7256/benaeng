@@ -4,6 +4,9 @@ export default {
 	content: ['./home.tsx', './src/**/*.{ts,tsx}'],
 	theme: {
 		extend: {
+			width: {
+				'88': '22rem',
+			},
 			fontFamily: {
 				sans: ['NanumSquareNeo-Variable'],
 			},
