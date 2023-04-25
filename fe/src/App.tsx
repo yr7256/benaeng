@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg';
 import './App.css';
 import { Route, Routes } from 'react-router';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
+import { Report, Calendar, FoodAnalysis } from './components/analysis';
 
 function App() {
 	return (
@@ -14,7 +15,11 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/foods/:id" element={<FoodDetail />} />
 					<Route path="/foods/barcode" caseSensitive element={<BarcodeReader />} />
-					<Route path="/analysis/:type" element={<Analysis />} />
+					<Route path="/analysis/:type" element={<Analysis />}>
+            <Route path="report" element={<Report />} />
+            <Route path="calendar" element={<Calendar />} />
+            <Route path="food" element={<FoodAnalysis />} />
+          </Route>
 					<Route path="/notice" element={<Notice />} />
 					<Route path="/setting" element={<Setting />} />
 				</Routes>
