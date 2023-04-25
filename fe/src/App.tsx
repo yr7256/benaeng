@@ -8,7 +8,7 @@ import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } fro
 function App() {
 	return (
 		<div className="App dark">
-			<div className="h-screen w-screen dark:bg-dark/background bg-light/background">
+			<div className="w-screen h-screen dark:bg-dark/background bg-light/background">
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
