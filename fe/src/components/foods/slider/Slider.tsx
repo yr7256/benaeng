@@ -1,11 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import './slider.css';
 
-function Slider(props: { count: number; total: number }) {
-	const { count, total } = props;
+/** slider props 타입 */
+interface Props {
+	count: number;
+	total: number;
+}
+
+function Slider({ count, total }: Props) {
 	// props로 넘겨받은 총 수량, 남은 수량
 	const [nowCount, setCount] = useState(String(count));
 	const rangeRef = useRef<HTMLInputElement>(null);
+	// 처음 렌더링 시, 배경 색 채워주기
 	useEffect(() => {
 		if (rangeRef.current) {
 			rangeRef.current.style.background = `
@@ -15,6 +21,7 @@ function Slider(props: { count: number; total: number }) {
                 `;
 		}
 	}, []);
+	/** 수량 변경 이벤트 */
 	const handleCount = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const event = e.target;
 		if (Number(event.value) > total || Number(event.value) < 0) {
