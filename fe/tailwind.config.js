@@ -27,6 +27,7 @@ export default {
 				'60': '15rem',
 			},
 			width: {
+				'76': '19rem',
 				'88': '22rem',
 			},
 			height: {
@@ -34,6 +35,9 @@ export default {
 			},
 			fontFamily: {
 				sans: ['NanumSquareNeo-Variable'],
+			},
+			fontSize: {
+				xxs: ['10px', '12px'],
 			},
 			colors: {
 				green: '#00C981',
