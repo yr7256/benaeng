@@ -4,12 +4,33 @@ export default {
 	content: ['./home.tsx', './src/**/*.{ts,tsx}'],
 	theme: {
 		extend: {
+			keyframes: {
+				wiggle: {
+					'0%': { transform: 'rotate(-25deg)' },
+					'40%': { transform: 'rotate(0deg)' },
+					'50%': { transform: 'rotate(-10deg)' },
+					'60%': { transform: 'rotate(0deg)' },
+					'70%': { transform: 'rotate(-5deg)' },
+					'85%': { transform: 'rotate(0deg)' },
+					'95%': { transform: 'rotate(-2deg)' },
+					'100%': { transform: 'rotate(0deg)' },
+				},
+			},
+			animation: {
+				wiggle: 'wiggle 1s ease-in-out',
+			},
+			borderRadius: {
+				'8': '2rem',
+			},
 			maxWidth: {
 				'88': '22rem',
 				'60': '15rem',
 			},
 			width: {
 				'88': '22rem',
+			},
+			height: {
+				'22': '5.5rem',
 			},
 			fontFamily: {
 				sans: ['NanumSquareNeo-Variable'],
