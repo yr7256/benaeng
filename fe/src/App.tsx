@@ -6,7 +6,7 @@ import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/
 
 function App() {
 	return (
-		<div className="App">
+		<div className="App dark">
 			<div className="w-screen h-screen dark:bg-dark/background bg-light/background">
 				<Routes>
 					<Route index path="/" element={<Home />} />
