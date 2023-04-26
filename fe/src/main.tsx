@@ -13,6 +13,13 @@ const persistor = persistStore(store);
 
 export default persistor;
 
+// kakao 접근
+declare global {
+	interface Window {
+		Kakao: any;
+	}
+}
+
 // 데이터가 stale 상태일 때 윈도우 포커싱 돼도 refetch 실행 x
 const client = new QueryClient({
 	defaultOptions: {
