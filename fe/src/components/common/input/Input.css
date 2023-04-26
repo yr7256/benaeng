@@ -16,7 +16,6 @@ input[type='date']::before,
   align-self: center;
   text-align: initial;
   background-color: inherit;
-  padding-left: 0.5em;
   width: 100%;
 }
 

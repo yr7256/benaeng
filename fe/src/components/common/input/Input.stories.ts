@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Default: Story = {
+export const Date: Story = {
 	args: {
 		icon: 'calendar',
 		label: '제조일자',
@@ -22,5 +22,35 @@ export const Default: Story = {
 		setValue: value => {
 			console.log(value);
 		},
+		disabled: false,
+		className: '',
+	},
+};
+
+export const Text: Story = {
+	args: {
+		icon: 'calendar',
+		label: '제품명',
+		type: 'text',
+		value: '',
+		setValue: value => {
+			console.log(value);
+		},
+		disabled: false,
+		className: '',
+	},
+};
+
+export const Count: Story = {
+	args: {
+		icon: 'count',
+		label: '수량',
+		type: 'number',
+		value: '',
+		setValue: value => {
+			console.log(value);
+		},
+		disabled: false,
+		className: '',
 	},
 };
