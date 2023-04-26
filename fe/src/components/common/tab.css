@@ -1,8 +1,9 @@
 .tabs-container {
-  width: 22.875rem;
+  width: 23rem;
   height: 2.5rem;
   border-radius: 20rem;
   align-items: center;
+  justify-content: center;
   border-radius: 1.25rem;
   @apply bg-light/component dark:bg-dark/component;
 }
