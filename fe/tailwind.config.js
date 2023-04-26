@@ -32,6 +32,7 @@ export default {
 			},
 			height: {
 				'22': '5.5rem',
+				'160': '40rem',
 			},
 			fontFamily: {
 				sans: ['NanumSquareNeo-Variable'],
