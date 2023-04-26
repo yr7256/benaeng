@@ -16,10 +16,10 @@
     background: #00C981;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(19, 56, 77, 0.2);
-  }
+}
 
 #number::-webkit-inner-spin-button {
     appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-  }
+}

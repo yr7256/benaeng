@@ -1,16 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import './slider.css';
 
-function Slider() {
-	const [count, setCount] = useState('5');
-	const total = 15;
+function Slider(props: { count: number; total: number }) {
+	const { count, total } = props;
+	// props로 넘겨받은 총 수량, 남은 수량
+	const [nowCount, setCount] = useState(String(count));
 	const rangeRef = useRef<HTMLInputElement>(null);
 	useEffect(() => {
 		if (rangeRef.current) {
 			rangeRef.current.style.background = `
             linear-gradient(to right, #00C981 0%, #00C981 ${Math.floor(
-							(Number(count) / total) * 100,
-						)}%, rgb(236, 236, 236) ${Math.floor((Number(count) / total) * 100)}%, rgb(236, 236, 236) 100%)
+							(Number(nowCount) / total) * 100,
+						)}%, rgb(236, 236, 236) ${Math.floor((Number(nowCount) / total) * 100)}%, rgb(236, 236, 236) 100%)
                 `;
 		}
 	}, []);
@@ -39,16 +40,16 @@ function Slider() {
 				min={0}
 				max={total}
 				step={1}
-				value={count}
+				value={nowCount}
 				onChange={handleCount}
 			/>
 			<input
 				id="number"
-				className="h-8 ml-4 text-xs border-2 rounded-lg w-14 bg-light/background text-text stroke"
+				className="h-8 ml-4 text-xs text-center border-2 rounded-lg w-14 bg-light/background text-text stroke"
 				type="number"
 				min={0}
 				max={total}
-				value={count}
+				value={nowCount}
 				onChange={handleCount}
 			/>
 		</>
