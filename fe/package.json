@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
-    "@tanstack/react-query": "^4.29.3",
+    "@tanstack/react-query": "^4.29.5",
     "react": "^18.2.0",
     "react-animate-height": "^3.1.1",
     "react-dom": "^18.2.0",

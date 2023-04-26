@@ -30,11 +30,19 @@ function ControlDate({ nowDate, setNowDate }: Props) {
 	return (
 		<div className="ControlDate-Container">
 			<div>
-				<button type="button" onClick={() => changeMonth(-1)}>{`<`}</button>
+				<button
+					type="button"
+					className="text-green text-3xl font-extrabold ml-5"
+					onClick={() => changeMonth(-1)}
+				>{`<`}</button>
 			</div>
-			<h1>{`${monthNames[nowDate.getMonth()]} ${nowDate.getFullYear()}`}</h1>
+			<p className="text-lg font-extrabold">{`${monthNames[nowDate.getMonth()]} ${nowDate.getFullYear()}`}</p>
 			<div>
-				<button type="button" onClick={() => changeMonth(+1)}>{`>`}</button>
+				<button
+					type="button"
+					className="text-green text-3xl font-extrabold mr-5"
+					onClick={() => changeMonth(+1)}
+				>{`>`}</button>
 			</div>
 		</div>
 	);

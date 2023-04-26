@@ -1,4 +1,5 @@
 import React from 'react';
+import './calendar.css';
 
 interface Props {
 	weekName: string;
@@ -6,7 +7,7 @@ interface Props {
 
 function WeekBox({ weekName }: Props) {
 	return (
-		<div>
+		<div className="WeekBox-Container stroke mb-4">
 			<p>{weekName}</p>
 		</div>
 	);
