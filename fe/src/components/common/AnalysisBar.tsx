@@ -1,6 +1,7 @@
 import React from 'react';
 // import FoodIcon from './FoodIcon';
 import Medal from './Medal';
+import Milk from '../../assets/food/milk.svg';
 
 interface BarProps {
 	ranking: number;
@@ -12,7 +13,7 @@ interface BarProps {
 type medalType = { [key: number]: string };
 
 function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
-	const medal: medalType = { 1: 'gold', 2: 'sliver', 3: 'bronze' };
+	const medal: medalType = { 1: 'gold', 2: 'silver', 3: 'bronze' };
 	const widthPercentage = (value / maxvalue) * 100;
 	return (
 		<div className="flex text-xs text">
@@ -22,7 +23,8 @@ function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
 				</div>
 				<div className="w-6 h-6 bg-skyBlue rounded-lg flex justify-center">
 					{/* 이미지 받아오는거에 따라 다르게 받아야 함 */}
-					<img className="w-4 h-4 block m-auto" src="../src/assets/food/milk.svg" alt="milk" />
+					<img className="w-4 h-4 block m-auto" src={Milk} alt="milk" />
+					{/* <img className="w-4 h-4 block m-auto" src="../../assets/food/milk.svg" alt="milk" /> */}
 				</div>
 			</div>
 			<div className="border-r-2 stroke w-12 h-8 flex">
