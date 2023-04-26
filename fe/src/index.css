@@ -25,6 +25,9 @@ button, input {
 }
 
 @layer components {
+  .background {
+    @apply bg-light/background dark:bg-dark/background;
+  }
   .stroke {
     @apply border-light/stroke dark:border-dark/stroke;
   }
