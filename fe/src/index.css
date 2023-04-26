@@ -31,10 +31,13 @@ button, input {
   .component {
     @apply rounded-lg bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text;
   }
+  .page {
+    @apply bg-light/background dark:bg-dark/background;
+  }
   .text {
     @apply text-black dark:text-white;
   }
   .modal-bg {
-    @apply absolute top-0 left-0 w-full h-full overflow-hidden flex items-center justify-center transition-all duration-300;
+    @apply absolute top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
   }
 }
