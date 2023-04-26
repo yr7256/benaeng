@@ -1,7 +1,7 @@
-FROM nginx:stable-alpine
+FROM nginx
 WORKDIR /app
-RUN mkdir ./dist
-ADD ./dist ./dist
+RUN mkdir ./build
+ADD ./dist ./build
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d
 EXPOSE 3000
