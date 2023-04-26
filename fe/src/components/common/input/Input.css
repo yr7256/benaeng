@@ -1,0 +1,27 @@
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="date"] {
+  position: relative;
+  background-color: inherit;
+  display: flex;
+}
+input[type='date']::before,
+.dark input[type='date']::before  {
+  content: attr(data-placeholder);
+  position: absolute;
+  align-self: center;
+  text-align: initial;
+  background-color: inherit;
+  padding-left: 0.5em;
+  width: 100%;
+}
+
+input[type='date']:focus::before,
+input[type='date']:valid::before {
+  display: none;
+}
+
