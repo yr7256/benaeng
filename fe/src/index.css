@@ -34,4 +34,7 @@ button, input {
   .text {
     @apply text-black dark:text-white;
   }
+  .modal-bg {
+    @apply absolute top-0 left-0 w-full h-full overflow-hidden flex items-center justify-center transition-all duration-300;
+  }
 }
