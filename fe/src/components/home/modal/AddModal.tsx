@@ -42,11 +42,11 @@ function AddModal({ open, setClose }: Props) {
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [form, setForm] = useState<AddFrom>({
 		category: '',
-		sub_category: '',
+		subCategory: '',
 		name: '',
 		count: '',
-		manufacturing_date: '',
-		expiration_date: '',
+		manufacturingDate: '',
+		expirationDate: '',
 		isSellByDate: false,
 		useSuggestedDate: true,
 	});
@@ -58,6 +58,14 @@ function AddModal({ open, setClose }: Props) {
 		if (target in form) {
 			setForm({ ...form, [target]: value });
 		}
+	};
+
+	/**
+	 * 카테고리 설정 이벤트
+	 */
+	const setCategory = (category: string, subCategory: string) => {
+		setForm({ ...form, category, subCategory });
+		setOpenSearchCategoryModal(false);
 	};
 
 	return (
@@ -82,7 +90,7 @@ function AddModal({ open, setClose }: Props) {
 							type="text"
 							disabled={undefined}
 							value={form.category}
-							setValue={value => onChangeForm(value, 'category')}
+							setValue={value => onChangeForm(value, '')}
 							className="flex-1 min-w-0"
 						/>
 						<Input
@@ -90,8 +98,8 @@ function AddModal({ open, setClose }: Props) {
 							label="세부분류"
 							type="text"
 							disabled={undefined}
-							value={form.sub_category}
-							setValue={value => onChangeForm(value, 'sub_category')}
+							value={form.subCategory}
+							setValue={value => onChangeForm(value, '')}
 							className="flex-1 min-w-0"
 						/>
 					</div>
@@ -133,8 +141,8 @@ function AddModal({ open, setClose }: Props) {
 						label="제조일자"
 						type="date"
 						disabled={form.useSuggestedDate}
-						value={form.manufacturing_date}
-						setValue={value => onChangeForm(value, 'manufacturing_date')}
+						value={form.manufacturingDate}
+						setValue={value => onChangeForm(value, 'manufacturingDate')}
 						className="flex-initial w-44"
 					/>
 					<div className="flex items-center justify-between">
@@ -143,8 +151,8 @@ function AddModal({ open, setClose }: Props) {
 							label={form.isSellByDate ? '유통기한' : '소비기한'}
 							type="date"
 							disabled={form.useSuggestedDate}
-							value={form.expiration_date}
-							setValue={value => onChangeForm(value, 'expiration_date')}
+							value={form.expirationDate}
+							setValue={value => onChangeForm(value, 'expirationDate')}
 							className="flex-initial w-44"
 						/>
 						<CheckInput
@@ -162,9 +170,10 @@ function AddModal({ open, setClose }: Props) {
 			{/* 식품 분류 선택 모달 */}
 			<SearchCategoryModal
 				open={openSearchCategoryModal}
-				setClose={() => {
+				onClose={() => {
 					setOpenSearchCategoryModal(false);
 				}}
+				onSubmit={setCategory}
 			/>
 		</>
 	);
