@@ -9,7 +9,7 @@ const meta = {
 	argTypes: {
 		food: {
 			type: 'string',
-			defaultValue: 'milk',
+			defaultValue: '우유',
 		},
 		type: {
 			type: 'number',
@@ -32,7 +32,7 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Buy: Story = {
 	args: {
-		food: 'cucumber',
+		food: '아이스크림',
 		type: 0,
 		day: 0,
 		id: 0,
@@ -41,7 +41,7 @@ export const Buy: Story = {
 
 export const Warning: Story = {
 	args: {
-		food: 'cucumber',
+		food: '과자',
 		type: 1,
 		day: 3,
 		id: 0,
@@ -50,7 +50,7 @@ export const Warning: Story = {
 
 export const Danger: Story = {
 	args: {
-		food: 'cucumber',
+		food: '빵류',
 		type: 2,
 		day: 0,
 		id: 0,
