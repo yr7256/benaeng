@@ -1,5 +1,5 @@
 import React from 'react';
-import './calendar.css'
+import './calendar.css';
 
 interface Props {
 	day: Date;

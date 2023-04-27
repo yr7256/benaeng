@@ -1,6 +1,4 @@
 import React, { useMemo } from 'react';
-
-import 'react-datepicker/dist/react-datepicker.css';
 import { TbCalculator, TbCalendar, TbCategory2, TbChevronUp, TbPencil, TbSearch } from 'react-icons/tb';
 import './Input.css';
 
@@ -67,13 +65,11 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 			h-10 px-3 focus-within:border-green focus-within:border-2 changing
 			${disabled ? 'opacity-50' : ''}`}
 		>
-			<div className="group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke mr-2 text-xl">
+			<div className="mr-2 text-xl group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke">
 				{iconTag}
 			</div>
 			<input
-				className="text-sm flex-1 text text-start
-				 before:text-light/boldStroke dark:before:text-dark/boldStroke 
-				 placeholder:text-light/boldStroke dark:placeholder:text-dark/boldStroke"
+				className="flex-1 text-sm text text-start before:text-light/boldStroke dark:before:text-dark/boldStroke placeholder:text-light/boldStroke dark:placeholder:text-dark/boldStroke"
 				aria-required={type === 'date'}
 				required={type === 'date'}
 				data-placeholder={value || label}
@@ -85,7 +81,7 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 				onChangeCapture={onChange}
 			/>
 			{icon === 'category' ? (
-				<div className="group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke text-2xl">
+				<div className="text-2xl group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke">
 					<TbChevronUp strokeWidth={2} className="rotate-180" />
 				</div>
 			) : undefined}

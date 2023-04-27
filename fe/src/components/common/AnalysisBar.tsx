@@ -1,7 +1,7 @@
 import React from 'react';
 // import FoodIcon from './FoodIcon';
 import Medal from './Medal';
-import Milk from '../../assets/food/milk.svg';
+import Milk from '../../assets/food/우유.svg';
 
 interface BarProps {
 	ranking: number;
@@ -18,16 +18,16 @@ function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
 	return (
 		<div className="flex text-xs text">
 			<div className="relative flex w-7 h-8 justify-end items-center mr-1.5">
-				<div className="absolute top-1 left-0">
+				<div className="absolute left-0 top-1">
 					<Medal medal={medal[ranking]} />
 				</div>
-				<div className="w-6 h-6 bg-skyBlue rounded-lg flex justify-center">
+				<div className="flex justify-center w-6 h-6 rounded-lg bg-skyBlue">
 					{/* 이미지 받아오는거에 따라 다르게 받아야 함 */}
-					<img className="w-4 h-4 block m-auto" src={Milk} alt="milk" />
-					{/* <img className="w-4 h-4 block m-auto" src="../../assets/food/milk.svg" alt="milk" /> */}
+					<img className="block w-4 h-4 m-auto" src={Milk} alt="milk" />
+					{/* <img className="block w-4 h-4 m-auto" src="../../assets/food/milk.svg" alt="milk" /> */}
 				</div>
 			</div>
-			<div className="border-r-2 stroke w-12 h-8 flex">
+			<div className="flex w-12 h-8 border-r-2 stroke">
 				<div className="flex items-center">{name}</div>
 			</div>
 			<div className="relative w-52 h-8 flex items-center mr-1.5">
@@ -36,7 +36,7 @@ function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
 					style={{ width: `${widthPercentage}%` }}
 				/>
 			</div>
-			<div className="h-8 flex">
+			<div className="flex h-8">
 				<div className="flex items-center">
 					월/<span className="font-bold">{value}회</span>
 				</div>
