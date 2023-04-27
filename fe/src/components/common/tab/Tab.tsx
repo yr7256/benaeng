@@ -15,8 +15,8 @@ function Tab({ labels, activeTab, onTabClick }: TabProps) {
 					key={label}
 					onClick={() => onTabClick(label)}
 					role="presentation"
-					className={`inline-block cursor-pointer text-green tab-container ${
-						activeTab === label ? 'bg-green text-white' : ''
+					className={`inline-block cursor-pointer text-green tab-container font-bold ${
+						activeTab === label ? 'bg-green text-white dark:text-black font-extrabold' : ''
 					}`}
 				>
 					{label}

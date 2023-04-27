@@ -1,7 +1,7 @@
 import React from 'react';
 // import FoodIcon from './FoodIcon';
 import Medal from './Medal';
-import Milk from '../../assets/food/milk.svg';
+import Milk from '../../../assets/food/우유.svg';
 
 interface BarProps {
 	ranking: number;
