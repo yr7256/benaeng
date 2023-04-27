@@ -12,7 +12,7 @@ function App() {
 					<Route index path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/foods/:id" element={<FoodDetail />} />
-					<Route path="/foods/barcode" caseSensitive element={<BarcodeReader />} />
+					<Route path="/barcode" caseSensitive element={<BarcodeReader />} />
 					<Route path="/analysis/:type" element={<Analysis />}>
 						<Route path="report" element={<MonthlyReport />} />
 						<Route path="calendar" element={<RefrigeratorCalendar />} />

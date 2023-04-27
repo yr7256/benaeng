@@ -3,7 +3,7 @@ export interface FoodRequest {
 	category: string;
 	sub_category: string;
 	name: string;
-	quantity: number;
+	count: number | '';
 	manufacturing_date: string;
 	expiration_date: string;
 }
