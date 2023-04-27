@@ -25,8 +25,13 @@ function Slider({ count, total }: Props) {
 	const handleCount = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const event = e.target;
 		if (Number(event.value) > total || Number(event.value) < 0) {
-			window.alert('범위를 벗어난 숫자입니다 🚨');
+			if (rangeRef.current) {
+				rangeRef.current.style.background = `
+				linear-gradient(to right, #00C981 0%, rgb(236, 236, 236) 0%)
+				`;
+			}
 			setCount('0');
+			window.alert('범위를 벗어난 숫자입니다 🚨');
 			return;
 		}
 		setCount(event.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1'));
@@ -39,7 +44,7 @@ function Slider({ count, total }: Props) {
 		}
 	};
 	return (
-		<>
+		<div className="flex items-center justify-between w-full">
 			<input
 				ref={rangeRef}
 				className="range"
@@ -52,14 +57,14 @@ function Slider({ count, total }: Props) {
 			/>
 			<input
 				id="number"
-				className="h-8 ml-4 text-xs text-center border-2 rounded-lg w-14 bg-light/background text-text stroke"
+				className="w-12 h-8 text-xs text-center text-black border-2 rounded-lg bg-light/background stroke"
 				type="number"
 				min={0}
 				max={total}
 				value={nowCount}
 				onChange={handleCount}
 			/>
-		</>
+		</div>
 	);
 }
 
