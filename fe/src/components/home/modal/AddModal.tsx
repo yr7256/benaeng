@@ -5,6 +5,11 @@ import Input from '../../common/input/Input';
 import Modal from '../../common/modal/Modal';
 import SearchCategoryModal from './SearchCategoryModal';
 
+// TODO: 음식 추가 요청에 대한 request data 형태 수정 필요 : 소비기한, 유통기한의 분류, 권장 소비기한 사용 여부
+// TODO: 카테고리 결정 후 소비기한에 대한 정보를 받아서 프론트에서 처리하는 형태인지 물어보기
+// TODO: 소비기한, 유통기한 input을 모두 둘지, 현재처럼 check input으로 둘 중 선택할지 토의
+// TODO: 수량 0이하인 경우 예외처리
+
 /**
  * AddModal Props
  */
@@ -113,10 +118,12 @@ function AddModal({ open, setClose }: Props) {
 					<CheckInput
 						value={form.useSuggestedDate}
 						onToggle={() => onChangeForm(!form.useSuggestedDate, 'useSuggestedDate')}
-						label="소비기한 직접 입력"
 						disabled={undefined}
 						className="text-green font-bold mt-4"
-					/>
+					>
+						소비기한 직접 입력
+					</CheckInput>
+
 					<span className="text-left text-xs mb-2 text-light/boldStroke dark:text-dark/boldStroke">
 						* 미기입시 추천 권장소비기한이 적용됩니다.
 					</span>
@@ -144,9 +151,10 @@ function AddModal({ open, setClose }: Props) {
 							disabled={form.useSuggestedDate}
 							value={form.isSellByDate && !form.useSuggestedDate}
 							onToggle={() => onChangeForm(!form.isSellByDate, 'isSellByDate')}
-							label="유통기한"
 							className={undefined}
-						/>
+						>
+							유통기한
+						</CheckInput>
 					</div>
 				</div>
 			</Modal>
