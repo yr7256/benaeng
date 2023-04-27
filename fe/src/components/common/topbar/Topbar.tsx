@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// import lightBack from '../../../assets/light/back-btn.svg';
-// import darkBack from '../../../assets/dark/back-btn.svg';
 
 // 식품 등록 화면(바코드 인식 화면)
 
