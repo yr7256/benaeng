@@ -50,12 +50,12 @@ function FoodTable() {
 		},
 	];
 	return (
-		<table className="h-auto px-6 w-76">
+		<table className="w-full h-auto px-6">
 			<thead className="h-9 bg-green">
-				<tr className="border-b-2 stroke">
-					<th className="px-6 py-2 text-xs font-bold text-white dark:text-black">1회 제공량당 함량</th>
-					<th aria-label="Save" />
-					<th className="px-6 py-2 text-right text-xxs">
+				<tr className="border-b-2 stroke bg-green">
+					<th className="px-6 py-2 text-xs font-bold text-white bg-green dark:text-black">1회 제공량당 함량</th>
+					<th aria-label="Save" className="bg-green" />
+					<th className="px-6 py-2 text-right bg-green text-xxs">
 						1일 영양성분
 						<br /> 기준치에 대한 비율
 					</th>
