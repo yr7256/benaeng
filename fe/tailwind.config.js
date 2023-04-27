@@ -21,15 +21,18 @@ export default {
 			},
 			borderRadius: {
 				'8': '2rem',
+				'2.5xl': '1.25rem',
 			},
 			maxWidth: {
-				'88': '22rem',
+				'30': '7.5rem',
+				'88': '22.875rem',
 				'60': '15rem',
 			},
 			width: {
+				'30': '7.5rem',
 				'38': '9.5rem',
 				'76': '19rem',
-				'88': '22rem',
+				'88': '22.875rem',
 			},
 			height: {
 				'22': '5.5rem',

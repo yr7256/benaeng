@@ -1,11 +1,11 @@
 /** 식품 전제목록 Requset */
 export interface FoodRequest {
 	category: string;
-	sub_category: string;
+	subCategory: string;
 	name: string;
-	quantity: number;
-	manufacturing_date: string;
-	expiration_date: string;
+	count: number | '';
+	manufacturingDate: string;
+	expirationDate: string;
 }
 
 /** 식품 전제목록 Response */

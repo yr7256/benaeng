@@ -41,9 +41,9 @@ interface Props {
  */
 function Modal({ mode, size, open = false, onClose, label, children, submitText, onSubmit }: Props) {
 	return (
-		<div className={`modal-bg ${open ? 'bg-black/50 z-[1000]' : 'z-[-1]'}`}>
+		<div className={`modal ${open ? 'bg-black/50 z-[1000]' : 'z-[-1]'}`}>
 			<section
-				className={`w-full border component stroke overflow-hidden ${size === 'lg' ? 'max-w-lg' : 'max-w-60'} ${
+				className={`m-6 w-full border component stroke overflow-hidden ${size === 'lg' ? 'max-w-lg' : 'max-w-60'} ${
 					open ? 'slide-in-bottom' : 'slide-out-bottom'
 				}`}
 			>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from '../components/analysis';
-import Tab from '../components/common/Tab';
+import Tab from '../components/common/tab/Tab';
+import Topbar from '../components/common/topbar/Topbar';
 
 type TabMapping = {
 	[key: string]: string;
@@ -31,7 +32,8 @@ function Analysis() {
 	}, [type]);
 
 	return (
-		<div>
+		<div className="pl-6 pt-16 pr-6">
+			<Topbar />
 			<Tab labels={Object.keys(tabMapping)} activeTab={activeTab} onTabClick={handleTabClick} />
 			{type === 'report' && <MonthlyReport />}
 			{type === 'calendar' && <RefrigeratorCalendar />}
