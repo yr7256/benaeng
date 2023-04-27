@@ -23,7 +23,7 @@ interface Props {
 	/**
 	 * 값
 	 */
-	value: string;
+	value: string | number;
 	/**
 	 * 값 변경 함수
 	 */
@@ -66,11 +66,11 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 			h-10 px-3 focus-within:border-green focus-within:border-2 changing
 			${disabled ? 'opacity-50' : ''}`}
 		>
-			<div className="group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke mr-2 text-xl">
+			<div className="flex-initial group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke mr-2 text-xl">
 				{iconTag}
 			</div>
 			<input
-				className="text-sm flex-1 text text-start
+				className="text-sm flex-1 text text-start min-w-0
 				 before:text-light/boldStroke dark:before:text-dark/boldStroke 
 				 placeholder:text-light/boldStroke dark:placeholder:text-dark/boldStroke"
 				aria-required={type === 'date'}
@@ -84,7 +84,7 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 				onChangeCapture={onChange}
 			/>
 			{icon === 'category' ? (
-				<div className="group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke text-2xl">
+				<div className="flex-initial group-focus-within:text-green text-light/boldStroke dark:text-dark/boldStroke text-2xl">
 					<TbChevronUp strokeWidth={2} className="rotate-180" />
 				</div>
 			) : undefined}
