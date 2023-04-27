@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import './CheckInput.css';
 
 interface Props {
@@ -11,9 +11,9 @@ interface Props {
 	 */
 	onToggle(): void;
 	/**
-	 * 라벨
+	 * 하위 컴포넌트
 	 */
-	label: string;
+	children: ReactNode | undefined;
 	/**
 	 * 활성화 여부
 	 */
@@ -24,7 +24,7 @@ interface Props {
 	className: string | undefined;
 }
 
-function CheckInput({ value, onToggle, label, disabled, className }: Props) {
+function CheckInput({ value, onToggle, children, disabled, className }: Props) {
 	return (
 		<div className={`${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
 			<button type="button" onClick={onToggle} className="flex items-center text-sm">
@@ -32,7 +32,7 @@ function CheckInput({ value, onToggle, label, disabled, className }: Props) {
 					data-checked={value}
 					className="center w-5 h-5 rounded-full border stroke background mr-2 before:bg-green"
 				/>
-				{label}
+				{children}
 			</button>
 		</div>
 	);
