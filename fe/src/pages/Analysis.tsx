@@ -32,7 +32,7 @@ function Analysis() {
 	}, [type]);
 
 	return (
-		<div className="pl-6 pt-16">
+		<div className="pl-6 pt-16 pr-6">
 			<Topbar />
 			<Tab labels={Object.keys(tabMapping)} activeTab={activeTab} onTabClick={handleTabClick} />
 			{type === 'report' && <MonthlyReport />}

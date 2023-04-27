@@ -8,7 +8,7 @@ function Main() {
 	const [clickedDate, setClickedDate] = useState<Date>();
 
 	return (
-		<div className="Calendar-Container component">
+		<div className="Calendar-Container max-w-88 mb-8 mt-4 component">
 			<ControlDate nowDate={nowDate} setNowDate={setNowDate} />
 			<DateBox nowDate={nowDate} setNowDate={setNowDate} clickedDate={clickedDate} setClickedDate={setClickedDate} />
 			<div className="flex items-center justify-end Check-Container mr-7 mt-2 mb-5">
