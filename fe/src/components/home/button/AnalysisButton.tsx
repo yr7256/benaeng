@@ -7,7 +7,7 @@ function AnalysisButton() {
 	};
 	return (
 		<div
-			className="flex items-center justify-between border-2 cursor-pointer hover:bg-slate-300 hover:dark:bg-slate-500 stroke w-88 h-14 component"
+			className="flex items-center justify-between border-2 cursor-pointer hover:bg-slate-300 hover:dark:bg-slate-500 stroke w-auto max-w-88 h-14 component"
 			onClick={handleAnalysis}
 		>
 			<img className="w-8 h-8 ml-6" src="/assets/common/graph.svg" alt="graph" />
