@@ -1,6 +1,6 @@
-import goldMedal from '../../assets/common/gold.svg';
-import silverMedal from '../../assets/common/silver.svg';
-import bronzeMedal from '../../assets/common/bronze.svg';
+import goldMedal from '../../../assets/common/gold.svg';
+import silverMedal from '../../../assets/common/silver.svg';
+import bronzeMedal from '../../../assets/common/bronze.svg';
 
 interface MedalProps {
 	medal: string;

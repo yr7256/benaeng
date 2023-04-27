@@ -1,5 +1,5 @@
 import React from 'react';
-import AnalysisBar from '../common/AnalysisBar';
+import AnalysisBar from '../common/analysisbar/AnalysisBar';
 
 type EncCategoryType = {
 	[key: number]: string;
