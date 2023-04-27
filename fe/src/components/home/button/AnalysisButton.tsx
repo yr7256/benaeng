@@ -3,7 +3,7 @@ import { BiChevronRight } from 'react-icons/bi';
 function AnalysisButton() {
 	/** 분석 페이지 이동 클릭 이벤트 */
 	const handleAnalysis = () => {
-		window.location.href = '/analysis';
+		window.location.href = '/analysis/report';
 	};
 	return (
 		<div
