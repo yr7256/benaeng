@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 
-import 'react-datepicker/dist/react-datepicker.css';
 import { TbCalculator, TbCalendar, TbCategory2, TbChevronUp, TbPencil, TbSearch } from 'react-icons/tb';
 import './Input.css';
 
