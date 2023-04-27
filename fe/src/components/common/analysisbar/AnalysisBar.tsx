@@ -1,7 +1,5 @@
 import React from 'react';
-// import FoodIcon from './FoodIcon';
 import Medal from './Medal';
-// import Milk from '/assets/food/우유.svg';
 
 interface BarProps {
 	ranking: number;
@@ -24,7 +22,6 @@ function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
 				<div className="w-6 h-6 bg-skyBlue rounded-lg flex justify-center">
 					{/* 이미지 받아오는거에 따라 다르게 받아야 함 */}
 					<img className="w-4 h-4 block m-auto" src="/assets/food/우유.svg" alt="milk" />
-					{/* <img className="w-4 h-4 block m-auto" src="../../assets/food/milk.svg" alt="milk" /> */}
 				</div>
 			</div>
 			<div className="border-r-2 stroke w-12 h-8 flex">
