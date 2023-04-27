@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import lightBack from '../../../assets/light/back-btn.svg';
-import darkBack from '../../../assets/dark/back-btn.svg';
+// import lightBack from '../../../assets/light/back-btn.svg';
+// import darkBack from '../../../assets/dark/back-btn.svg';
 
 // 식품 등록 화면(바코드 인식 화면)
 
@@ -22,8 +22,8 @@ function Topbar() {
 			<div className="text">
 				<Link to="/">
 					<div className="flex items-center">
-						<img className="block dark:hidden" src={lightBack} alt="back" />
-						<img className="hidden dark:block" src={darkBack} alt="back" />
+						<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
+						<img className="hidden dark:block" src="/assets/dark/back-btn.svg" alt="back" />
 						<p className="text-2xl">{displayText}</p>
 					</div>
 				</Link>

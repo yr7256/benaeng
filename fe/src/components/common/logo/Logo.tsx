@@ -18,7 +18,7 @@ function Logo({ type }: Props) {
 	};
 	return (
 		<button type="button" className={`flex items-center ${boxStyle} bg-green cursor-pointer`} onClick={handleLogo}>
-			<img className={`block m-auto ${imgStyle}`} src="../src/assets/common/logo.svg" alt="logo" />
+			<img className={`block m-auto ${imgStyle}`} src="/assets/common/logo.svg" alt="logo" />
 		</button>
 	);
 }
