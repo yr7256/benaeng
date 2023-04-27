@@ -40,8 +40,8 @@ button, input {
   .text {
     @apply text-black dark:text-white;
   }
-  .modal-bg {
-    @apply absolute top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
+  .modal {
+    @apply fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
   }
   .center {
     @apply flex justify-center items-center;
