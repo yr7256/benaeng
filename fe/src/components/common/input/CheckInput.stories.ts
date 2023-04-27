@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	args: {
-		label: '소비기한',
+		children: '라벨',
 		className: '',
 		value: false,
 		disabled: false,
