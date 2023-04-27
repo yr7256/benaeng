@@ -9,7 +9,7 @@ const meta = {
 	argTypes: {
 		food: {
 			type: 'string',
-			defaultValue: 'milk',
+			defaultValue: '우유',
 		},
 	},
 } satisfies Meta<typeof FoodIcon>;
@@ -20,12 +20,12 @@ type Story = StoryObj<typeof meta>;
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
 	args: {
-		food: 'milk',
+		food: '우유',
 	},
 };
 
 export const Secondary: Story = {
 	args: {
-		food: 'cucumber',
+		food: '초콜릿',
 	},
 };
