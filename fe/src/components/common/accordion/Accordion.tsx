@@ -38,7 +38,7 @@ function Accordion({ primary = false, open = false, label, children }: Accordion
 				{/* 폴드 버튼 */}
 				<button type="button" className="p-4 cursor-pointer" onClick={handleOpen}>
 					<TbChevronUp
-						className={`text-2xl ${primary ? 'text-white' : 'text-green'} transition-all ${_open ? 'rotate-180' : ''}`}
+						className={`text-2xl ${primary ? 'text-white' : 'text-green'} transition-all ${_open ? '' : 'rotate-180'}`}
 					/>
 				</button>
 			</div>
