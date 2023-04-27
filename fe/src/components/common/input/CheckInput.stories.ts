@@ -14,7 +14,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
 	args: {
 		label: '소비기한',
+		className: '',
 		value: false,
+		disabled: false,
 		onToggle() {
 			alert('클릭시 value를 반전시키는 이벤트를 추가해주세요');
 		},

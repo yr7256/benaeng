@@ -14,11 +14,19 @@ interface Props {
 	 * 라벨
 	 */
 	label: string;
+	/**
+	 * 활성화 여부
+	 */
+	disabled: boolean | undefined;
+	/**
+	 * 사용자 지정 클래스 추가
+	 */
+	className: string | undefined;
 }
 
-function CheckInput({ value, onToggle, label }: Props) {
+function CheckInput({ value, onToggle, label, disabled, className }: Props) {
 	return (
-		<div>
+		<div className={`${className} ${disabled ? 'opacity-50 pointer-events-none' : ''}`}>
 			<button type="button" onClick={onToggle} className="flex items-center text-sm">
 				<div
 					data-checked={value}
