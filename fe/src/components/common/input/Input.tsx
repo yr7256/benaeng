@@ -73,6 +73,7 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 				className="flex-1 min-w-0 text-sm text text-start before:text-light/boldStroke dark:before:text-dark/boldStroke placeholder:text-light/boldStroke dark:placeholder:text-dark/boldStroke"
 				aria-required={type === 'date'}
 				required={type === 'date'}
+				readOnly={icon === 'category'}
 				data-placeholder={value || label}
 				placeholder={label}
 				type={type}
