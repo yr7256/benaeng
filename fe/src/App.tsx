@@ -7,7 +7,7 @@ import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/
 function App() {
 	return (
 		<div className="App dark">
-			<div className="w-screen h-screen overflow-y-auto overflow-x-hidden background">
+			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto background">
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />

@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
 
 // 로그인 화면
 
 function Login() {
+	// 인가코드 받기
+	// const code = new URL(window.location.href).searchParams.get('code');
+	useEffect(() => {
+		// api 요청 (토큰 받은 후 -> 사용자 정보 요청)
+	}, []);
 	return (
 		<div className="w-screen h-screen py-20 page">
 			<div className="flex flex-col items-center justify-between h-full m-auto w-88">

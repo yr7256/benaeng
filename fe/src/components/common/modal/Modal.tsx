@@ -43,9 +43,9 @@ function Modal({ mode, size, open = false, onClose, label, children, submitText,
 	return (
 		<div className={`modal ${open ? 'bg-black/50 z-[1000]' : 'z-[-1]'}`}>
 			<section
-				className={`m-6 w-full border component stroke overflow-hidden ${size === 'lg' ? 'max-w-lg' : 'max-w-60'} ${
-					open ? 'slide-in-bottom' : 'slide-out-bottom'
-				}`}
+				className={`m-6 w-full border component stroke overflow-hidden ${
+					size === 'lg' ? 'max-w-lg' : 'max-w-sm m-10'
+				} ${open ? 'slide-in-bottom' : 'slide-out-bottom'}`}
 			>
 				{/* 라벨 */}
 				<div className="h-12 text-sm flex items-center justify-between">
