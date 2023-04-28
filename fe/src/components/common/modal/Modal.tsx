@@ -43,8 +43,8 @@ function Modal({ mode, size, open = false, onClose, label, children, submitText,
 	return (
 		<div className={`modal ${open ? 'bg-black/50 z-[1000]' : 'z-[-1]'}`}>
 			<section
-				className={`m-6 w-full border component stroke overflow-hidden ${
-					size === 'lg' ? 'max-w-lg' : 'max-w-sm m-10'
+				className={`w-full border component stroke overflow-hidden ${
+					size === 'lg' ? 'max-w-lg m-6' : 'max-w-sm m-10'
 				} ${open ? 'slide-in-bottom' : 'slide-out-bottom'}`}
 			>
 				{/* 라벨 */}
