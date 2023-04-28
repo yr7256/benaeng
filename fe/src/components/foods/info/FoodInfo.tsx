@@ -10,14 +10,14 @@ function FoodInfo({ foodData }: Props) {
 		<div className="h-auto mx-auto my-6 w-80">
 			<div className="flex justify-between w-full mb-6">
 				<div className="flex items-center h-16 pl-3 pr-3 text-left rounded-lg w-38 bg-gray">
-					<img className="w-10 h-10 mr-3" src="../src/assets/common/weight.svg" alt="weight" />
+					<img className="w-10 h-10 mr-3" src="/assets/common/weight.svg" alt="weight" />
 					<div>
 						<p className="text-black text-xxs"> 1회 제공량</p>
 						<p className="text-sm font-bold text-black">{foodData.weight}</p>
 					</div>
 				</div>
 				<div className="flex items-center h-16 pl-3 pr-3 text-left rounded-lg w-38 bg-paleyellow">
-					<img className="w-10 h-10 mr-3" src="../src/assets/common/calories.svg" alt="kcal" />
+					<img className="w-10 h-10 mr-3" src="/assets/common/calories.svg" alt="kcal" />
 					<div>
 						<p className="text-black text-xxs text-text"> 제공량당 칼로리</p>
 						<p className="text-sm font-bold text-black">{foodData.weight}</p>
