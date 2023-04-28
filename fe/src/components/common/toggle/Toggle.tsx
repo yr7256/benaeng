@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import './toggle.css';
 
-function Toggle() {
+interface Props {
+	name: string;
+}
+
+function Toggle({ name }: Props) {
 	const [isOn, setisOn] = useState(false);
 
 	const toggleHandler = () => {
@@ -10,9 +14,9 @@ function Toggle() {
 
 	return (
 		<div className="flex items-center justify-center w-full mb-12">
-			<label htmlFor="toggleB" className="flex items-center cursor-pointer">
+			<label htmlFor={name} className="flex items-center cursor-pointer">
 				<div className="relative">
-					<input type="checkbox" id="toggleB" className="sr-only" onClick={toggleHandler} />
+					<input type="checkbox" id={name} className="sr-only" onClick={toggleHandler} />
 					{isOn === false ? (
 						<div className="block w-14 h-8 rounded-full bg-light/boldStroke" />
 					) : (
