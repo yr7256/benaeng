@@ -31,17 +31,23 @@ function Accordion({ primary = false, open = false, label, children }: Accordion
 	return (
 		<section className="border component stroke overflow-hidden">
 			{/* 라벨 */}
-			<div className={`${primary ? 'bg-green font-bold' : ''} h-10 text-sm flex items-center justify-between`}>
+			<button
+				type="button"
+				className={`${
+					primary ? 'bg-green font-bold' : ''
+				} h-10 text-sm flex items-center justify-between cursor-pointer w-full`}
+				onClick={handleOpen}
+			>
 				{/* 라벨 명 */}
-				<span className="p-4">{label}</span>
+				<span className="px-4">{label}</span>
 
 				{/* 폴드 버튼 */}
-				<button type="button" className="p-4 cursor-pointer" onClick={handleOpen}>
+				<div className="px-4">
 					<TbChevronUp
 						className={`text-2xl ${primary ? 'text-white' : 'text-green'} transition-all ${_open ? '' : 'rotate-180'}`}
 					/>
-				</button>
-			</div>
+				</div>
+			</button>
 
 			{/* 내용 */}
 			<AnimateHeight height={_open ? 'auto' : 0} className="box-content">
