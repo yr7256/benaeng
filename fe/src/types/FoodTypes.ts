@@ -1,3 +1,10 @@
+/** 카테고리(중·소분류) */
+export interface Category {
+	id: number;
+	category: string;
+	subCategory: string;
+}
+
 /** 식품 전제목록 Requset */
 export interface FoodRequest {
 	category: string;
