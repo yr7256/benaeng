@@ -1,48 +1,32 @@
 package com.ssafy.benaeng.domain.user.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+        import lombok.AllArgsConstructor;
+        import lombok.Data;
+        import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+        import javax.persistence.Entity;
+        import javax.persistence.GeneratedValue;
+        import javax.persistence.GenerationType;
+        import javax.persistence.Id;
 
 @Entity
-@Getter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-//    @Column(nullable = false)
-//    private String profile;
+    private Boolean isDark;
 
-    private String email;
-
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-//    public User(String name, String profile, String email, Role role){
-    public User(String name, String email, Role role){
+    private Boolean isAlert;
+    public User(Long id, String name){
+        this.id = id;
         this.name = name;
-        this.email = email;
-        this.role = role;
-
-    }
-    public User update(String name, String email){
-        this.name = name;
-        this.email = email;
-        return this;
+        this.isDark = false;
+        this.isAlert = false;
     }
 
-    public String getRoleKey(){
-        return this.role.getKey();
-    }
 }
