@@ -74,7 +74,7 @@ function FoodAnalysis(): JSX.Element {
 		}
 	};
 	return (
-		<div className="stroke component px-8 pt-8 pb-12 my-6">
+		<div className="stroke component px-8 pt-8 pb-12 mt-6">
 			<div className="flex w-full gap-2" onClick={() => setOpenSearchCategoryModal(true)}>
 				<Input
 					icon="category"
