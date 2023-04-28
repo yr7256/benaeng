@@ -17,14 +17,12 @@ function Topbar() {
 
 	return (
 		<div className="text mb-10">
-			<div className="text">
+			<div className="flex items-center text">
 				<Link to="/">
-					<div className="flex items-center">
-						<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
-						<img className="hidden dark:block" src="/assets/dark/back-btn.svg" alt="back" />
-						<p className="text-2xl">{displayText}</p>
-					</div>
+					<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
+					<img className="hidden dark:block" src="/assets/dark/back-btn.svg" alt="back" />
 				</Link>
+				<p className="text-2xl">{displayText}</p>
 			</div>
 		</div>
 	);
