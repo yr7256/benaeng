@@ -20,6 +20,19 @@
   text-decoration: none;
 }
 
+/* 스크롤 기본 스타일 */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  @apply rounded-md;
+  @apply bg-light/background/30 dark:bg-dark/background/30;
+}
+*::-webkit-scrollbar-thumb {
+  @apply rounded-md;
+  @apply bg-light/stroke dark:bg-dark/stroke;
+}
+
 button, input {
   all: unset;
 }
