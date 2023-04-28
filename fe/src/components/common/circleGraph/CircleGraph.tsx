@@ -50,7 +50,7 @@ function CircleGraph({ reverse = false, size, percent }: Props) {
 	}, [reverse, percent]);
 
 	return (
-		<div className={`${graphSize} ${graphColor} rounded-full flex justify-center items-center`}>
+		<div className={`${graphSize} ${graphColor} rounded-full flex justify-center items-center relative`}>
 			<label className="z-10 font-black text-inherit text-stroke">
 				<span>{percent * 100}%</span>
 			</label>
