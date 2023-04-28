@@ -7,7 +7,7 @@ import FoodIcon from '../common/foodIcon/FoodIcon';
 
 function RefrigeratorCalendar() {
 	return (
-		<>
+		<div className="mt-6">
 			<Calendar />
 			<div className="flex text-xs font-bold text-green mb-3">슬슬 구매해야 할 항목</div>
 			<Alarm food="우유" type={0} day={1} id={1} />
@@ -34,7 +34,7 @@ function RefrigeratorCalendar() {
 					<p className="mt-2 text-left">우유</p>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

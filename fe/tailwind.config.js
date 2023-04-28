@@ -38,6 +38,9 @@ export default {
 				'22': '5.5rem',
 				'160': '40rem',
 			},
+			padding: {
+				'18': '4.5rem',
+			},
 			fontFamily: {
 				sans: ['NanumSquareNeo-Variable'],
 			},
