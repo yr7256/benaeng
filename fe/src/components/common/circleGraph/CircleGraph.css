@@ -1,0 +1,36 @@
+.text-stroke {
+  text-shadow: 1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff,
+    0px 1px 0 #fff,
+    0px -1px 0 #fff,
+    -1px 0px 0 #fff,
+    1px 0px 0 #fff,
+    2px 2px 0 #fff,
+    -2px 2px 0 #fff,
+    2px -2px 0 #fff,
+    -2px -2px 0 #fff,
+    0px 2px 0 #fff,
+    0px -2px 0 #fff,
+    -2px 0px 0 #fff,
+    2px 0px 0 #fff,
+    1px 2px 0 #fff,
+    -1px 2px 0 #fff,
+    1px -2px 0 #fff,
+    -1px -2px 0 #fff,
+    2px 1px 0 #fff,
+    -2px 1px 0 #fff,
+    2px -1px 0 #fff,
+    -2px -1px 0 #fff;
+}
+
+.grow {
+  animation: grow 2s ease-in-out;
+}
+
+@keyframes grow {
+  0% {
+  stroke-dashoffset: 100;
+  }
+}

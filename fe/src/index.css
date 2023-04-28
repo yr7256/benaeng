@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#root {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "sans";
+}
+
+* {
+  text-decoration: none;
+}
+
+/* 스크롤 기본 스타일 */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  @apply rounded-md;
+  @apply bg-light/background/30 dark:bg-dark/background/30;
+}
+*::-webkit-scrollbar-thumb {
+  @apply rounded-md;
+  @apply bg-light/stroke dark:bg-dark/stroke;
+}
+
+button, input {
+  all: unset;
+}
+
+@layer components {
+  .background {
+    @apply bg-light/background dark:bg-dark/background;
+  }
+  .stroke {
+    @apply border-light/stroke dark:border-dark/stroke;
+  }
+  .component {
+    @apply rounded-lg bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text;
+  }
+  .page {
+    @apply bg-light/background dark:bg-dark/background;
+  }
+  .text {
+    @apply text-black dark:text-white;
+  }
+  .modal {
+    @apply fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
+  }
+  .center {
+    @apply flex justify-center items-center;
+  }
+}

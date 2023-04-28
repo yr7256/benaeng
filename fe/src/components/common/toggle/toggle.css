@@ -1,0 +1,7 @@
+input:checked ~ .dot {
+  transform: translateX(100%);
+}
+
+input:checked ~ .reverseDot {
+  transform: translateX(-100%);
+}
