@@ -10,6 +10,8 @@ interface Props {
 
 function Toggle({ isCheck, onState, type }: Props) {
 	const dispatch = useAppDispatch();
+	let color = 'bg-light/boldStroke dark:bg-light/boldStroke';
+	if (type === 'isCycle' || type === 'isPurchase') color = 'bg-light/stroke dark:bg-dark/stroke';
 
 	const toggleHandler = () => {
 		if (type === 'isDark') dispatch(setIsDark(!onState));
@@ -19,12 +21,19 @@ function Toggle({ isCheck, onState, type }: Props) {
 	};
 
 	return (
-		<div className="flex items-center justify-center w-full mb-12">
+		<div className="flex items-center justify-center">
 			<label htmlFor={type} className="flex items-center cursor-pointer">
 				<div className="relative">
-					<input type="checkbox" id={type} className="sr-only" disabled={isCheck} onClick={toggleHandler} />
+					<input
+						type="checkbox"
+						id={type}
+						className="sr-only"
+						disabled={isCheck}
+						onClick={toggleHandler}
+						checked={onState}
+					/>
 					{onState === false ? (
-						<div className="block h-8 rounded-full w-14 bg-light/boldStroke" />
+						<div className={`block h-8 rounded-full w-14 ${color}`} />
 					) : (
 						<div className="block h-8 rounded-full w-14 bg-green" />
 					)}
