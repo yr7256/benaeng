@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { FoodRequest } from '../../../types/FoodTypes';
 import CheckInput from '../../common/input/CheckInput';
 import Input from '../../common/input/Input';
@@ -8,7 +9,6 @@ import SearchCategoryModal from './SearchCategoryModal';
 // TODO: 음식 추가 요청에 대한 request data 형태 수정 필요 : 소비기한, 유통기한의 분류, 권장 소비기한 사용 여부
 // TODO: 카테고리 결정 후 소비기한에 대한 정보를 받아서 프론트에서 처리하는 형태인지 물어보기
 // TODO: 소비기한, 유통기한 input을 모두 둘지, 현재처럼 check input으로 둘 중 선택할지 토의
-// TODO: 수량 0이하인 경우 예외처리
 
 /**
  * AddModal Props
@@ -33,13 +33,14 @@ interface AddFrom extends FoodRequest {
 	 */
 	isSellByDate: boolean;
 	/**
-	 * 추천(권장)소비기한 사용여부
+	 * 소비기한 직접입력 선택여부
 	 */
-	useSuggestedDate: boolean;
+	useHandwritingDate: boolean;
 }
 
 function AddModal({ open, setClose }: Props) {
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
+	const [openAlertModal, setOpenAlertModal] = useState<boolean>(false);
 	const [form, setForm] = useState<AddFrom>({
 		category: '',
 		subCategory: '',
@@ -48,14 +49,46 @@ function AddModal({ open, setClose }: Props) {
 		manufacturingDate: '',
 		expirationDate: '',
 		isSellByDate: false,
-		useSuggestedDate: true,
+		useHandwritingDate: true,
 	});
 
 	/**
 	 * form data 변경 이벤트
 	 */
 	const onChangeForm = (value: string | number | boolean, target: string) => {
+		let newValue = value;
+
+		// 입력 예외처리(수량)
+		if (target === 'count' && newValue !== '') {
+			newValue = Math.abs(Number(newValue));
+		}
+
+		// 예외처리된 값에 대해 변경처리 진행
 		if (target in form) {
+			setForm({ ...form, [target]: newValue });
+		}
+	};
+
+	/**
+	 * 제조일자·소비기한 설정 이벤트
+	 */
+	const onChangeDate = (value: string, target: 'manufacturingDate' | 'expirationDate') => {
+		let manufacturingDate = moment();
+		let expirationDate = moment();
+
+		if (target === 'manufacturingDate') {
+			manufacturingDate = moment(value, 'YYYY-MM-DD');
+			expirationDate = moment(form.expirationDate ?? value, 'YYYY-MM-DD');
+		}
+		if (target === 'expirationDate') {
+			manufacturingDate = moment(form.manufacturingDate ?? value, 'YYYY-MM-DD');
+			expirationDate = moment(value, 'YYYY-MM-DD');
+		}
+
+		if (expirationDate.diff(manufacturingDate) < 0) {
+			setOpenAlertModal(true);
+			setForm({ ...form, [target]: '' });
+		} else {
 			setForm({ ...form, [target]: value });
 		}
 	};
@@ -124,8 +157,8 @@ function AddModal({ open, setClose }: Props) {
 					/>
 
 					<CheckInput
-						value={form.useSuggestedDate}
-						onToggle={() => onChangeForm(!form.useSuggestedDate, 'useSuggestedDate')}
+						value={!form.useHandwritingDate}
+						onToggle={() => onChangeForm(!form.useHandwritingDate, 'useHandwritingDate')}
 						disabled={undefined}
 						className="text-green font-bold mt-4"
 					>
@@ -140,9 +173,9 @@ function AddModal({ open, setClose }: Props) {
 						icon="calendar"
 						label="제조일자"
 						type="date"
-						disabled={form.useSuggestedDate}
+						disabled={form.useHandwritingDate}
 						value={form.manufacturingDate}
-						setValue={value => onChangeForm(value, 'manufacturingDate')}
+						setValue={value => onChangeDate(value, 'manufacturingDate')}
 						className="flex-initial w-44"
 					/>
 					<div className="flex items-center justify-between">
@@ -150,14 +183,14 @@ function AddModal({ open, setClose }: Props) {
 							icon="calendar"
 							label={form.isSellByDate ? '유통기한' : '소비기한'}
 							type="date"
-							disabled={form.useSuggestedDate}
+							disabled={form.useHandwritingDate}
 							value={form.expirationDate}
-							setValue={value => onChangeForm(value, 'expirationDate')}
+							setValue={value => onChangeDate(value, 'expirationDate')}
 							className="flex-initial w-44"
 						/>
 						<CheckInput
-							disabled={form.useSuggestedDate}
-							value={form.isSellByDate && !form.useSuggestedDate}
+							disabled={form.useHandwritingDate}
+							value={form.isSellByDate && !form.useHandwritingDate}
 							onToggle={() => onChangeForm(!form.isSellByDate, 'isSellByDate')}
 							className={undefined}
 						>
@@ -175,6 +208,19 @@ function AddModal({ open, setClose }: Props) {
 				}}
 				onSubmit={setCategory}
 			/>
+
+			{/* 알림 모달 */}
+			<Modal
+				mode="alert"
+				size="sm"
+				label="알림"
+				open={openAlertModal}
+				onClose={() => setOpenAlertModal(false)}
+				submitText="확인"
+				onSubmit={() => setOpenAlertModal(false)}
+			>
+				{form.isSellByDate ? '유통기한' : '소비기한'}과 제조일자를 확인해주세요!
+			</Modal>
 		</>
 	);
 }
