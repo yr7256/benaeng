@@ -1,24 +1,34 @@
-import { useState } from 'react';
 import './toggle.css';
+import { useAppDispatch } from '../../../hooks/useStore';
+import { setIsAlarm, setIsCycle, setIsDark, setIsPurchase } from '../../../store/modules/user';
 
-function Toggle() {
-	const [isOn, setisOn] = useState(false);
+interface Props {
+	isCheck: boolean;
+	onState: boolean;
+	type: string;
+}
+
+function Toggle({ isCheck, onState, type }: Props) {
+	const dispatch = useAppDispatch();
 
 	const toggleHandler = () => {
-		setisOn(!isOn);
+		if (type === 'isDark') dispatch(setIsDark(!onState));
+		if (type === 'isAlarm') dispatch(setIsAlarm(!onState));
+		if (type === 'isCycle') dispatch(setIsCycle(!onState));
+		if (type === 'isPurchase') dispatch(setIsPurchase(!onState));
 	};
 
 	return (
 		<div className="flex items-center justify-center w-full mb-12">
-			<label htmlFor="toggleB" className="flex items-center cursor-pointer">
+			<label htmlFor={type} className="flex items-center cursor-pointer">
 				<div className="relative">
-					<input type="checkbox" id="toggleB" className="sr-only" onClick={toggleHandler} />
-					{isOn === false ? (
-						<div className="block w-14 h-8 rounded-full bg-light/boldStroke" />
+					<input type="checkbox" id={type} className="sr-only" disabled={isCheck} onClick={toggleHandler} />
+					{onState === false ? (
+						<div className="block h-8 rounded-full w-14 bg-light/boldStroke" />
 					) : (
-						<div className="block w-14 h-8 rounded-full bg-green" />
+						<div className="block h-8 rounded-full w-14 bg-green" />
 					)}
-					<div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition bg-white" />
+					<div className="absolute w-6 h-6 transition bg-white rounded-full dot left-1 top-1" />
 				</div>
 			</label>
 		</div>
