@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import { VscQuestion } from 'react-icons/vsc';
 import { FoodRequest } from '../../../types/FoodTypes';
 import CheckInput from '../../common/input/CheckInput';
 import Input from '../../common/input/Input';
 import Modal from '../../common/modal/Modal';
 import SearchCategoryModal from './SearchCategoryModal';
-
-// TODO: 음식 추가 요청에 대한 request data 형태 수정 필요 : 소비기한, 유통기한의 분류, 권장 소비기한 사용 여부
-// TODO: 카테고리 결정 후 소비기한에 대한 정보를 받아서 프론트에서 처리하는 형태인지 물어보기
-// TODO: 소비기한, 유통기한 input을 모두 둘지, 현재처럼 check input으로 둘 중 선택할지 토의
 
 /**
  * AddModal Props
@@ -35,12 +32,24 @@ interface AddFrom extends FoodRequest {
 	/**
 	 * 소비기한 직접입력 선택여부
 	 */
-	useHandwritingDate: boolean;
+	useRecommendedDate: boolean;
+}
+
+// TODO: Alert Modal의 경우 추후 외부로 뺄 예정
+/**
+ * 알람 모달 폼
+ */
+interface AlertModal {
+	open: boolean;
+	type: number;
 }
 
 function AddModal({ open, setClose }: Props) {
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
-	const [openAlertModal, setOpenAlertModal] = useState<boolean>(false);
+	const [alertModal, setAlertModal] = useState<AlertModal>({
+		open: false,
+		type: 0,
+	});
 	const [form, setForm] = useState<AddFrom>({
 		category: '',
 		subCategory: '',
@@ -49,7 +58,7 @@ function AddModal({ open, setClose }: Props) {
 		manufacturingDate: '',
 		expirationDate: '',
 		isSellByDate: false,
-		useHandwritingDate: true,
+		useRecommendedDate: true,
 	});
 
 	/**
@@ -86,7 +95,7 @@ function AddModal({ open, setClose }: Props) {
 		}
 
 		if (expirationDate.diff(manufacturingDate) < 0) {
-			setOpenAlertModal(true);
+			setAlertModal({ open: true, type: 0 });
 			setForm({ ...form, [target]: '' });
 		} else {
 			setForm({ ...form, [target]: value });
@@ -156,24 +165,39 @@ function AddModal({ open, setClose }: Props) {
 						className="flex-initial w-28"
 					/>
 
-					<CheckInput
-						value={!form.useHandwritingDate}
-						onToggle={() => onChangeForm(!form.useHandwritingDate, 'useHandwritingDate')}
-						disabled={undefined}
-						className="text-green font-bold mt-4"
-					>
-						소비기한 직접 입력
-					</CheckInput>
+					<div className="flex items-end">
+						<CheckInput
+							value={form.useRecommendedDate}
+							onToggle={() => onChangeForm(!form.useRecommendedDate, 'useRecommendedDate')}
+							disabled={undefined}
+							className="text-green font-bold mt-4"
+						>
+							예측 소비기한 사용
+						</CheckInput>
+						<button
+							type="button"
+							onClick={(e: React.MouseEvent) => {
+								e.stopPropagation();
+								setAlertModal({
+									open: true,
+									type: 1,
+								});
+							}}
+							className="text-xl px-1 text-green"
+						>
+							<VscQuestion />
+						</button>
+					</div>
 
 					<span className="text-left text-xs mb-2 text-light/boldStroke dark:text-dark/boldStroke">
-						* 미기입시 추천 권장소비기한이 적용됩니다.
+						* 등록일 기준으로 연산한 소비기한을 사용합니다.
 					</span>
 
 					<Input
 						icon="calendar"
 						label="제조일자"
 						type="date"
-						disabled={form.useHandwritingDate}
+						disabled={form.useRecommendedDate}
 						value={form.manufacturingDate}
 						setValue={value => onChangeDate(value, 'manufacturingDate')}
 						className="flex-initial w-44"
@@ -183,18 +207,18 @@ function AddModal({ open, setClose }: Props) {
 							icon="calendar"
 							label={form.isSellByDate ? '유통기한' : '소비기한'}
 							type="date"
-							disabled={form.useHandwritingDate}
+							disabled={form.useRecommendedDate}
 							value={form.expirationDate}
 							setValue={value => onChangeDate(value, 'expirationDate')}
 							className="flex-initial w-44"
 						/>
 						<CheckInput
-							disabled={form.useHandwritingDate}
-							value={form.isSellByDate && !form.useHandwritingDate}
+							disabled={form.useRecommendedDate}
+							value={form.isSellByDate && !form.useRecommendedDate}
 							onToggle={() => onChangeForm(!form.isSellByDate, 'isSellByDate')}
 							className={undefined}
 						>
-							유통기한
+							유통기한 입력
 						</CheckInput>
 					</div>
 				</div>
@@ -214,12 +238,21 @@ function AddModal({ open, setClose }: Props) {
 				mode="alert"
 				size="sm"
 				label="알림"
-				open={openAlertModal}
-				onClose={() => setOpenAlertModal(false)}
+				open={alertModal.open}
+				onClose={() => setAlertModal({ ...alertModal, open: false })}
 				submitText="확인"
-				onSubmit={() => setOpenAlertModal(false)}
+				onSubmit={() => setAlertModal({ ...alertModal, open: false })}
 			>
-				{form.isSellByDate ? '유통기한' : '소비기한'}과 제조일자를 확인해주세요!
+				{alertModal.type === 0 ? (
+					// 유통기한 입력에 대한 오류인 경우
+					<span>{form.isSellByDate ? '유통기한' : '소비기한'}과 제조일자를 확인해주세요!</span>
+				) : (
+					// 예측 소비기한 설명인 경우
+					<div className="whitespace-pre-wrap text-left flex flex-col gap-2">
+						<span>바코드 입력 시 저장된 소비기한 정보를 토대로 연산한 예측 소비기한을 사용합니다.</span>
+						<span>정확한 소비기한을 사용하기 위해서는 직접 소비기한 정보를 기입해야 합니다.</span>
+					</div>
+				)}
 			</Modal>
 		</>
 	);
