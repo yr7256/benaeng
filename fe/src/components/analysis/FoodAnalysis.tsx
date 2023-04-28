@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FoodRequest } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
 import Input from '../common/input/Input';
+import SearchCategoryModal from '../home/modal/SearchCategoryModal';
 
 export interface FoodData {
 	category: string;
@@ -63,6 +64,10 @@ function FoodAnalysis(): JSX.Element {
 		isSellByDate: false,
 		useSuggestedDate: true,
 	});
+	const setCategory = (category: string, subCategory: string) => {
+		setForm({ ...form, category, subCategory });
+		setOpenSearchCategoryModal(false);
+	};
 	const onChangeForm = (value: string | number | boolean, target: string) => {
 		if (target in form) {
 			setForm({ ...form, [target]: value });
@@ -93,6 +98,13 @@ function FoodAnalysis(): JSX.Element {
 			<div className="mt-6">
 				<FoodDetailAnalysis foodData={foodData} />
 			</div>
+			<SearchCategoryModal
+				open={openSearchCategoryModal}
+				onClose={() => {
+					setOpenSearchCategoryModal(false);
+				}}
+				onSubmit={setCategory}
+			/>
 		</div>
 	);
 }
