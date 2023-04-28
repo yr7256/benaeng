@@ -1,4 +1,4 @@
-package com.ssafy.benaeng.domain.food.ResponseDto;
+package com.ssafy.benaeng.domain.food.responseDto;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

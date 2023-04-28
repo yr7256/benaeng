@@ -1,4 +1,4 @@
-package com.ssafy.benaeng.domain.user.Entity;
+package com.ssafy.benaeng.domain.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,8 +15,12 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userEmail;
+    private String name;
+
+    private Boolean isDark;
+
+    private Boolean isAlert;
+
 }
