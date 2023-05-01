@@ -14,7 +14,7 @@ function Alarm({ food, type, day, id }: Props) {
 	// 음식명, 알림 타입, d-day, 음식 id
 	return (
 		<div className="flex items-center justify-around h-24 border-2 rounded-lg max-w-88 text component stroke">
-			<FoodIcon food={food} />
+			<FoodIcon food={food} size="lg" />
 			{/* 구매주기 알림 */}
 			{type === 0 && (
 				<div>
