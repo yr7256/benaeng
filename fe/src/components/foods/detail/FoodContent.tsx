@@ -28,7 +28,7 @@ function FoodContent({ foodData }: Props) {
 						>
 							D-{dDay > 99 ? '99+' : dDay}
 						</div>
-						<FoodIcon food={foodData.subCategory} />
+						<FoodIcon food={foodData.subCategory} size="lg" />
 					</div>
 					<div>
 						<div className="text-xs">

@@ -32,10 +32,6 @@ function FoodDetailAnalysis({ foodData }: Props) {
 				</div>
 			</div>
 			<div className="w-full px-6 pt-4 pb-2 mb-12 text-xs text-left border-2 rounded-lg stroke">
-				{/* {foodData.msg.map((item, idx) => {
-					if (idx !== 2) return <div className="mb-2">{item}</div>;
-					return <div className="font-bold text-green">{item}</div>;
-				})} */}
 				<div className="mb-2">
 					<span className="font-bold text-green">{foodData.subCategory}</span>을(를) 많이 소비하고 있어요
 				</div>
@@ -50,7 +46,10 @@ function FoodDetailAnalysis({ foodData }: Props) {
 				<div className="mb-4 text-sm font-bold text-left">자주 구매하는 상품</div>
 				<div className="w-full h-[130px] flex flex-col justify-between">
 					{foodData.preferProduct.map(item => (
-						<div className="flex items-center rounded-[16px] px-1 justify-between w-full h-[34px] border-2 stroke">
+						<div
+							key={item}
+							className="flex items-center rounded-[16px] px-1 justify-between w-full h-[34px] border-2 stroke"
+						>
 							<div className="text-xs ml-3">{item}</div>
 							<div className="flex items-center w-6 h-6 cursor-pointer rounded-xl bg-paleyellow">
 								<img className="block w-4 h-4 m-auto" src="/assets/common/cart.svg" alt="cart" />

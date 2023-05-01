@@ -11,6 +11,10 @@ const meta = {
 			type: 'string',
 			defaultValue: '우유',
 		},
+		size: {
+			type: 'string',
+			defaultValue: 'lg',
+		},
 	},
 } satisfies Meta<typeof FoodIcon>;
 
@@ -21,11 +25,13 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
 	args: {
 		food: '우유',
+		size: 'lg',
 	},
 };
 
 export const Secondary: Story = {
 	args: {
 		food: '초콜릿',
+		size: 'lg',
 	},
 };
