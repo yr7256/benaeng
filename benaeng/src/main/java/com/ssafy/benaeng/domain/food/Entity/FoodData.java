@@ -18,7 +18,7 @@ public class FoodData {
 
     private String name;
     private String barcode;
-    private int pog_daycnt;
+    private int pogDaycnt;
 
     @OneToOne
     private FoodCategory foodCategory;

@@ -4,5 +4,5 @@ import com.ssafy.benaeng.domain.food.entity.NutrientInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NutrientInfoRepository extends JpaRepository<NutrientInfo, Long> {
-
+    NutrientInfo findByFoodName(String foodName);
 }

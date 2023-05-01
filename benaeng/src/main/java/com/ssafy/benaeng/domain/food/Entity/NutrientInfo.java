@@ -16,6 +16,7 @@ public class NutrientInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NUTRIENT_INFO_ID")
     private Long id;
+    private int totalContents;
     private double calories;
     private double carbohydrates;
     private double cholesterol;
@@ -25,6 +26,6 @@ public class NutrientInfo {
     private double sodium;
     private double sugars;
     private double trans_fat;
-    private String food_name;
+    private String foodName;
 
 }
