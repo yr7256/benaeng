@@ -43,7 +43,7 @@ function FoodMonthlyReport({ reportData }: Props) {
 				<div className="flex flex-col text-left ml-4 w-1/2">
 					<div className="font-bold text-sm mb-2">
 						식품 폐기율
-						<span className="text-green">{Math.round((reportData.discard * 100) / reportData.purchase)}%</span>
+						<span className="text-green"> {Math.round((reportData.discard * 100) / reportData.purchase)}%</span>
 					</div>
 					<div className="text-xxs mb-8">냉장고를 잘 관리하고 있어요</div>
 					<div className="font-bold text-sm mb-2">자주 폐기하는 식품</div>
