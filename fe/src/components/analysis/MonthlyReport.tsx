@@ -22,7 +22,7 @@ export interface ReportData {
 
 function MonthlyReport() {
 	const reportData: ReportData = {
-		best_category: '유제품',
+		best_category: '우유',
 		discard: 2,
 		purchase: 24,
 		consume: 18,
