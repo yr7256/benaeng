@@ -14,7 +14,7 @@ function FoodIcon({ food, size }: Props) {
 			case 'mid':
 				return 'w-10 h-10';
 			case 'lg':
-				return 'w-16 h 16';
+				return 'w-16 h-16';
 			default:
 				return '';
 		}
