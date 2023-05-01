@@ -1,47 +1,89 @@
 package com.ssafy.benaeng.domain.user.service;
 
-import com.ssafy.benaeng.domain.user.entity.OAuthAttributes;
-import com.ssafy.benaeng.domain.user.entity.Role;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.ssafy.benaeng.domain.user.entity.User;
+import com.ssafy.benaeng.domain.user.repository.UserRepository;
+import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class UserService {
+    private final UserRepository userRepository;
 
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        log.info("------------loadUser of User service-------------");
-        log.info("accessToken = " + userRequest.getAccessToken().getTokenValue());
 
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = delegate.loadUser(userRequest);
-
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
-        log.info("registrationId = " + registrationId);
-        log.info("userNameAttributeName = " + userNameAttributeName);
-
-        // kakao 로그인 구분
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        log.info("attributes = " + attributes);
-
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(Role.USER.getKey())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey());
+    public User getUser(Long id){
+        return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));
     }
+
+    public String getKakaoToken(String code){
+        log.info("--------------------getKakaoToken of User Service--------------------");
+        String accessToken = "";
+        String refreshToken = "";
+        String tokenUrl = "https://kauth.kakao.com/oauth/token";
+
+        try{
+            URL url = new URL(tokenUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            //POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=515ed9f41272edc7e02a5e79d58334f6");
+            sb.append("&redirect_uri=http://localhost:3000/login");  // 인가 코드 받은 uri 입력. 여기로 redirect를 해준다는 건지 아니면 그냥 식별을 위해 필요한건지 알아봐야 함
+            sb.append("&code=" + code);
+            sb.append("&client_secret=t74WWAPHe7HAJQ1kJX6jiAp472D7VopO");
+
+            bw.write(sb.toString());
+            bw.flush();
+
+            //결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+            log.info("responseCode : " + responseCode);
+
+            //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line = "";
+            String result = "";
+
+            while ((line = br.readLine()) != null) {
+                result += line;
+            }
+            log.info("response body : " + result);
+
+            //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
+            JsonParser parser = new JsonParser();
+            JsonElement element = parser.parse(result);
+
+            accessToken = element.getAsJsonObject().get("access_token").getAsString();
+            refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
+
+            log.info("access_token : " + accessToken);
+            log.info("refresh_token : " + refreshToken);
+
+            br.close();
+            bw.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+
+
 }
