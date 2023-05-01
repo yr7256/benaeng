@@ -35,7 +35,7 @@ public class MyFood {
     private Date endDate;
 
     private int totalCount;
-    private int usedCount = 0;
+    private int count = 0;
 
 
 
