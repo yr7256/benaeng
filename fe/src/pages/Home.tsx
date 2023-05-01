@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import Accordion from '../components/common/accordion/Accordion';
-import AlarmButton from '../components/common/button/AlarmButton';
+import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
 // import { useNavigate } from 'react-router';
 import AddButton from '../components/home/button/AddButton';
 import AnalysisButton from '../components/home/button/AnalysisButton';
 import AddModal from '../components/home/modal/AddModal';
+import SettingButton from '../components/home/button/SettingButton';
+import SearchBar from '../components/home/search/SearchBar';
 
 // 메인화면
 
 function Home() {
 	const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+	const [search, setSearch] = useState<string>('');
 	// const navigate = useNavigate();
 
 	/**
@@ -32,7 +35,10 @@ function Home() {
 				</div>
 
 				{/* 알람버튼 */}
-				<AlarmButton isAlarm={false} />
+				<div>
+					<SettingButton />
+					<AlarmButton isAlarm={false} />
+				</div>
 			</header>
 
 			{/* 소비패턴 페이지 이동 버튼 */}
@@ -44,8 +50,10 @@ function Home() {
 					<div className="p-8 opacity-50">진행중...</div>
 				</Accordion>
 			</section>
+
 			<hr className="stroke" />
 			{/* 냉장고 식품 전체 목록 */}
+			<SearchBar value={search} setValue={setSearch} />
 			<section className="flex flex-col gap-4">
 				<Accordion primary={undefined} label="가공식품" open>
 					<div className="p-8 opacity-50">진행중...</div>
