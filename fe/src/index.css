@@ -16,6 +16,10 @@
   font-family: "sans";
 }
 
+.App::-webkit-scrollbar {
+  width: 0;
+}
+
 * {
   text-decoration: none;
 }
