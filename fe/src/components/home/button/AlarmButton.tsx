@@ -1,3 +1,5 @@
+import { TbBellFilled } from 'react-icons/tb';
+
 interface Props {
 	isAlarm: boolean;
 }
@@ -16,8 +18,8 @@ function AlarmButton({ isAlarm }: Props) {
 				</span>
 			)}
 			{/* {isAlarm && <div className="absolute w-2 h-2 rounded-lg right-1 top-1 bg-red" />} */}
-			<div className="flex items-center w-12 h-12 border-2 rounded-8 bg-light/component dark:bg-dark/component stroke">
-				<img className="block w-6 h-6 m-auto" src="/assets/common/alarm.svg" alt="alarm" />
+			<div className="flex items-center w-12 h-12 border rounded-8 bg-light/component dark:bg-dark/component stroke">
+				<TbBellFilled className="block text-2xl m-auto text-green" />
 			</div>
 		</button>
 	);

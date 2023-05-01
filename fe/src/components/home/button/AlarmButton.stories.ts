@@ -3,7 +3,7 @@ import AlarmButton from './AlarmButton';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta = {
-	title: 'button/alarmButton',
+	title: 'home/AlarmButton',
 	component: AlarmButton,
 	tags: ['autodocs'],
 	argTypes: {
