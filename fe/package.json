@@ -16,6 +16,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.29.5",
+    "axios": "^1.4.0",
     "hangul-js": "^0.2.6",
     "moment": "^2.29.4",
     "react": "^18.2.0",
