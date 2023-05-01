@@ -13,10 +13,12 @@ function Topbar() {
 		displayText = '설정';
 	} else if (path.includes('foods')) {
 		displayText = '식품 상세';
+	} else if (path.includes('notice')) {
+		displayText = '알림';
 	}
 
 	return (
-		<div className="text mb-10">
+		<div className="mb-10 text">
 			<div className="flex items-center text">
 				<Link to="/">
 					<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
