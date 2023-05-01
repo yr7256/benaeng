@@ -22,8 +22,8 @@ function SearchBar({ value, setValue }: Props) {
 	const onReset = () => setValue('');
 
 	return (
-		<div className="border-2 border-green component flex items-center box-border h-10 p-3 gap-2">
-			<TbSearch className="text-green text-xl" />
+		<div className="group border-2 focus-within:border-[3px] border-green component flex items-center box-border h-10 p-3 gap-2">
+			<TbSearch className="text-green text-xl group-focus-within:stroke-[3px]" />
 			<input className="flex-1 text-left" type="search" value={value} onChange={onChange} />
 			<button type="button" onClick={onReset} disabled={!value} className="disabled:hidden">
 				<TbCircleX className="text-light/boldStroke dark:text-dark/boldStroke text-xl" />
