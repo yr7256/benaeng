@@ -18,6 +18,7 @@
 
 * {
   text-decoration: none;
+  transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
 }
 
 /* 스크롤 기본 스타일 */
@@ -57,6 +58,6 @@ button, input {
     @apply fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
   }
   .center {
-    @apply flex justify-center items-center;
+    @apply flex items-center justify-center;
   }
 }

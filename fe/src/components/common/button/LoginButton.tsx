@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { REDIRECT_URI, REST_API_KEY } from '../../../constants/api';
+import useGetSocial from '../../../apis/user';
 
 function LoginButton() {
 	/** 카카오 로그인 */
@@ -6,7 +8,12 @@ function LoginButton() {
 	const handleLogin = () => {
 		window.location.href = KAKAO_AUTH_URI;
 	};
-
+	const code = new URL(window.location.href).searchParams.get('code');
+	useEffect(() => {
+		if (code) {
+			console.log(useGetSocial(code).data);
+		}
+	}, []);
 	return (
 		<button
 			type="button"

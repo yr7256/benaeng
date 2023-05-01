@@ -37,3 +37,26 @@ export interface FoodDetailResponse {
 	manufacturing_date: string;
 	expiration_date: string;
 }
+
+/** 식품 영양정보 */
+export interface UtrientInfoData {
+	carbohydrate: string;
+	protein: string;
+	cholesterol: string;
+	fat: string;
+	saturatedFattyAcids: string;
+	sodium: string;
+	sugars: string;
+	transFat: string;
+}
+
+/** 알림메시지 */
+export interface AlarmData {
+	id: number;
+	name: string;
+	type: number;
+	subCategory: string;
+	status: number;
+	date: string;
+	dDay: number;
+}
