@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Accordion from '../components/common/accordion/Accordion';
-import AlarmButton from '../components/common/button/AlarmButton';
+import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
 // import { useNavigate } from 'react-router';
 import AddButton from '../components/home/button/AddButton';
 import AnalysisButton from '../components/home/button/AnalysisButton';
 import AddModal from '../components/home/modal/AddModal';
+import SettingButton from '../components/home/button/SettingButton';
 
 // 메인화면
 
@@ -32,7 +33,10 @@ function Home() {
 				</div>
 
 				{/* 알람버튼 */}
-				<AlarmButton isAlarm={false} />
+				<div>
+					<SettingButton />
+					<AlarmButton isAlarm={false} />
+				</div>
 			</header>
 
 			{/* 소비패턴 페이지 이동 버튼 */}
