@@ -24,6 +24,10 @@ export default {
 				'8': '2rem',
 				'2.5xl': '1.25rem',
 			},
+			minWidth: {
+				'36': '9rem',
+				'75.5': '18.875rem',
+			},
 			maxWidth: {
 				'30': '7.5rem',
 				'88': '22.875rem',

@@ -18,7 +18,7 @@ function Topbar() {
 	}
 
 	return (
-		<div className="mb-10 text">
+		<div className="mb-10 text min-w-75.5 max-w-88">
 			<div className="flex items-center text">
 				<Link to="/">
 					<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />

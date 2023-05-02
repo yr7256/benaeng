@@ -8,7 +8,7 @@ interface Props {
 
 function FoodMonthlyReport({ reportData }: Props) {
 	return (
-		<div className="h-auto mx-auto my-6 w-max-80">
+		<div className="h-auto mx-auto my-6 max-w-88">
 			<div className="flex items-center justify-between mb-8 text-xs">
 				<div className="flex-col w-1/3 h-[109px] relative">
 					<img className="block w-20 h-20 mx-auto mb-2" src="/assets/common/dispose.svg" alt="purchase" />

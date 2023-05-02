@@ -8,7 +8,7 @@ interface TabProps {
 
 function Tab({ labels, activeTab, onTabClick }: TabProps) {
 	return (
-		<ul className="flex list-none justify-center h-10 px-0.5 items-center text-xs max-w-88 text component rounded-2.5xl border-2 stroke">
+		<ul className="flex list-none justify-center h-10 px-0.5 items-center text-xs min-w-75.5 max-w-88 text component rounded-2.5xl border-2 stroke">
 			{labels.map(label => (
 				<li
 					key={label}
