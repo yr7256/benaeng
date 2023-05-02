@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FoodRequest } from '../../types/FoodTypes';
+import { FoodData, CategoryData } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
 import Input from '../common/input/Input';
 import SearchCategoryModal from '../home/modal/SearchCategoryModal';
+import Category from '../../constants/category.json';
 
-export interface FoodData {
+export interface FoodDetailData {
 	category: string;
 	subCategory: string;
 	fname: string;
@@ -21,19 +22,21 @@ export interface FoodData {
 	preferProduct: string[];
 }
 
-interface AddFrom extends FoodRequest {
+interface AddFrom extends FoodData {
 	/**
 	 * 유통기한 사용여부
 	 */
-	isSellByDate: boolean;
+	isConsume: boolean;
 	/**
-	 * 추천(권장)소비기한 사용여부
+	 * 소비기한 직접입력 선택여부
 	 */
-	useSuggestedDate: boolean;
+	isRecommend: boolean;
 }
 
+const CategoryList: CategoryData[] = Category.data;
+
 function FoodAnalysis(): JSX.Element {
-	const foodData: FoodData = {
+	const foodData: FoodDetailData = {
 		category: '유제품',
 		subCategory: '우유',
 		fname: '서울우유',
@@ -55,17 +58,23 @@ function FoodAnalysis(): JSX.Element {
 	};
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [form, setForm] = useState<AddFrom>({
+		foodId: -1,
+		totalCount: '',
+		foodCategoryId: -1,
+		foodName: '',
+		count: 0,
+		startDate: '',
+		endDate: '',
+		isConsume: true,
+		isRecommend: true,
+	});
+	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
 		category: '',
 		subCategory: '',
-		name: '',
-		count: '',
-		manufacturingDate: '',
-		expirationDate: '',
-		isSellByDate: false,
-		useSuggestedDate: true,
-	});
-	const setCategory = (category: string, subCategory: string) => {
-		setForm({ ...form, category, subCategory });
+		foodCategoryId: -1,
+	};
+	const setCategory = (foodCategoryId: number) => {
+		setForm({ ...form, foodCategoryId });
 		setOpenSearchCategoryModal(false);
 	};
 	const onChangeForm = (value: string | number | boolean, target: string) => {
@@ -81,7 +90,7 @@ function FoodAnalysis(): JSX.Element {
 					label="식품분류"
 					type="text"
 					disabled={undefined}
-					value={form.category}
+					value={category.category}
 					setValue={value => onChangeForm(value, '')}
 					className="flex-1 min-w-0"
 				/>
@@ -90,7 +99,7 @@ function FoodAnalysis(): JSX.Element {
 					label="세부분류"
 					type="text"
 					disabled={undefined}
-					value={form.subCategory}
+					value={category.subCategory}
 					setValue={value => onChangeForm(value, '')}
 					className="flex-1 min-w-0"
 				/>
