@@ -20,12 +20,12 @@ export function postFood(food: FoodData) {
 
 /** [GET] 등록한 식품의 카테고리 목록 조회 */
 export function getFoodCategory() {
-	return instance.get<Response<FoodData[]>>(`${FOOD_API}/category`);
+	return instance.get<Response<CategoryData[]>>(`${FOOD_API}/category`);
 }
 
 /** [GET] 등록한 식품 목록 조회 */
 export function getFoodList() {
-	return instance.get<Response<CategoryData[]>>(`${FOOD_API}`);
+	return instance.get<Response<FoodData[]>>(`${FOOD_API}/1`);
 }
 
 /** [GET] 등록한 식품 상세 조회 */
