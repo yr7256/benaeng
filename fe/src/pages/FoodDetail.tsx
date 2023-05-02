@@ -3,6 +3,7 @@ import Accordion from '../components/common/accordion/Accordion';
 import FoodInfo from '../components/foods/info/FoodInfo';
 import FoodContent from '../components/foods/detail/FoodContent';
 import FoodDetailAnalysis from '../components/foods/analysis/FoodDetailAnalysis';
+import Topbar from '../components/common/topbar/Topbar';
 
 // 식품 상세화면
 
@@ -45,7 +46,8 @@ function FoodDetail() {
 		preferProduct: ['파스퇴르 저온살균 흰우유', '서울우유 1급 A우유', '연세우유 연세대학교 전용목장 우유'],
 	};
 	return (
-		<div className="px-8 page">
+		<div className="px-6 pt-10 page">
+			<Topbar />
 			<div className="mb-4">
 				<FoodContent foodData={foodData} />
 			</div>
