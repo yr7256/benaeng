@@ -108,10 +108,10 @@ function Home() {
 
 			<hr className="stroke" />
 			{/* 냉장고 식품 전체 목록 */}
-			<SearchBar value={search} setValue={setSearch} />
-			<section className="flex flex-col gap-4">
-				{foodListQuery.data ? (
-					Object.keys(foodListQuery.data).map(categoryKey => (
+			{foodListQuery.data && Object.keys(foodListQuery.data).length > 0 ? (
+				<section className="flex flex-col gap-4">
+					<SearchBar value={search} setValue={setSearch} />
+					{Object.keys(foodListQuery.data).map(categoryKey => (
 						<Accordion key={categoryKey} primary={undefined} label={categoryKey} open>
 							<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 								{foodListQuery.data[categoryKey].map(({ foodId, subCategory, foodName, dDay }) => (
@@ -119,11 +119,15 @@ function Home() {
 								))}
 							</div>
 						</Accordion>
-					))
-				) : (
-					<div>test</div>
-				)}
-			</section>
+					))}
+				</section>
+			) : (
+				<div className="text-light/boldStroke dark:text-dark/boldStroke center flex-col gap-3 pt-[10%]">
+					등록된 식품이 아직 없어요!
+					<img className="dark:hidden" src="/assets/light/empty-refrigerator.svg" alt="빈 냉장고" />
+					<img className="hidden dark:block" src="/assets/dark/empty-refrigerator.svg" alt="빈 냉장고" />
+				</div>
+			)}
 
 			{/* 식품 추가 버튼 */}
 			<AddButton onClick={onClickAddBtn} className="fixed bottom-10 left-1/2 -translate-x-10 z-10" />
