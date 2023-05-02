@@ -36,7 +36,7 @@ function MonthlyReport() {
 	const maxValue = reportData?.favorite_category[0]?.value;
 	const EncCategory: EncCategoryType = { 0: '유제품', 1: '채소류', 2: '육류' };
 	return (
-		<div className="stroke text component max-w-88 px-6 pt-8 pb-12 mt-6">
+		<div className="stroke text component min-w-75.5 max-w-88 px-6 pt-8 pb-12 mt-6">
 			<FoodMonthlyReport reportData={reportData} />
 			{reportData?.favorite_category.map((food, index) => (
 				<div key={food.category} className="flex">
