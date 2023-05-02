@@ -54,7 +54,7 @@ function Notice() {
 		const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
 
 		const dDay = Math.abs((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
-		day[dDay].push(item);
+		day[dDay]?.push(item);
 	});
 	const title: string[] = ['오늘', '어제', '그제', '3일 전', '4일 전', '5일 전', '6일 전', '일주일 전'];
 	return (
