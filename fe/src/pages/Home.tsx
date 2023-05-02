@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
+import { throttle } from 'lodash';
 import Accordion from '../components/common/accordion/Accordion';
 import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
@@ -14,20 +15,27 @@ import { getFoodList } from '../apis/foods';
 import Category from '../constants/category.json';
 import { CategoryData, FoodData, HomeFoodData } from '../types';
 import FoodIcon from '../components/home/button/FoodIcon';
+import { matchKo } from '../utils/string';
 
 interface Refrigerator {
 	[category: string]: HomeFoodData[];
 }
 
+const debounceFoodList = throttle(getFoodList, 3000);
 // 메인화면
 function Home() {
 	const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>('');
-	const foodListQuery = useQuery(['foodList'], getFoodList, {
-		select: ({ data }) => {
-			const foodList: FoodData[] = data.data;
-			const categoryList: CategoryData[] = Category.data;
+
+	const foodListQuery = useQuery(['foodList', search], debounceFoodList, {
+		keepPreviousData: true,
+		select: res => {
 			const refrigerator: Refrigerator = {};
+			// 요청 실패 시 종료합니다
+			if (!res) return refrigerator;
+
+			const foodList: FoodData[] = res.data.data;
+			const categoryList: CategoryData[] = Category.data;
 
 			// 표시를 위한 정렬을 시작합니다
 			foodList.forEach(food => {
@@ -39,6 +47,8 @@ function Home() {
 					// 음식의 남은 날짜를 연산
 					const dDay = moment().diff(moment(food.endDate, 'YYYY-MM-DD'), 'day');
 					const homeFood: HomeFoodData = { ...food, ...categoryData, dDay };
+
+					if (!matchKo(homeFood.subCategory, search) && !matchKo(homeFood.foodName, search)) return;
 
 					if (categoryData?.category in refrigerator) {
 						// 이미 추가된 category인 경우
