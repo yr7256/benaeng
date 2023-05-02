@@ -22,7 +22,7 @@ function FoodIcon({ id, icon, dDay, name }: Props) {
 	return (
 		<button type="button" onClick={onClick}>
 			<DDayFoodIcon dDay={dDay} icon={icon} />
-			<span>{name}</span>
+			<span className="block w-full pt-1 text-xs truncate">{name}</span>
 		</button>
 	);
 }
