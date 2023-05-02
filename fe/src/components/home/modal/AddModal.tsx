@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { VscQuestion } from 'react-icons/vsc';
-import { FoodRequest } from '../../../types/FoodTypes';
 import CheckInput from '../../common/input/CheckInput';
 import Input from '../../common/input/Input';
 import Modal from '../../common/modal/Modal';
 import SearchCategoryModal from './SearchCategoryModal';
+import { CategoryData, FoodData } from '../../../types';
+import Category from '../../../constants/category.json';
 
 /**
  * AddModal Props
@@ -24,15 +25,15 @@ interface Props {
 /**
  * 식품 추가 폼
  */
-interface AddFrom extends FoodRequest {
+interface AddFrom extends FoodData {
 	/**
 	 * 유통기한 사용여부
 	 */
-	isSellByDate: boolean;
+	isConsume: boolean;
 	/**
 	 * 소비기한 직접입력 선택여부
 	 */
-	useRecommendedDate: boolean;
+	isRecommend: boolean;
 }
 
 // TODO: Alert Modal의 경우 추후 외부로 뺄 예정
@@ -44,6 +45,8 @@ interface AlertModal {
 	type: number;
 }
 
+const CategoryList: CategoryData[] = Category.data;
+
 function AddModal({ open, setClose }: Props) {
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [alertModal, setAlertModal] = useState<AlertModal>({
@@ -51,15 +54,22 @@ function AddModal({ open, setClose }: Props) {
 		type: 0,
 	});
 	const [form, setForm] = useState<AddFrom>({
+		foodId: -1,
+		totalCount: '',
+		foodCategoryId: -1,
+		foodName: '',
+		count: 0,
+		startDate: '',
+		endDate: '',
+		isConsume: true,
+		isRecommend: true,
+	});
+
+	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
 		category: '',
 		subCategory: '',
-		name: '',
-		count: '',
-		manufacturingDate: '',
-		expirationDate: '',
-		isSellByDate: false,
-		useRecommendedDate: true,
-	});
+		foodCategoryId: -1,
+	};
 
 	/**
 	 * form data 변경 이벤트
@@ -68,7 +78,7 @@ function AddModal({ open, setClose }: Props) {
 		let newValue = value;
 
 		// 입력 예외처리(수량)
-		if (target === 'count' && newValue !== '') {
+		if (target === 'totalCount' && newValue !== '') {
 			newValue = Math.abs(Number(newValue));
 		}
 
@@ -81,20 +91,20 @@ function AddModal({ open, setClose }: Props) {
 	/**
 	 * 제조일자·소비기한 설정 이벤트
 	 */
-	const onChangeDate = (value: string, target: 'manufacturingDate' | 'expirationDate') => {
-		let manufacturingDate = moment();
-		let expirationDate = moment();
+	const onChangeDate = (value: string, target: 'startDate' | 'endDate') => {
+		let startDate = moment();
+		let endDate = moment();
 
-		if (target === 'manufacturingDate') {
-			manufacturingDate = moment(value, 'YYYY-MM-DD');
-			expirationDate = moment(form.expirationDate ?? value, 'YYYY-MM-DD');
+		if (target === 'startDate') {
+			startDate = moment(value, 'YYYY-MM-DD');
+			endDate = moment(form.endDate ?? value, 'YYYY-MM-DD');
 		}
-		if (target === 'expirationDate') {
-			manufacturingDate = moment(form.manufacturingDate ?? value, 'YYYY-MM-DD');
-			expirationDate = moment(value, 'YYYY-MM-DD');
+		if (target === 'endDate') {
+			startDate = moment(form.startDate ?? value, 'YYYY-MM-DD');
+			endDate = moment(value, 'YYYY-MM-DD');
 		}
 
-		if (expirationDate.diff(manufacturingDate) < 0) {
+		if (endDate.diff(startDate) < 0) {
 			setAlertModal({ open: true, type: 0 });
 			setForm({ ...form, [target]: '' });
 		} else {
@@ -105,8 +115,8 @@ function AddModal({ open, setClose }: Props) {
 	/**
 	 * 카테고리 설정 이벤트
 	 */
-	const setCategory = (category: string, subCategory: string) => {
-		setForm({ ...form, category, subCategory });
+	const setCategory = (foodCategoryId: number) => {
+		setForm({ ...form, foodCategoryId });
 		setOpenSearchCategoryModal(false);
 	};
 
@@ -131,7 +141,7 @@ function AddModal({ open, setClose }: Props) {
 							label="식품분류"
 							type="text"
 							disabled={undefined}
-							value={form.category}
+							value={category.category}
 							setValue={value => onChangeForm(value, '')}
 							className="flex-1 min-w-0"
 						/>
@@ -140,7 +150,7 @@ function AddModal({ open, setClose }: Props) {
 							label="세부분류"
 							type="text"
 							disabled={undefined}
-							value={form.subCategory}
+							value={category.subCategory}
 							setValue={value => onChangeForm(value, '')}
 							className="flex-1 min-w-0"
 						/>
@@ -151,8 +161,8 @@ function AddModal({ open, setClose }: Props) {
 						label="식품명"
 						type="text"
 						disabled={undefined}
-						value={form.name}
-						setValue={value => onChangeForm(value, 'name')}
+						value={form.foodName}
+						setValue={value => onChangeForm(value, 'foodName')}
 						className="flex-initial"
 					/>
 					<Input
@@ -160,15 +170,15 @@ function AddModal({ open, setClose }: Props) {
 						label="수량"
 						type="number"
 						disabled={undefined}
-						value={form.count}
-						setValue={value => onChangeForm(value, 'count')}
+						value={form.totalCount}
+						setValue={value => onChangeForm(value, 'totalCount')}
 						className="flex-initial w-28"
 					/>
 
 					<div className="flex items-end">
 						<CheckInput
-							value={form.useRecommendedDate}
-							onToggle={() => onChangeForm(!form.useRecommendedDate, 'useRecommendedDate')}
+							value={form.isRecommend}
+							onToggle={() => onChangeForm(!form.isRecommend, 'isRecommend')}
 							disabled={undefined}
 							className="text-green font-bold mt-4"
 						>
@@ -197,25 +207,25 @@ function AddModal({ open, setClose }: Props) {
 						icon="calendar"
 						label="제조일자"
 						type="date"
-						disabled={form.useRecommendedDate}
-						value={form.manufacturingDate}
-						setValue={value => onChangeDate(value, 'manufacturingDate')}
+						disabled={form.isRecommend}
+						value={form.startDate}
+						setValue={value => onChangeDate(value, 'startDate')}
 						className="flex-initial w-44"
 					/>
 					<div className="flex items-center justify-between">
 						<Input
 							icon="calendar"
-							label={form.isSellByDate ? '유통기한' : '소비기한'}
+							label={form.isConsume ? '소비기한' : '유통기한'}
 							type="date"
-							disabled={form.useRecommendedDate}
-							value={form.expirationDate}
-							setValue={value => onChangeDate(value, 'expirationDate')}
+							disabled={form.isRecommend}
+							value={form.endDate}
+							setValue={value => onChangeDate(value, 'endDate')}
 							className="flex-initial w-44"
 						/>
 						<CheckInput
-							disabled={form.useRecommendedDate}
-							value={form.isSellByDate && !form.useRecommendedDate}
-							onToggle={() => onChangeForm(!form.isSellByDate, 'isSellByDate')}
+							disabled={form.isRecommend}
+							value={!form.isConsume && !form.isRecommend}
+							onToggle={() => onChangeForm(!form.isConsume, 'isConsume')}
 							className={undefined}
 						>
 							유통기한 입력
@@ -245,7 +255,7 @@ function AddModal({ open, setClose }: Props) {
 			>
 				{alertModal.type === 0 ? (
 					// 유통기한 입력에 대한 오류인 경우
-					<span>{form.isSellByDate ? '유통기한' : '소비기한'}과 제조일자를 확인해주세요!</span>
+					<span>{form.isConsume ? '소비기한' : '유통기한'}과 제조일자를 확인해주세요!</span>
 				) : (
 					// 예측 소비기한 설명인 경우
 					<div className="whitespace-pre-wrap text-left flex flex-col gap-2">
