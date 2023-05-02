@@ -6,9 +6,12 @@ import LoginButton from '../components/common/button/LoginButton';
 
 function Login() {
 	// 인가코드 받기
-	// const code = new URL(window.location.href).searchParams.get('code');
+	const code = new URL(window.location.href).searchParams.get('code');
 	useEffect(() => {
 		// api 요청 (토큰 받은 후 -> 사용자 정보 요청)
+		if (code) {
+			console.log(code);
+		}
 	}, []);
 	return (
 		<div className="w-screen h-screen py-20 page">
