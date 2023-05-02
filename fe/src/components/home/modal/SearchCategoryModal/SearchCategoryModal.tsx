@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Category } from '../../../../types/FoodTypes';
+import { CategoryData } from '../../../../types/FoodTypes';
 import Input from '../../../common/input/Input';
 import Modal from '../../../common/modal/Modal';
 import SearchCategorySelectList from './SearchCategorySelectList';
@@ -19,12 +19,12 @@ interface Props {
 	/**
 	 * 카테고리 변경 이벤트
 	 */
-	onSubmit(category: string, subCategory: string): void;
+	onSubmit(foodCategoryId: number): void;
 }
 
 function SearchCategoryModal({ open, onClose, onSubmit }: Props) {
 	const [search, setSearch] = useState<string>('');
-	const [value, setValue] = useState<Category>({ id: -1, category: '', subCategory: '' });
+	const [value, setValue] = useState<CategoryData>({ foodCategoryId: -1, category: '', subCategory: '' });
 
 	return (
 		<Modal
@@ -34,7 +34,7 @@ function SearchCategoryModal({ open, onClose, onSubmit }: Props) {
 			open={open}
 			onClose={onClose}
 			submitText="선택완료"
-			onSubmit={() => onSubmit(value.category, value.subCategory)}
+			onSubmit={() => onSubmit(value.foodCategoryId)}
 		>
 			<Input
 				icon="search"

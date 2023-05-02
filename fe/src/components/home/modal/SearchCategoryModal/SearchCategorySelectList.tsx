@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import CategoryData from '../../../../constants/category.json';
-import { Category } from '../../../../types/FoodTypes';
+import Category from '../../../../constants/category.json';
+import { CategoryData } from '../../../../types';
 import { matchKo } from '../../../../utils/string';
 import CheckInput from '../../../common/input/CheckInput';
 
@@ -12,17 +12,17 @@ interface Props {
 	/**
 	 * 선택된 카테고리
 	 */
-	value: Category;
+	value: CategoryData;
 	/**
 	 * 카테고리 선택 이벤트
 	 */
-	setValue(category: Category): void;
+	setValue(category: CategoryData): void;
 }
 
-const category: Category[] = CategoryData.data;
+const category: CategoryData[] = Category.data;
 
 function SearchCategorySelectList({ search, value, setValue }: Props) {
-	const categoryList = useMemo<Category[]>(() => {
+	const categoryList = useMemo<CategoryData[]>(() => {
 		return category.filter(item => matchKo(item.category, search) || matchKo(item.subCategory, search));
 	}, [search]);
 
@@ -39,9 +39,9 @@ function SearchCategorySelectList({ search, value, setValue }: Props) {
 			{categoryList.length ? (
 				// 검색결과가 있는 경우
 				categoryList.map(item => (
-					<li key={item.id}>
+					<li key={item.foodCategoryId}>
 						<CheckInput
-							value={item.id === value.id}
+							value={item.foodCategoryId === value.foodCategoryId}
 							onToggle={() => {
 								setValue({ ...item });
 							}}

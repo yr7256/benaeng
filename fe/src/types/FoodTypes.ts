@@ -12,7 +12,7 @@ export interface FoodData {
 	foodCategoryId: number;
 	startDate: string;
 	endDate: string;
-	totalCount: number;
+	totalCount: number | '';
 	count: number;
 }
 export interface HomeFoodData extends FoodData {
