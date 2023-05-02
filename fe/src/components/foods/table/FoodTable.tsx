@@ -54,8 +54,7 @@ function FoodTable() {
 			<thead className="h-9 bg-green">
 				<tr className="border-b-2 stroke bg-green">
 					<th className="px-6 py-2 text-xs font-bold text-white bg-green dark:text-black">1회 제공량당 함량</th>
-					<th aria-label="Save" className="bg-green" />
-					<th className="px-6 py-2 text-right bg-green text-xxs">
+					<th className="col-span-2 px-6 py-2 text-right bg-green text-xxs">
 						1일 영양성분
 						<br /> 기준치에 대한 비율
 					</th>
@@ -65,8 +64,10 @@ function FoodTable() {
 				{tableData.map(item => (
 					<tr className="border-b-2 component stroke">
 						<td className="px-6 py-2 text-text">{item.title}</td>
-						<td className="py-2 font-bold text-text">{item.weight ? item.weight : '-'}</td>
-						<td className="px-6 py-2 font-bold text-right text-text">{item.percent ? `${item.percent}%` : '-'}</td>
+						<td className="flex justify-between px-6 py-2 font-bold text-text">
+							<span>{item.weight ? item.weight : '-'}</span>
+							<span>{item.percent ? `${item.percent}%` : '-'}</span>
+						</td>
 					</tr>
 				))}
 			</tbody>

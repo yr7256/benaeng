@@ -1,5 +1,6 @@
 import { FoodData } from '../../../pages/FoodDetail';
 import FoodTable from '../table/FoodTable';
+import './foodInfo.css';
 
 interface Props {
 	foodData: FoodData;
@@ -8,7 +9,7 @@ interface Props {
 function FoodInfo({ foodData }: Props) {
 	return (
 		<div className="w-full h-auto mx-auto my-6">
-			<div className="flex justify-between w-full mb-6">
+			<div id="info" className="flex justify-between w-full px-4 mb-6">
 				<div className="flex items-center w-full h-16 pl-3 pr-3 mx-1 text-left rounded-lg bg-gray">
 					<img className="mr-3 max-w-10 max-h-10" src="/assets/common/weight.svg" alt="weight" />
 					<div>
@@ -24,7 +25,7 @@ function FoodInfo({ foodData }: Props) {
 					</div>
 				</div>
 			</div>
-			<div className="w-full px-2">
+			<div className="w-full px-4">
 				<FoodTable />
 			</div>
 			<div className="mt-6 text-xs text-light/boldStroke dark:text-dark/boldStroke">
