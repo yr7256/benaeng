@@ -1,18 +1,25 @@
-import React, { useEffect } from 'react';
+// import React, { useEffect } from 'react';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
+import useGetSocial from '../apis/user';
+import { CACHE_TIME, SOCIAL, STALE_TIME } from '../constants/api';
 
 // 로그인 화면
 
 function Login() {
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
-	useEffect(() => {
-		// api 요청 (토큰 받은 후 -> 사용자 정보 요청)
-		if (code) {
-			console.log(code);
-		}
-	}, []);
+	if (code) {
+		const { isLoading, data } = useQuery<AxiosResponse, AxiosError>([SOCIAL], () => useGetSocial(code), {
+			keepPreviousData: true,
+			staleTime: STALE_TIME,
+			cacheTime: CACHE_TIME,
+		});
+
+		if (!isLoading) console.log(data);
+	}
 	return (
 		<div className="w-screen h-screen py-20 page">
 			<div className="flex flex-col items-center justify-between h-full m-auto w-88">
