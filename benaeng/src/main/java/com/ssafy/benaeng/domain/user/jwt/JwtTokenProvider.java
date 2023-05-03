@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Arrays;
@@ -92,4 +94,20 @@ public class JwtTokenProvider {
             return e.getClaims();
         }
     }
+    public String resolveToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("Authorization")) {
+                    String token = cookie.getValue();
+                    log.info("cookie token : " + token);
+                    return token;
+                }
+            }
+        }
+        // TODO exception
+        return null;
+    }
+
 }
