@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { TbCamera } from 'react-icons/tb';
+import { useNavigate } from 'react-router';
 import Modal from '../components/common/modal/Modal';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
 	const [openModal, setOpenModal] = useState<boolean>(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const video = document.getElementsByTagName('video')[0];
@@ -69,6 +71,11 @@ function BarcodeReader() {
 		setOpenModal(true);
 	};
 
+	/** 직접 입력 이동 클릭 함수 */
+	const onHanWriting = () => {
+		navigate('/?barcode=null');
+	};
+
 	return (
 		<div className="center flex-col w-screen h-screen box-border bg-black overflow-hidden">
 			{/* 헤더 */}
@@ -95,7 +102,11 @@ function BarcodeReader() {
 				</button>
 
 				{/* 직접 입력 버튼 */}
-				<button type="button" className="min-w-[25%] w-20 py-6 m-4 absolute right-0 text-green font-extrabold text-sm">
+				<button
+					type="button"
+					onClick={onHanWriting}
+					className="min-w-[25%] w-20 py-6 m-4 absolute right-0 text-green font-extrabold text-sm"
+				>
 					직접 입력
 				</button>
 			</div>
