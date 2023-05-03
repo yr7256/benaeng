@@ -10,21 +10,26 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/benaeng?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: ssafy
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: 515ed9f41272edc7e02a5e79d58334f6
-            client-secret: t74WWAPHe7HAJQ1kJX6jiAp472D7VopO
-            client-name: Kakao
-            client-authentication-method: POST
-            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
-            authorization-grant-type: authorization_code
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
+    password: root
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: 515ed9f41272edc7e02a5e79d58334f6
+#            client-secret: t74WWAPHe7HAJQ1kJX6jiAp472D7VopO
+#            client-name: Kakao
+#            client-authentication-method: POST
+#            redirect-uri: "http://localhost:8080/login/oauth2/code/kakao"
+#            authorization-grant-type: authorization_code
+#        provider:
+#          kakao:
+#            authorization-uri: https://kauth.kakao.com/oauth/authorize
+#            token-uri: https://kauth.kakao.com/oauth/token
+#            user-info-uri: https://kapi.kakao.com/v2/user/me
+#            user-name-attribute: id
+notification:
+  webhook-url:
+    mattermost: https://meeting.ssafy.com/hooks/szcz7pztwtff3k1ia5iuqtbgdo
+fcm:
+  api-url: https://fcm.googleapis.com/v1/projects/firetest2-7ef9a/messages:send
