@@ -3,6 +3,7 @@ package com.ssafy.benaeng.domain.user.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -17,6 +20,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,39 @@ public class UserService {
 
     public User getUser(Long id){
         return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));
+    }
+    public JwtToken login(String code, HttpServletResponse response){
+        // 1. get kakao token
+        String kakaoToken = getKakaoToken(code);
+
+        // 2. get user info
+        HashMap<String, Object> userInfo = getUserInfo(kakaoToken);
+        Long id = (Long) userInfo.get("kakaoId");
+        String name = (String) userInfo.get("nickname");
+
+        // 3. select user
+        User user = getOrRegisterUser(id, name);
+
+        // 4. authentication & generate JWT
+        return getJwtToken(id, name);
+    }
+
+    public JwtToken getJwtToken(Long id, String name) {
+        return null;
+    }
+    public User getOrRegisterUser(Long id, String name){
+        Optional<User> byId = userRepository.findById(id);
+        if(byId.isEmpty()){
+            User user = User.builder()
+                    .name(name)
+                    .id(id)
+                    .isAlarm(false)
+                    .isDark(false)
+                    .build();
+            userRepository.save(user);
+            return user;
+        }
+        return byId.get();
     }
 
     public String getKakaoToken(String code){
