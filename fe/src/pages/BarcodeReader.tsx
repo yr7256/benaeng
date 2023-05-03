@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TbCamera } from 'react-icons/tb';
+import Modal from '../components/common/modal/Modal';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
+	const [openModal, setOpenModal] = useState<boolean>(false);
+
 	useEffect(() => {
 		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
-
-		// 캔버스 설정
-		canvas.width = video.offsetWidth;
-		canvas.height = canvas.width;
+		const ctx = canvas.getContext('2d');
+		let interval: NodeJS.Timer | null = null;
 
 		// 카메라 연결 이벤트
 		async function getCamera() {
@@ -23,6 +24,16 @@ function BarcodeReader() {
 			}
 			const stream = await navigator.mediaDevices.getUserMedia(setting);
 			video.srcObject = stream;
+
+			video.addEventListener('play', () => {
+				const maxSize = 320;
+				const videoSize = Math.min(video.videoHeight, video.videoWidth);
+
+				// 캔버스 설정
+				canvas.width = Math.min(videoSize, maxSize) - 32;
+				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
+				canvas.height = canvas.width;
+			});
 			const track = stream.getVideoTracks()[0];
 			// 오토 포커싱을 위한 설정 추가
 
@@ -31,26 +42,31 @@ function BarcodeReader() {
 				// @ts-ignore
 				advanced: [{ focusMode: 'continuous' }],
 			});
+
+			interval = setInterval(() => {
+				const dx = -video.videoWidth / 2 + canvas.width / 2;
+				const dy = -video.videoHeight / 2 + canvas.width / 2;
+
+				if (!ctx) return;
+				ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
+			});
 		}
 
 		getCamera();
+
+		return () => {
+			if (interval) clearInterval(interval);
+		};
 	}, []);
 
+	/** 촬영 클릭 함수 */
 	const onCapture = () => {
-		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
-		const ctx = canvas.getContext('2d');
-		const a = document.getElementsByTagName('a')[0];
-
-		const dx = -video.videoWidth / 2 + canvas.width / 2;
-		const dy = -video.videoHeight / 2 + canvas.width / 2;
-
-		if (!ctx) return;
-		ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
+		const result = document.getElementsByTagName('img')[0];
 
 		const data = canvas.toDataURL('image/jpeg');
-		a.href = data;
-		a.setAttribute('download', 'whataface.jpg');
+		result.src = data;
+		setOpenModal(true);
 	};
 
 	return (
@@ -58,14 +74,15 @@ function BarcodeReader() {
 			<div className="flex flex-col items-center max-w-xl h-full box-border overflow-hidden">
 				{/* 헤더 */}
 				<div className="min-h-[12%] h-[4rem] text-white text-xs flex flex-col justify-end items-center p-5">
-					<a href="." className="text-red">
-						다운로드
-					</a>
 					화면 중앙에 바코드를 스캔해주세요
 				</div>
 
 				{/* 비디오 공간 */}
-				<video className="min-w-full flex-1 object-cover" autoPlay muted playsInline />
+				<div className="min-w-full flex-1 relative center">
+					<video className="h-full object-cover" autoPlay muted playsInline />
+					<div className="absolute top-0 w-full h-full bg-black/20 backdrop-blur-sm" />
+					<canvas className="camera-canvas absolute z-1" />
+				</div>
 
 				{/* 제어버튼 공간 */}
 				<div className="max-w-4xl w-full min-h-[15%] m-4 pb-2 center relative">
@@ -86,8 +103,19 @@ function BarcodeReader() {
 						직접 입력
 					</button>
 				</div>
-				<canvas className="absolute hidden" />
 			</div>
+
+			<Modal
+				mode="form"
+				size="sm"
+				label="촬영 결과"
+				open={openModal}
+				onClose={() => setOpenModal(false)}
+				submitText="확인"
+				onSubmit={() => setOpenModal(false)}
+			>
+				<img alt="result" />
+			</Modal>
 		</div>
 	);
 }
