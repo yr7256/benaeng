@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TbCamera } from 'react-icons/tb';
+import Modal from '../components/common/modal/Modal';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
+	const [openModal, setOpenModal] = useState<boolean>(false);
+
 	useEffect(() => {
 		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
@@ -27,7 +30,7 @@ function BarcodeReader() {
 				const videoSize = Math.min(video.videoHeight, video.videoWidth);
 
 				// 캔버스 설정
-				canvas.width = Math.min(videoSize, maxSize) - 64;
+				canvas.width = Math.min(videoSize, maxSize) - 32;
 				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
 				canvas.height = canvas.width;
 			});
@@ -56,13 +59,14 @@ function BarcodeReader() {
 		};
 	}, []);
 
+	/** 촬영 클릭 함수 */
 	const onCapture = () => {
 		const canvas = document.getElementsByTagName('canvas')[0];
-		const a = document.getElementsByTagName('a')[0];
+		const result = document.getElementsByTagName('img')[0];
 
 		const data = canvas.toDataURL('image/jpeg');
-		a.href = data;
-		a.setAttribute('download', 'whataface.jpg');
+		result.src = data;
+		setOpenModal(true);
 	};
 
 	return (
@@ -70,9 +74,6 @@ function BarcodeReader() {
 			<div className="flex flex-col items-center max-w-xl h-full box-border overflow-hidden">
 				{/* 헤더 */}
 				<div className="min-h-[12%] h-[4rem] text-white text-xs flex flex-col justify-end items-center p-5">
-					<a href="." className="text-red">
-						다운로드
-					</a>
 					화면 중앙에 바코드를 스캔해주세요
 				</div>
 
@@ -103,6 +104,18 @@ function BarcodeReader() {
 					</button>
 				</div>
 			</div>
+
+			<Modal
+				mode="form"
+				size="sm"
+				label="촬영 결과"
+				open={openModal}
+				onClose={() => setOpenModal(false)}
+				submitText="확인"
+				onSubmit={() => setOpenModal(false)}
+			>
+				<img alt="result" />
+			</Modal>
 		</div>
 	);
 }
