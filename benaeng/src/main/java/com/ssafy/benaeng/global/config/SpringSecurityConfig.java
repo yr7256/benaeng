@@ -29,8 +29,10 @@ public class SpringSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 세션을 사용하지 않는 것. 서버에 상태 저장 X
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/api/social/**").permitAll()      // 로그인 안했을 경우 /api/social/** 요청만 가능
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("http://localhost:3000/login").permitAll();      // 로그인 안했을 경우 해당 URL로 보내기
 
         return http.build();
     }
