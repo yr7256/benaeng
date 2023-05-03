@@ -16,7 +16,15 @@ function BarcodeReader() {
 
 		// 카메라 연결 이벤트
 		async function getCamera() {
-			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+			const user = navigator.userAgent;
+			let setting: MediaStreamConstraints = { video: true };
+
+			// 장치에 따라 가져오는 카메라를 변경
+			// 모바일인경우 후면 카메라를 가져옵니다
+			if (user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1) {
+				setting = { video: { facingMode: { exact: 'environment' } } };
+			}
+			const stream = await navigator.mediaDevices.getUserMedia(setting);
 
 			video.srcObject = stream;
 
@@ -46,7 +54,7 @@ function BarcodeReader() {
 	return (
 		<div className="flex flex-col items-center w-screen h-full box-border bg-black overflow-hidden">
 			{/* 헤더 */}
-			<div className="min-h-[15%] h-[4rem] text-white text-xs flex flex-col justify-center items-end p-5">
+			<div className="min-h-[12%] h-[4rem] text-white text-xs flex flex-col justify-end items-center p-5">
 				<a href="." className="text-red">
 					다운로드
 				</a>
