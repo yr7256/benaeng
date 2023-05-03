@@ -32,6 +32,7 @@ function MonthlyReport() {
 			{ category: 1, value: 8 },
 			{ category: 2, value: 6 },
 		],
+		// id, mid, sub 중에 mid 뽑아서 사용
 	};
 	const maxValue = reportData?.favorite_category[0]?.value;
 	const EncCategory: EncCategoryType = { 0: '유제품', 1: '채소류', 2: '육류' };
