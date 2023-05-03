@@ -28,3 +28,10 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+jwt:
+  token:
+    secret-key: 753878214125442A472D4B6150645367566B597033733676397924423F452848
+  access-token:
+    expire-length: 1800000
+  refresh-token:
+    expire-length: 1209600000
