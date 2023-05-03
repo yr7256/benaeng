@@ -9,6 +9,9 @@ import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +30,7 @@ import java.util.Optional;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 
     public User getUser(Long id){
@@ -49,6 +53,9 @@ public class UserService {
     }
 
     public JwtToken getJwtToken(Long id, String name) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, name);
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
         return null;
     }
     public User getOrRegisterUser(Long id, String name){
