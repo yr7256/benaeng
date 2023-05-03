@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -49,10 +48,10 @@ public class UserService {
         User user = getOrRegisterUser(id, name);
 
         // 4. authentication & generate JWT
-        return getJwtToken(id, name);
+        return getJwt(id, name);
     }
 
-    public JwtToken getJwtToken(Long id, String name) {
+    public JwtToken getJwt(Long id, String name) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, name);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
