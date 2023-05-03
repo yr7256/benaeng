@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,7 +38,7 @@ public class UserService {
     public User getUser(Long id){
         return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));
     }
-    public JwtToken login(String code, HttpServletResponse response){
+    public User login(String code, HttpServletResponse response){
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
 
@@ -50,7 +51,18 @@ public class UserService {
         User user = getOrRegisterUser(id, name);
 
         // 4. authentication & generate JWT
-        return getJwt(id, name);
+        JwtToken jwt = getJwt(id, name);
+
+        // 5. add jwt to Http only cookie
+        setHttpOnlyCookie(jwt, response);
+
+        return user;
+    }
+    public void setHttpOnlyCookie(JwtToken jwt, HttpServletResponse response){
+        Cookie cookie = new Cookie("Authorization", jwt.getAccessToken());
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60);
+        response.addCookie(cookie);
     }
 
     public JwtToken getJwt(Long id, String name) {
