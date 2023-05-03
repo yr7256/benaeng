@@ -46,7 +46,7 @@ function BarcodeReader() {
 	return (
 		<div className="flex flex-col items-center w-screen h-full box-border bg-black overflow-hidden">
 			{/* 헤더 */}
-			<div className="min-h-[15%] h-[4rem] text-white text-xs flex flex-col justify-center items-end p-5">
+			<div className="min-h-[12%] h-[4rem] text-white text-xs flex flex-col justify-end items-center p-5">
 				<a href="." className="text-red">
 					다운로드
 				</a>
