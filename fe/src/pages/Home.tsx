@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { throttle } from 'lodash';
+import { useSearchParams } from 'react-router-dom';
 import Accordion from '../components/common/accordion/Accordion';
 import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
@@ -64,7 +65,16 @@ function Home() {
 		},
 	});
 
+	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		// 바코드 파라미터가 있는 경우
+		if (searchParams.get('barcode')) {
+			// TODO: 바코드 값을 이용한 요청 전송
+			setOpenAddModal(true);
+		}
+	}, []);
 
 	/**
 	 * 추가 버튼 이벤트
