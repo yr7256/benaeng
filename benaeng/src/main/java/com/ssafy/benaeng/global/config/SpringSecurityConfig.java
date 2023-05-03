@@ -22,11 +22,11 @@ public class SpringSecurityConfig {
 //    private final UserServiceOld userService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        // cors 구성 설정
         http.cors().configurationSource(corsConfigurationSource())
-//                .headers().frameOptions().disable()
                 .and()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .csrf().disable()   // CSRF 보호 기능 해제
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)// 세션을 사용하지 않는 것. 서버에 상태 저장 X
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
