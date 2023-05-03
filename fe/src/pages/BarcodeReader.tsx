@@ -6,10 +6,8 @@ function BarcodeReader() {
 	useEffect(() => {
 		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
-
-		// 캔버스 설정
-		canvas.width = video.offsetWidth;
-		canvas.height = canvas.width;
+		const ctx = canvas.getContext('2d');
+		let interval: NodeJS.Timer | null = null;
 
 		// 카메라 연결 이벤트
 		async function getCamera() {
@@ -23,6 +21,16 @@ function BarcodeReader() {
 			}
 			const stream = await navigator.mediaDevices.getUserMedia(setting);
 			video.srcObject = stream;
+
+			video.addEventListener('play', () => {
+				const maxSize = 320;
+				const videoSize = Math.min(video.videoHeight, video.videoWidth);
+
+				// 캔버스 설정
+				canvas.width = Math.min(videoSize, maxSize) - 64;
+				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
+				canvas.height = canvas.width;
+			});
 			const track = stream.getVideoTracks()[0];
 			// 오토 포커싱을 위한 설정 추가
 
@@ -31,22 +39,26 @@ function BarcodeReader() {
 				// @ts-ignore
 				advanced: [{ focusMode: 'continuous' }],
 			});
+
+			interval = setInterval(() => {
+				const dx = -video.videoWidth / 2 + canvas.width / 2;
+				const dy = -video.videoHeight / 2 + canvas.width / 2;
+
+				if (!ctx) return;
+				ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
+			});
 		}
 
 		getCamera();
+
+		return () => {
+			if (interval) clearInterval(interval);
+		};
 	}, []);
 
 	const onCapture = () => {
-		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
-		const ctx = canvas.getContext('2d');
 		const a = document.getElementsByTagName('a')[0];
-
-		const dx = -video.videoWidth / 2 + canvas.width / 2;
-		const dy = -video.videoHeight / 2 + canvas.width / 2;
-
-		if (!ctx) return;
-		ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
 
 		const data = canvas.toDataURL('image/jpeg');
 		a.href = data;
@@ -65,7 +77,11 @@ function BarcodeReader() {
 				</div>
 
 				{/* 비디오 공간 */}
-				<video className="min-w-full flex-1 object-cover" autoPlay muted playsInline />
+				<div className="min-w-full flex-1 relative center">
+					<video className="h-full object-cover" autoPlay muted playsInline />
+					<div className="absolute top-0 w-full h-full bg-black/20 backdrop-blur-sm" />
+					<canvas className="camera-canvas absolute z-1" />
+				</div>
 
 				{/* 제어버튼 공간 */}
 				<div className="max-w-4xl w-full min-h-[15%] m-4 pb-2 center relative">
@@ -86,7 +102,6 @@ function BarcodeReader() {
 						직접 입력
 					</button>
 				</div>
-				<canvas className="absolute hidden" />
 			</div>
 		</div>
 	);
