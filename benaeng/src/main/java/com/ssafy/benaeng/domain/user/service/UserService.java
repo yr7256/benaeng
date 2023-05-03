@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
+import com.ssafy.benaeng.domain.user.jwt.JwtTokenProvider;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     public User getUser(Long id){
@@ -54,8 +56,7 @@ public class UserService {
     public JwtToken getJwt(Long id, String name) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, name);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-        return null;
+        return jwtTokenProvider.generateToken(authentication);
     }
     public User getOrRegisterUser(Long id, String name){
         Optional<User> byId = userRepository.findById(id);
