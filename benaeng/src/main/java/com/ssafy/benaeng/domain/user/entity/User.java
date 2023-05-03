@@ -26,16 +26,17 @@ public class User implements UserDetails {
     private boolean isDark;
 
     private boolean isAlarm;
-    @ElementCollection(fetch = FetchType.EAGER)
+
     @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    private String role = "USER";
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        return authorities;
     }
+
 
     @Override
     public String getPassword() {
