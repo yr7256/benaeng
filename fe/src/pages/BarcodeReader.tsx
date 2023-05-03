@@ -16,7 +16,15 @@ function BarcodeReader() {
 
 		// 카메라 연결 이벤트
 		async function getCamera() {
-			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+			const user = navigator.userAgent;
+			let setting: MediaStreamConstraints = { video: true };
+
+			// 장치에 따라 가져오는 카메라를 변경
+			// 모바일인경우 후면 카메라를 가져옵니다
+			if (user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1) {
+				setting = { video: { facingMode: { exact: 'environment' } } };
+			}
+			const stream = await navigator.mediaDevices.getUserMedia(setting);
 
 			video.srcObject = stream;
 
