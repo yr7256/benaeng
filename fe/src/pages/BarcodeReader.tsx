@@ -26,9 +26,11 @@ function BarcodeReader() {
 			const track = stream.getVideoTracks()[0];
 			// 오토 포커싱을 위한 설정 추가
 
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			track.applyConstraints({ focusMode: 'continuous' });
+			track.applyConstraints({
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				advanced: [{ focusMode: 'continuous' }],
+			});
 		}
 
 		getCamera();
