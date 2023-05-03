@@ -21,6 +21,9 @@ public class User {
 
     private Boolean isDark;
 
-    private Boolean isAlert;
+    private Boolean isAlarm;
 
+    private  Boolean isPurchase;
+
+    private  Boolean isCycle;
 }

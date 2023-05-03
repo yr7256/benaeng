@@ -2,6 +2,7 @@ package com.ssafy.benaeng.domain.food.controller;
 
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
+import com.ssafy.benaeng.domain.food.entity.Purchase;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
@@ -26,6 +27,7 @@ public class FoodController {
     public CommonDto<Object> registMyFood(@RequestBody RegistDto registDto) {
         try {
             MyFood myFood = foodService.saveMyFood(registDto);
+            
             return CommonDto.of("200", "음식 저장됨", null);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
