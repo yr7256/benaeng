@@ -65,7 +65,7 @@ function BarcodeReader() {
 				</div>
 
 				{/* 비디오 공간 */}
-				<video className="min-w-full flex-1 object-cover" autoPlay />
+				<video className="min-w-full flex-1 object-cover" autoPlay muted playsInline />
 
 				{/* 제어버튼 공간 */}
 				<div className="max-w-4xl w-full min-h-[15%] m-4 pb-2 center relative">
