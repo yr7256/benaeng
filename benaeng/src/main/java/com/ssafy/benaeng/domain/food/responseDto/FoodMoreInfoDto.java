@@ -29,9 +29,9 @@ public class FoodMoreInfoDto {
 
     private NutrientInfo nutrientInfo;
 
-    private int purchase;
+    private Long purchase;
     private int percent;
     private String recommendMessage;
-    private int cycle;
+    private Long cycle;
     private List<String> preferProducts = new ArrayList<>();
 }

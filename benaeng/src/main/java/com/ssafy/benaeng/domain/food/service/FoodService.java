@@ -18,4 +18,5 @@ public interface FoodService {
     void changeStateMyFood(StateDto stateDto) throws ParseException;
     void changeCountMyFood(ChangeCountDto changeCountDto);
     FoodMoreInfoDto getFoodMoreInfo(Long foodId);
+    void savePurchase(MyFood myFood);
 }

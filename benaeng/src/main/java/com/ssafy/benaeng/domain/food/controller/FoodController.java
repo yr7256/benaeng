@@ -27,7 +27,7 @@ public class FoodController {
     public CommonDto<Object> registMyFood(@RequestBody RegistDto registDto) {
         try {
             MyFood myFood = foodService.saveMyFood(registDto);
-            
+            foodService.savePurchase(myFood);
             return CommonDto.of("200", "음식 저장됨", null);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);

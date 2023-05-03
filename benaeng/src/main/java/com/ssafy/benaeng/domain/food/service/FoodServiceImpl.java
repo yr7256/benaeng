@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +27,7 @@ public class FoodServiceImpl implements FoodService{
     private final MyfoodRepository myfoodRepository;
     private final UsedFoodRepository usedFoodRepository;
     private final WastedFoodRepository wastedFoodRepository;
+    private final PurchaseRepository purchaseRepository;
     @Override
     public MyFood saveMyFood(RegistDto registDto) {
         MyFood myFood = new MyFood();
@@ -129,7 +127,7 @@ public class FoodServiceImpl implements FoodService{
         Long userId = myFood.getUser().getId();
         Long usedCount = usedFoodRepository.countByFoodCategoryIdAndUserId(cateId , userId);
         Long wastedCount = wastedFoodRepository.countByFoodCategoryIdAndUserId(cateId ,userId);
-
+        Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
         foodMoreInfoDto.setFoodId(foodId);
         foodMoreInfoDto.setFoodName(myFood.getFoodName());
         foodMoreInfoDto.setCount(myFood.getCount());
@@ -138,9 +136,102 @@ public class FoodServiceImpl implements FoodService{
         }
         foodMoreInfoDto.setStartDate(myFood.getStartDate());
         foodMoreInfoDto.setEndDate(myFood.getEndDate());
-        if(usedCount == 1) foodMoreInfoDto.setPurchase(-1);
-        else foodMoreInfoDto.setPurchase("계산된값");
+        FoodCategory foodCategory = foodCategoryRepository.findById(myFood.getFoodCategory().getId()).orElseThrow();
+        foodMoreInfoDto.setMiddleCategory(foodCategory.getMiddleCategory());
+        foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
+        if(purchaseInfo != null) {
+            if (purchaseInfo.getCnt() == 1) {
+                foodMoreInfoDto.setPurchase(-1L);
+            } else {
+                Long cnt = purchaseInfo.getCnt();
+                long differenceInMilliseconds = purchaseInfo.getLastDate().getTime() - purchaseInfo.getFirstDate().getTime();
+                long differenceInSeconds = differenceInMilliseconds / 1000;
+                long differenceInMinutes = differenceInSeconds / 60;
+                long differenceInHours = differenceInMinutes / 60;
+                long differenceInDays = differenceInHours / 24;
 
-        return null;
+                foodMoreInfoDto.setPurchase(differenceInDays / (cnt - 1));
+            }
+        }
+        List<MyFood> myFoodList = myfoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        List<UsedFood> usedFoodList = usedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+
+        Map<String , Long> topthree  = new HashMap<>();
+        for(MyFood mf: myFoodList){
+            if(topthree.containsKey(mf.getFoodName())) topthree.replace (mf.getFoodName() ,topthree.get(mf.getFoodName()) + 1) ;
+            else {
+                topthree.put(mf.getFoodName() , 1L);
+            }
+        }
+        for(UsedFood uf: usedFoodList){
+            if(topthree.containsKey(uf.getFoodName())) topthree.replace (uf.getFoodName() ,topthree.get(uf.getFoodName()) + 1) ;
+            else {
+                topthree.put(uf.getFoodName() , 1L);
+            }
+        }
+        for(WastedFood wf: wastedFoodList){
+            if(topthree.containsKey(wf.getFoodName())) topthree.replace (wf.getFoodName() ,topthree.get(wf.getFoodName()) + 1) ;
+            else {
+                topthree.put(wf.getFoodName() , 1L);
+            }
+        }
+        List<Map.Entry<String, Long>> entryList = new LinkedList<>(topthree.entrySet());
+        entryList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(entryList);
+        System.out.println(topthree);
+        int index = 0;
+        while(true){
+            if(index >= 3 || index >= entryList.size()) break;
+            foodMoreInfoDto.getPreferProducts().add(entryList.get(index).getKey());
+            index +=1;
+        }
+
+        long start = Integer.MAX_VALUE;
+        long end = Integer.MIN_VALUE;
+        long total = 0;
+        for(UsedFood uf : usedFoodList){
+            start = uf.getStartDate().getTime();
+            end = uf.getEndDate().getTime();
+            long differenceInSeconds = (end - start) / 1000;
+            long differenceInMinutes = differenceInSeconds / 60;
+            long differenceInHours = differenceInMinutes / 60;
+            long differenceInDays = differenceInHours / 24;
+            total += differenceInDays;
+        }
+        System.out.println(total);
+        foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        System.out.println(foodMoreInfoDto.getPreferProducts());
+        System.out.println(foodMoreInfoDto.getPurchase());
+        System.out.println(foodMoreInfoDto.getCycle());
+        foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        return foodMoreInfoDto;
+    }
+
+    @Override
+    public void savePurchase(MyFood myFood) {
+        Purchase purchase = new Purchase();
+        Purchase temp  = purchaseRepository.findByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        if(temp == null){
+            purchase.setFoodCategory(myFood.getFoodCategory());
+            purchase.setFirstDate(myFood.getStartDate());
+            purchase.setLastDate(myFood.getStartDate());
+            purchase.setUser(myFood.getUser());
+            purchase.setCnt(1L);
+            purchaseRepository.save(purchase);
+        }
+        else{
+            if(myFood.getStartDate().compareTo(temp.getFirstDate()) < 0){
+                temp.setFirstDate(myFood.getStartDate());
+            }
+
+            if(myFood.getStartDate().compareTo(temp.getLastDate()) > 0){
+                temp.setLastDate(myFood.getStartDate());
+            }
+            temp.setCnt(temp.getCnt()+1L);
+            purchaseRepository.save(temp);
+        }
+
+
     }
 }
