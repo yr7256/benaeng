@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TbCamera } from 'react-icons/tb';
 import { useNavigate } from 'react-router';
 import Modal from '../components/common/modal/Modal';
+import getStream from '../utils/camera';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
@@ -14,17 +15,9 @@ function BarcodeReader() {
 		const ctx = canvas.getContext('2d');
 		let interval: NodeJS.Timer | null = null;
 
-		// 카메라 연결 이벤트
 		async function getCamera() {
-			const user = navigator.userAgent;
-			let setting: MediaStreamConstraints = { video: true };
-
-			// 장치에 따라 가져오는 카메라를 변경
-			// 모바일인경우 후면 카메라를 가져옵니다
-			if (user.indexOf('iPhone') > -1 || user.indexOf('Android') > -1) {
-				setting = { video: { facingMode: { exact: 'environment' } } };
-			}
-			const stream = await navigator.mediaDevices.getUserMedia(setting);
+			const stream = await getStream(0);
+			if (!stream) return;
 			video.srcObject = stream;
 
 			video.addEventListener('play', () => {
@@ -38,12 +31,17 @@ function BarcodeReader() {
 			});
 			const track = stream.getVideoTracks()[0];
 			// 오토 포커싱을 위한 설정 추가
+			const constraints = track.getConstraints();
 
-			track.applyConstraints({
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				advanced: [{ focusMode: 'continuous' }],
-			});
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			if (constraints.focusMode) {
+				track.applyConstraints({
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-ignore
+					advanced: [{ focusMode: 'continuous' }],
+				});
+			}
 
 			interval = setInterval(() => {
 				const dx = -video.videoWidth / 2 + canvas.width / 2;
