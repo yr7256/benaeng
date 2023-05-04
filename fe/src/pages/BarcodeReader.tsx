@@ -14,6 +14,31 @@ function BarcodeReader() {
 		const ctx = canvas.getContext('2d');
 		let interval: NodeJS.Timer | null = null;
 
+		// STEP 1: 사용자에게 카메라 권한 요청
+		// CASE 1-1: 카메라 접근 권한 수락
+		// 장치 리스트 정보를 가져옵니다
+
+		// CASE 1-2: 카메라 접근 권한 거절
+		// 카메라 기능을 사용하기 위해서는 권한을 허용해야함을 알리고 default 화면을 보여줍니다
+		// RETURN
+
+		// STEP 2: 카메라 객체 선택
+		// CASE 2-1: 후면 & focusMode 지원 카메라가 있는 경우
+		// CASE 2-2: 후면 카메라가 있는 경우
+		// CASE 2-3: focusMode 지원 카메라가 있는 경우
+		// CASE 2-4: 카메라가 있는 경우
+		// 해당 카메라 중 1번째를 선택합니다
+
+		// CASE DEFAULT: 카메라가 없는 경우
+		// 카메라 기능을 사용하기 위해서는 카메라가 있어야함을 알리고 default 화면을 보여줍니다
+		// RETURN
+
+		// STEP 4: 카메라 재생
+		// 이후 종료를 위해 카메라 트랙 정보를 저장합니다
+
+		// STEP 5: 카메라 재생 종료
+		// 카메라 트랙을 종료시킵니다
+
 		// 카메라 연결 이벤트
 		async function getCamera() {
 			const user = navigator.userAgent;
