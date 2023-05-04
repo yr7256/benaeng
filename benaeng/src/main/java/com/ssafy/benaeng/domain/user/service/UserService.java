@@ -76,8 +76,10 @@ public class UserService {
             User user = User.builder()
                     .name(name)
                     .id(id)
-                    .isAlarm(false)
-                    .isDark(false)
+                    .isAlarm(true)
+                    .isDark(true)
+                    .isPurchase(true)
+                    .isCycle(true)
                     .build();
             userRepository.save(user);
             return user;

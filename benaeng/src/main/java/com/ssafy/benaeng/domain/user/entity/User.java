@@ -18,14 +18,19 @@ import java.util.stream.Collectors;
 @Builder
 public class User implements UserDetails {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false, unique = true)
     private Long id;
 
     private String name;
 
-    private boolean isDark;
+    private Boolean isDark;
 
-    private boolean isAlarm;
+    private Boolean isAlarm;
+
+    private  Boolean isPurchase;
+
+    private  Boolean isCycle;
+
 
     @Builder.Default
     private String role = "USER";
