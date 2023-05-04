@@ -27,6 +27,10 @@ const debounceFoodList = throttle(getFoodList, 3000);
 function Home() {
 	const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>('');
+	const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		window.postMessage('requestToken', '*');
+	};
 
 	const foodListQuery = useQuery(['foodList', search], debounceFoodList, {
 		keepPreviousData: true,
@@ -106,6 +110,9 @@ function Home() {
 				</div>
 			</header>
 			<div id="token-display" />
+			<button type="button" onClick={requestTokenFromFlutter}>
+				Request Token
+			</button>
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 
