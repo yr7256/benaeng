@@ -30,7 +30,7 @@ function Toggle({ isCheck, onState, type }: Props) {
 						className="sr-only"
 						disabled={isCheck}
 						onClick={toggleHandler}
-						checked={onState}
+						defaultChecked={onState}
 					/>
 					{onState === false ? (
 						<div className={`block h-8 rounded-full w-14 ${color}`} />
