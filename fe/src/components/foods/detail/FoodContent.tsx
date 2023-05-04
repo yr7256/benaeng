@@ -1,10 +1,10 @@
 import { HiOutlineTrash } from 'react-icons/hi';
-import { FoodData } from '../../../pages/FoodDetail';
 import FoodIcon from '../../common/foodIcon/FoodIcon';
 import Slider from '../slider/Slider';
+import { FoodDetailData } from '../../../types';
 
 interface Props {
-	foodData: FoodData;
+	foodData: FoodDetailData;
 }
 
 function FoodContent({ foodData }: Props) {

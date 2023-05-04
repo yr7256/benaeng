@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
-import { FoodData, CategoryData } from '../../types/FoodTypes';
+import { CategoryData, FoodDetailData, FoodData } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
 import Input from '../common/input/Input';
 import SearchCategoryModal from '../home/modal/SearchCategoryModal';
 import Category from '../../constants/category.json';
-
-export interface FoodDetailData {
-	category: string;
-	subCategory: string;
-	fname: string;
-	total: number;
-	count: number;
-	startDate: string;
-	endDate: string;
-	weight: string;
-	kcal: number;
-	purchase: number;
-	percent: number;
-	msg: string[];
-	cycle: number;
-	preferProduct: string[];
-}
+// import { FoodData } from '../../pages/FoodDetail';
 
 interface AddFrom extends FoodData {
 	/**
@@ -37,15 +21,29 @@ const CategoryList: CategoryData[] = Category.data;
 
 function FoodAnalysis(): JSX.Element {
 	const foodData: FoodDetailData = {
-		category: '유제품',
+		foodId: 1,
+		foodCategoryId: 1,
+		middleCategory: '유제품',
 		subCategory: '우유',
-		fname: '서울우유',
+		foodName: '서울우유',
 		total: 15,
 		count: 5,
 		startDate: '2023-04-19',
 		endDate: '2023-04-30',
-		weight: '18.5g',
-		kcal: 85,
+		nutrientInfo: {
+			id: 20010,
+			totalContents: 200,
+			calories: 135.0,
+			carbohydrates: 0.0,
+			cholesterol: 0.0,
+			fat: 6.2,
+			protein: 0.0,
+			saturatedFattyAcids: 0.0,
+			sodium: 180.0,
+			sugars: 9.0,
+			transFat: 0.0,
+			foodName: '매일두유 순 플레인',
+		},
 		purchase: 20,
 		percent: 34,
 		msg: [
