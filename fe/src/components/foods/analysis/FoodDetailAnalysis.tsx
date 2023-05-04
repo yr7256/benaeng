@@ -1,8 +1,8 @@
-import { FoodData } from '../../../pages/FoodDetail';
+import { FoodDetailData } from '../../../types';
 import CircleGraph from '../../common/circleGraph/CircleGraph';
 
 interface Props {
-	foodData: FoodData;
+	foodData: FoodDetailData;
 }
 
 function FoodDetailAnalysis({ foodData }: Props) {

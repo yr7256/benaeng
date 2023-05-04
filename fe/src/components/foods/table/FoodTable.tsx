@@ -1,7 +1,7 @@
 /** 식품 영양정보 type */
 
 import UTRIENT_INFO from '../../../constants/utrientInfo';
-import { NutrientData } from '../../../pages/FoodDetail';
+import { NutrientData } from '../../../types';
 
 interface Props {
 	nutrient: NutrientData;

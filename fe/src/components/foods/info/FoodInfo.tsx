@@ -1,9 +1,9 @@
-import { FoodData } from '../../../pages/FoodDetail';
+import { FoodDetailData } from '../../../types';
 import FoodTable from '../table/FoodTable';
 import './foodInfo.css';
 
 interface Props {
-	foodData: FoodData;
+	foodData: FoodDetailData;
 }
 
 function FoodInfo({ foodData }: Props) {

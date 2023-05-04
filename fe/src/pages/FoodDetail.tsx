@@ -4,44 +4,12 @@ import FoodInfo from '../components/foods/info/FoodInfo';
 import FoodContent from '../components/foods/detail/FoodContent';
 import FoodDetailAnalysis from '../components/foods/analysis/FoodDetailAnalysis';
 import Topbar from '../components/common/topbar/Topbar';
+import { FoodDetailData } from '../types';
 
 // 식품 상세화면
 
-export interface NutrientData {
-	id: number;
-	totalContents: number;
-	calories: number;
-	carbohydrates: number;
-	cholesterol: number;
-	fat: number;
-	protein: number;
-	saturatedFattyAcids: number;
-	sodium: number;
-	sugars: number;
-	transFat: number;
-	foodName: string;
-}
-
-export interface FoodData {
-	foodId: number;
-	foodCategoryId: number;
-	middleCategory: string;
-	subCategory: string;
-	foodName: string;
-	total: number;
-	count: number;
-	startDate: string;
-	endDate: string;
-	nutrientInfo: NutrientData;
-	purchase: number;
-	percent: number;
-	msg: string[];
-	cycle: number;
-	preferProduct: string[];
-}
-
 function FoodDetail() {
-	const foodData: FoodData = {
+	const foodData: FoodDetailData = {
 		foodId: 1,
 		foodCategoryId: 1,
 		middleCategory: '유제품',
