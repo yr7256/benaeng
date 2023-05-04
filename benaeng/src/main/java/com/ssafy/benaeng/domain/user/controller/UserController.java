@@ -25,11 +25,15 @@ public class UserController {
         return new ResponseEntity<>("안녕 나는 check야 ", HttpStatus.OK);
     }
     @GetMapping("/social/{code}")
-    public ResponseEntity<?> code(@PathVariable("code") String code, HttpServletResponse response){
+    public ResponseEntity<?> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
         log.info("------------code of User controller-------------");
         log.info("인가 코드 : " + code);
-        loginUserDto user = userService.login(code, response);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            loginUserDto user = userService.login(code, response);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }catch (RuntimeException re){
+            return new ResponseEntity<>(re.getMessage(), HttpStatus.OK);
+        }
     }
 
 }

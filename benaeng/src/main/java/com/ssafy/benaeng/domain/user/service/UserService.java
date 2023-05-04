@@ -39,7 +39,7 @@ public class UserService {
     public User getUser(Long id){
         return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));
     }
-    public loginUserDto login(String code, HttpServletResponse response){
+    public loginUserDto login(String code, HttpServletResponse response) throws RuntimeException{
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
 
@@ -96,7 +96,7 @@ public class UserService {
         return byId.get();
     }
 
-    public String getKakaoToken(String code){
+    public String getKakaoToken(String code) throws RuntimeException{
         log.info("--------------------getKakaoToken of User Service--------------------");
         String accessToken = "";
         String refreshToken = "";
@@ -125,6 +125,9 @@ public class UserService {
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
             log.info("responseCode : " + responseCode);
+            if(responseCode != 200){
+                throw new RuntimeException("code 값을 확인해주세요");
+            }
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -153,7 +156,7 @@ public class UserService {
         }
         return accessToken;
     }
-    public HashMap<String, Object> getUserInfo (String accessToken) {
+    public HashMap<String, Object> getUserInfo (String accessToken) throws RuntimeException{
         log.info("--------------------getUserInfo of User Service--------------------");
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<>();
@@ -168,7 +171,9 @@ public class UserService {
 
             int responseCode = conn.getResponseCode();
             log.info("responseCode : " + responseCode);
-
+            if(responseCode != 200){
+                throw new RuntimeException("token 값을 확인해주세요");
+            }
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String line = "";
