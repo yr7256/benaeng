@@ -7,16 +7,30 @@ import Topbar from '../components/common/topbar/Topbar';
 
 // 식품 상세화면
 
+export interface NutrientData {
+	id: number;
+	totalContents: number;
+	calories: number;
+	carbohydrates: number;
+	cholesterol: number;
+	fat: number;
+	protein: number;
+	saturatedFattyAcids: number;
+	sodium: number;
+	sugars: number;
+	transFat: number;
+	foodName: string;
+}
+
 export interface FoodData {
-	category: string;
+	middleCategory: string;
 	subCategory: string;
-	fname: string;
+	foodName: string;
 	total: number;
 	count: number;
 	startDate: string;
 	endDate: string;
-	weight: string;
-	kcal: number;
+	nutrientInfo: NutrientData;
 	purchase: number;
 	percent: number;
 	msg: string[];
@@ -26,15 +40,27 @@ export interface FoodData {
 
 function FoodDetail() {
 	const foodData: FoodData = {
-		category: '유제품',
+		middleCategory: '유제품',
 		subCategory: '우유',
-		fname: '서울우유',
+		foodName: '서울우유',
 		total: 15,
 		count: 5,
 		startDate: '2023-04-19',
 		endDate: '2023-04-30',
-		weight: '18.5g',
-		kcal: 85,
+		nutrientInfo: {
+			id: 20010,
+			totalContents: 200,
+			calories: 135.0,
+			carbohydrates: 0.0,
+			cholesterol: 0.0,
+			fat: 6.2,
+			protein: 0.0,
+			saturatedFattyAcids: 0.0,
+			sodium: 180.0,
+			sugars: 9.0,
+			transFat: 0.0,
+			foodName: '매일두유 순 플레인',
+		},
 		purchase: 20,
 		percent: 34,
 		msg: [

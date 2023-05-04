@@ -63,16 +63,16 @@ function Notice() {
 			{day.map((array, index) => {
 				if (array.length > 1) {
 					return (
-						<div>
-							<div className="flex items-center justify-between m-auto w-88">
-								<hr className="border-[1px] rounded-lg w-30 stroke" />
+						<div key={array[1].id + array[1].type} className="w-full">
+							<div className="flex items-center justify-between w-full m-auto">
+								<hr className="w-1/3 border rounded-lg stroke" />
 								<div className="mx-4 text-light/boldStroke dark:text-dark/boldStroke">{title[index]}</div>
-								<hr className="border-[1px] rounded-lg w-30 stroke" />
+								<hr className="w-1/3 border rounded-lg stroke" />
 							</div>
 							{array.map(item => {
 								if (item) {
 									return (
-										<div className="flex justify-center my-4">
+										<div key={item.id} className="flex justify-center w-full my-4">
 											<Alarm
 												name={item.name}
 												food={item.subCategory}

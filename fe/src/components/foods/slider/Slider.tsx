@@ -57,7 +57,7 @@ function Slider({ count, total }: Props) {
 			/>
 			<input
 				id="number"
-				className="w-12 h-8 text-xs text-center text-black border-2 rounded-lg bg-light/background stroke"
+				className="w-12 h-8 text-xs text-center text-black border rounded-lg bg-light/background stroke"
 				type="number"
 				min={0}
 				max={total}
