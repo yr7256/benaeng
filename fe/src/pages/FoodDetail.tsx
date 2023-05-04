@@ -23,6 +23,8 @@ export interface NutrientData {
 }
 
 export interface FoodData {
+	foodId: number;
+	foodCategoryId: number;
 	middleCategory: string;
 	subCategory: string;
 	foodName: string;
@@ -40,6 +42,8 @@ export interface FoodData {
 
 function FoodDetail() {
 	const foodData: FoodData = {
+		foodId: 1,
+		foodCategoryId: 1,
 		middleCategory: '유제품',
 		subCategory: '우유',
 		foodName: '서울우유',
