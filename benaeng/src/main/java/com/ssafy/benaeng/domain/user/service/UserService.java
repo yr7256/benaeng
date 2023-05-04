@@ -7,6 +7,7 @@ import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.jwt.JwtTokenProvider;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
+import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class UserService {
     public User getUser(Long id){
         return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));
     }
-    public User login(String code, HttpServletResponse response){
+    public loginUserDto login(String code, HttpServletResponse response){
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
 
@@ -56,7 +57,15 @@ public class UserService {
         // 5. add jwt to Http only cookie
         setHttpOnlyCookie(jwt, response);
 
-        return user;
+        return user2loginDto(user);
+    }
+    public loginUserDto user2loginDto(User user){
+        return loginUserDto.builder()
+                .isCycle(user.getIsCycle())
+                .isPurchase(user.getIsPurchase())
+                .isDark(user.getIsDark())
+                .isAlarm(user.getIsAlarm())
+                .build();
     }
     public void setHttpOnlyCookie(JwtToken jwt, HttpServletResponse response){
         Cookie cookie = new Cookie("Authorization", jwt.getAccessToken());

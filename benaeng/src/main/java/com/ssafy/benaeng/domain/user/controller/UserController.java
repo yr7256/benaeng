@@ -1,6 +1,7 @@
 package com.ssafy.benaeng.domain.user.controller;
 
 import com.ssafy.benaeng.domain.user.entity.User;
+import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class UserController {
     public ResponseEntity<?> code(@PathVariable("code") String code, HttpServletResponse response){
         log.info("------------code of User controller-------------");
         log.info("인가 코드 : " + code);
-        User user = userService.login(code, response);
+        loginUserDto user = userService.login(code, response);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
