@@ -32,16 +32,22 @@ export interface FoodDetailData {
 	expiration_date: string;
 }
 
+export type enameType =
+	| 'carbohydrates'
+	| 'protein'
+	| 'cholesterol'
+	| 'fat'
+	| 'saturatedFattyAcids'
+	| 'sodium'
+	| 'sugars'
+	| 'transFat';
+
 /** 식품 영양정보 */
 export interface UtrientInfoData {
-	carbohydrate: string;
-	protein: string;
-	cholesterol: string;
-	fat: string;
-	saturatedFattyAcids: string;
-	sodium: string;
-	sugars: string;
-	transFat: string;
+	ename: enameType;
+	kname: string;
+	point: string;
+	aver: number;
 }
 
 /** 알림메시지 */
