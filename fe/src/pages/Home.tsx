@@ -105,7 +105,7 @@ function Home() {
 					<AlarmButton isAlarm={false} />
 				</div>
 			</header>
-
+			<div id="token-display" />
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 
