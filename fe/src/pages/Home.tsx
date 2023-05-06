@@ -18,6 +18,14 @@ import { CategoryData, FoodData, HomeFoodData } from '../types';
 import FoodIcon from '../components/home/button/FoodIcon';
 import { matchKo } from '../utils/string';
 
+declare global {
+	interface Window {
+		flutter_inappwebview: {
+			callHandler: (handlerName: string, ...args: any[]) => Promise<any>;
+		};
+	}
+}
+
 interface Refrigerator {
 	[category: string]: HomeFoodData[];
 }
@@ -29,7 +37,14 @@ function Home() {
 	const [search, setSearch] = useState<string>('');
 	const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
-		window.postMessage('requestToken', '*');
+		window.flutter_inappwebview.callHandler('requestToken').then(result => {
+			const tokenDisplayElement = document.getElementById('token-display');
+			if (tokenDisplayElement) {
+				tokenDisplayElement.textContent = result;
+			} else {
+				console.error('"token-display" not found');
+			}
+		});
 	};
 
 	const foodListQuery = useQuery(['foodList', search], debounceFoodList, {
