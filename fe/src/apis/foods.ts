@@ -1,8 +1,9 @@
 import instance from '.';
 import { CategoryData, FoodDetailData, Response } from '../types';
 import { FoodData, BarcodeData } from '../types/index';
+import { getCookie } from '../utils/cookie';
 
-const FOOD_API = 'foods';
+export const FOOD_API = 'foods';
 
 /** [POST] 바코드 인식 */
 export function postFoodBarcode(image: File) {
@@ -30,7 +31,11 @@ export function getFoodList() {
 
 /** [GET] 등록한 식품 상세 조회 */
 export function getFood(foodId: number) {
-	return instance.get<Response<FoodDetailData>>(`${FOOD_API}/moreInfo/${foodId}`);
+	return instance.get<Response<FoodDetailData>>(`${FOOD_API}/moreInfo/${foodId}`, {
+		headers: {
+			Authorization: `Bearer ${getCookie('accessToken')}`,
+		},
+	});
 }
 
 /** [PUT] 등록한 식품 수량 변경 */
