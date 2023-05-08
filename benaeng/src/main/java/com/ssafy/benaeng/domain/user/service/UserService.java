@@ -7,6 +7,8 @@ import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.jwt.JwtTokenProvider;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
+import com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto;
+import com.ssafy.benaeng.domain.user.responseDto.UserDto;
 import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,17 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
+    public UserDto updateUser(Long id, UpdateUserDto userDto){
+        User user = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException(id + "에 해당하는 User"));
+        user.updateUser(userDto.getIsDark(), userDto.getIsAlarm(), userDto.getIsPurchase(), userDto.getIsCycle());
+        userRepository.save(user);
+        return UserDto.builder()
+                .isAlarm(user.getIsAlarm())
+                .isCycle(user.getIsCycle())
+                .isDark(user.getIsDark())
+                .isPurchase(user.getIsPurchase())
+                .build();
+    }
 
     public User getUser(Long id){
         return userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(id + "에 해당하는 User"));

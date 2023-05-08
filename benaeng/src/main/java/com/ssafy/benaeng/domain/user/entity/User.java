@@ -35,6 +35,13 @@ public class User implements UserDetails {
     @Builder.Default
     private String role = "USER";
 
+    public User updateUser(Boolean isDark, Boolean isAlarm, Boolean isPurchase, Boolean isCycle){
+        this.isDark = isDark;
+        this.isAlarm = isAlarm;
+        this.isPurchase = isPurchase;
+        this.isCycle = isCycle;
+        return this;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

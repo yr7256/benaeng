@@ -1,12 +1,16 @@
 package com.ssafy.benaeng.domain.user.controller;
 
 import com.ssafy.benaeng.domain.user.entity.User;
+import com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto;
+import com.ssafy.benaeng.domain.user.responseDto.UserDto;
 import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +38,13 @@ public class UserController {
         }catch (RuntimeException re){
             return new ResponseEntity<>(re.getMessage(), HttpStatus.OK);
         }
+    }
+    @PostMapping("/user")
+    public ResponseEntity<?> update(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UpdateUserDto updateUserDto){
+        Long id = Long.parseLong(userDetails.getUsername());
+        log.info("name : " + id); // 이게 사용자 unique 값
+        UserDto user = userService.updateUser(id, updateUserDto);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }
