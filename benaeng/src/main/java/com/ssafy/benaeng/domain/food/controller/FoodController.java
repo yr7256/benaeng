@@ -29,8 +29,9 @@ import java.util.List;
 public class FoodController {
     private final FoodService foodService;
     @PostMapping("/regist")
-    public CommonDto<Object> registMyFood(@RequestBody RegistDto registDto) {
+    public CommonDto<Object> registMyFood(@AuthenticationPrincipal String id , @RequestBody RegistDto registDto) {
         try {
+            registDto.setUserId(Long.parseLong(id));
             MyFood myFood = foodService.saveMyFood(registDto);
             foodService.savePurchase(myFood);
             return CommonDto.of("200", "음식 저장됨", null);
