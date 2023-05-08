@@ -16,10 +16,6 @@
   font-family: "sans-serif";
 }
 
-.App::-webkit-scrollbar {
-  width: 0;
-}
-
 * {
   text-decoration: none;
   transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
@@ -36,6 +32,11 @@
 *::-webkit-scrollbar-thumb {
   @apply rounded-md;
   @apply bg-light/stroke dark:bg-dark/stroke;
+}
+
+.Page::-webkit-scrollbar {
+  display: none;
+  width: 0;
 }
 
 button, input {
