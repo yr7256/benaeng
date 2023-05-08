@@ -25,6 +25,8 @@ dependencies {
 	implementation 'com.squareup.okhttp3:okhttp:4.11.0'
 	implementation 'org.awaitility:awaitility:4.2.0'
 	implementation 'com.google.firebase:firebase-admin:9.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
