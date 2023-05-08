@@ -56,6 +56,7 @@ public class JwtTokenProvider {
     }
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
+        log.info("-----------validateToken of JwtTokenProvider0--------------");
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
@@ -95,6 +96,7 @@ public class JwtTokenProvider {
         }
     }
     public String resolveToken(HttpServletRequest request) {
+        log.info("-----------resolveToken of JwtTokenProvider0--------------");
         Cookie[] cookies = request.getCookies();
 
         if (cookies != null) {
