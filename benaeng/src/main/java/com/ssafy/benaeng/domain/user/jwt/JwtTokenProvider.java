@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private final Key key;
     @Value("${jwt.access-token.expire-length}") Long accessExpire;
-    @Value("${jwt.refresh-token.expire-length}") Long refreshExpire;
 
     public JwtTokenProvider(@Value("${jwt.token.secret-key}") String secret){
         byte[] secretByte = DatatypeConverter.parseBase64Binary(secret);
