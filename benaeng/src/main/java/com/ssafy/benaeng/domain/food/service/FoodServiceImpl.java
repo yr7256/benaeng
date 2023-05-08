@@ -7,6 +7,7 @@ import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
+import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.*;
 
 @Service
@@ -233,5 +236,92 @@ public class FoodServiceImpl implements FoodService{
         }
 
 
+    }
+
+    @Override
+    public ReportDto getReportInfo(Long userId) {
+        ReportDto reportDto = new ReportDto();
+        long myFoodCount = 0L;
+        long usedCount = 0L;
+        long wastedCount = 0L;
+        List<MyFood> myFoodList = myfoodRepository.findAllByUserId(userId);
+        List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
+        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByUserId(userId);
+        LocalDate currentDate = LocalDate.now();
+
+        Month currentMonth = currentDate.getMonth();
+
+        int currentMonthNumber = currentDate.getMonthValue();
+
+
+        for(MyFood myFood : myFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(myFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            if(month == currentMonthNumber){
+                myFoodCount +=1;
+            }
+        }
+        for(UsedFood usedFood : usedFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(usedFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            if(month == currentMonthNumber){
+                usedCount +=1;
+            }
+        }
+        for(WastedFood wastedFood : wastedFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(wastedFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            if(month == currentMonthNumber){
+                wastedCount +=1;
+            }
+        }
+
+        Map<String , Long> usedTopThree  = new HashMap<>();
+        for(UsedFood uf: usedFoodList){
+            FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
+            if(usedTopThree.containsKey(cate.getSubCategory())) usedTopThree.replace(cate.getSubCategory(),usedTopThree.get(cate.getSubCategory()) + 1) ;
+            else {
+                usedTopThree.put(cate.getSubCategory() , 1L);
+            }
+        }
+
+        List<Map.Entry<String, Long>> usedList = new LinkedList<>(usedTopThree.entrySet());
+        usedList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(usedList);
+
+
+        Map<String , Long> wastedTopThree  = new HashMap<>();
+        for(WastedFood wf: wastedFoodList){
+            FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
+            if(wastedTopThree.containsKey(cate.getMiddleCategory())) wastedTopThree.replace (cate.getMiddleCategory(),wastedTopThree.get(cate.getMiddleCategory()) + 1) ;
+            else {
+                wastedTopThree.put(cate.getMiddleCategory() , 1L);
+            }
+        }
+
+        List<Map.Entry<String, Long>> wastedList = new LinkedList<>(wastedTopThree.entrySet());
+        wastedList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(wastedList);
+
+        System.out.println(myFoodCount);
+        System.out.println(usedCount);
+        System.out.println(wastedCount);
+
+        reportDto.setConsume(usedCount);
+        reportDto.setDiscard(wastedCount);
+        reportDto.setPurchase(myFoodCount + usedCount + wastedCount);
+
+        for(Map.Entry<String , Long> s : wastedList){
+            reportDto.getDiscardTopThreeCategory().add(s);
+        }
+        for(Map.Entry<String , Long> s : usedList){
+            reportDto.getFavoriteTopThreeCategory().add(s);
+        }
+        System.out.println(reportDto.getDiscardTopThreeCategory());
+        System.out.println(reportDto.getFavoriteTopThreeCategory());
+        return reportDto;
     }
 }

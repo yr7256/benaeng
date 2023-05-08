@@ -11,6 +11,8 @@ spring:
     url: jdbc:mysql://localhost:3306/benaeng?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
+
+
 #  security:
 #    oauth2:
 #      client:
@@ -33,3 +35,14 @@ notification:
     mattermost: https://meeting.ssafy.com/hooks/szcz7pztwtff3k1ia5iuqtbgdo
 fcm:
   api-url: https://fcm.googleapis.com/v1/projects/firetest2-7ef9a/messages:send
+cloud:
+  aws:
+    s3:
+      bucket : my-b205-content
+    credentials:
+      access-key: AKIA3UVZBC67CCYTY7M2
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

@@ -7,6 +7,7 @@ import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
+import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
 
 import java.text.ParseException;
 import java.util.List;
@@ -19,4 +20,5 @@ public interface FoodService {
     void changeCountMyFood(ChangeCountDto changeCountDto);
     FoodMoreInfoDto getFoodMoreInfo(Long foodId);
     void savePurchase(MyFood myFood);
+    ReportDto getReportInfo(Long userId);
 }
