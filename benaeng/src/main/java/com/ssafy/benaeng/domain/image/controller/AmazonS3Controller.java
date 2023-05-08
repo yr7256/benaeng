@@ -2,12 +2,10 @@ package com.ssafy.benaeng.domain.image.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.benaeng.domain.food.entity.FoodData;
-import com.ssafy.benaeng.domain.food.entity.MyFood;
-import com.ssafy.benaeng.domain.food.responseDto.CommonDto;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
+import com.ssafy.benaeng.global.responseDto.CommonDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

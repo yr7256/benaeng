@@ -5,6 +5,7 @@ import com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto;
 import com.ssafy.benaeng.domain.user.responseDto.UserDto;
 import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.domain.user.service.UserService;
+import com.ssafy.benaeng.global.responseDto.CommonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,28 +24,24 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     private final HttpSession httpSession;
     private final UserService userService;
-    @GetMapping("/check")
-    public ResponseEntity<String> check(){
-        log.info("------------check of User controller-------------");
-        return new ResponseEntity<>("안녕 나는 check야 ", HttpStatus.OK);
-    }
     @GetMapping("/social/{code}")
-    public ResponseEntity<?> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
-        log.info("------------code of User controller-------------");
-        log.info("인가 코드 : " + code);
+    public CommonDto<Object> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
         try {
             loginUserDto user = userService.login(code, response);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return CommonDto.of("200", "login 성공", user);
         }catch (RuntimeException re){
-            return new ResponseEntity<>(re.getMessage(), HttpStatus.OK);
+            return CommonDto.of("400", "login 실패", re.getMessage());
         }
     }
     @PutMapping("/user")
-    public ResponseEntity<?> update(@AuthenticationPrincipal String userId, @RequestBody UpdateUserDto updateUserDto){
+    public CommonDto<Object> update(@AuthenticationPrincipal String userId, @RequestBody UpdateUserDto updateUserDto){
         Long id = Long.parseLong(userId);
-        log.info("name : " + id); // 이게 사용자 unique 값
-        UserDto user = userService.updateUser(id, updateUserDto);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        try {
+            UserDto user = userService.updateUser(id, updateUserDto);
+            return CommonDto.of("200", "사용자 정보 변경 성공", user);
+        }catch(RuntimeException re){
+            return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
+        }
     }
 
 }

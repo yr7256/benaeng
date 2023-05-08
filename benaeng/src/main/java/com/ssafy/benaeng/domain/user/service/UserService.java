@@ -67,9 +67,6 @@ public class UserService {
         // 4. authentication & generate JWT
         JwtToken jwt = getJwt(id, name);
 
-        // 5. add jwt to Http only cookie
-        setHttpOnlyCookie(jwt, response);
-
         return user2loginDto(user, jwt);
     }
     public loginUserDto user2loginDto(User user, JwtToken jwt){
@@ -80,12 +77,6 @@ public class UserService {
                 .isAlarm(user.getIsAlarm())
                 .accessToken(jwt.getAccessToken())
                 .build();
-    }
-    public void setHttpOnlyCookie(JwtToken jwt, HttpServletResponse response){
-        Cookie cookie = new Cookie("Authorization", jwt.getAccessToken());
-        cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60);
-        response.addCookie(cookie);
     }
 
     public JwtToken getJwt(Long id, String name) {
@@ -138,7 +129,6 @@ public class UserService {
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            log.info("responseCode : " + responseCode);
             if(responseCode != 200){
                 throw new RuntimeException("code 값을 확인해주세요");
             }
@@ -151,7 +141,6 @@ public class UserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            log.info("response body : " + result);
 
             //Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
             JsonParser parser = new JsonParser();
@@ -159,9 +148,6 @@ public class UserService {
 
             accessToken = element.getAsJsonObject().get("access_token").getAsString();
             refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
-
-            log.info("access_token : " + accessToken);
-            log.info("refresh_token : " + refreshToken);
 
             br.close();
             bw.close();
@@ -171,7 +157,6 @@ public class UserService {
         return accessToken;
     }
     public HashMap<String, Object> getUserInfo (String accessToken) throws RuntimeException{
-        log.info("--------------------getUserInfo of User Service--------------------");
         //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -184,7 +169,6 @@ public class UserService {
             conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 
             int responseCode = conn.getResponseCode();
-            log.info("responseCode : " + responseCode);
             if(responseCode != 200){
                 throw new RuntimeException("token 값을 확인해주세요");
             }
@@ -196,19 +180,14 @@ public class UserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            log.info("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
-            log.info("get id : " + element.getAsJsonObject().get("id"));
             Long kakaoId = element.getAsJsonObject().get("id").getAsBigInteger().longValue();
             JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
             String imageUrl = properties.getAsJsonObject().get("profile_image").getAsString();
-            log.info("kakaoId : " + kakaoId);
-            log.info("nickname : " + nickname);
-            log.info("imageUrl : " + imageUrl);
 
             userInfo.put("kakaoId", kakaoId);
             userInfo.put("nickname", nickname);
