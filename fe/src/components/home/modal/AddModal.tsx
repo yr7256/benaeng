@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { VscQuestion } from 'react-icons/vsc';
+import { useSelector } from 'react-redux';
 import CheckInput from '../../common/input/CheckInput';
 import Input from '../../common/input/Input';
 import Modal from '../../common/modal/Modal';
 import SearchCategoryModal from './SearchCategoryModal';
 import { CategoryData, FoodData } from '../../../types';
 import Category from '../../../constants/category.json';
+import { selectBarcode } from '../../../store/modules/barcode';
 
 /**
  * AddModal Props
@@ -48,21 +50,22 @@ interface AlertModal {
 const CategoryList: CategoryData[] = Category.data;
 
 function AddModal({ open, setClose }: Props) {
+	const barcode = useSelector(selectBarcode);
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [alertModal, setAlertModal] = useState<AlertModal>({
 		open: false,
 		type: 0,
 	});
 	const [form, setForm] = useState<AddFrom>({
-		foodId: -1,
+		foodId: barcode.foodId,
 		totalCount: '',
-		foodCategoryId: -1,
-		foodName: '',
+		foodCategoryId: barcode.foodCategoryId,
+		foodName: barcode.foodName,
 		count: 0,
 		startDate: '',
 		endDate: '',
 		isConsume: true,
-		isRecommend: true,
+		isRecommend: Boolean(barcode.barcode),
 	});
 
 	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
@@ -175,10 +178,10 @@ function AddModal({ open, setClose }: Props) {
 						className="flex-initial w-28"
 					/>
 
-					<div className="flex items-end">
+					<div className={`flex items-end ${!barcode.barcode ? 'opacity-60' : ''}`}>
 						<CheckInput
 							value={form.isRecommend}
-							onToggle={() => onChangeForm(!form.isRecommend, 'isRecommend')}
+							onToggle={() => onChangeForm(!form.isRecommend && Boolean(barcode.barcode), 'isRecommend')}
 							disabled={undefined}
 							className="text-green font-bold mt-4"
 						>
