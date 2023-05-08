@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
+import sendToken from '../apis/token';
 
 // 설정 화면
 
 function Setting() {
+	const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const [token, setToken] = useState<string | null>(null);
 	const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -16,18 +18,17 @@ function Setting() {
 			setToken(result);
 		});
 	};
-	const sendToken = () => {
-		axios
-			.post('http://192.168.31.27:8080/api/fcm', {
-				kakaoId: 1,
-				deviceToken: token,
-			})
-			.then(function (response) {
-				console.log(response);
-			})
-			.catch(function (error) {
-				console.log(error);
-			});
+	const handleSendToken = async () => {
+		if (token) {
+			try {
+				await tokenMutation.mutateAsync(token);
+				console.log('Token sent successfully');
+			} catch (error) {
+				console.error('Error sending token:', error);
+			}
+		} else {
+			console.error('No token to send');
+		}
 	};
 
 	return (
@@ -37,7 +38,7 @@ function Setting() {
 			<button type="button" onClick={requestTokenFromFlutter}>
 				Request Token
 			</button>
-			<button type="button" onClick={sendToken}>
+			<button type="button" onClick={handleSendToken}>
 				Send Token
 			</button>
 			<div className="flex items-center justify-between px-6 py-3 mb-4 border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">
