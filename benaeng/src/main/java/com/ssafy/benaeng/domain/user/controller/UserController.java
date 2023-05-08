@@ -39,7 +39,7 @@ public class UserController {
             return new ResponseEntity<>(re.getMessage(), HttpStatus.OK);
         }
     }
-    @PostMapping("/user")
+    @PutMapping("/user")
     public ResponseEntity<?> update(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UpdateUserDto updateUserDto){
         Long id = Long.parseLong(userDetails.getUsername());
         log.info("name : " + id); // 이게 사용자 unique 값

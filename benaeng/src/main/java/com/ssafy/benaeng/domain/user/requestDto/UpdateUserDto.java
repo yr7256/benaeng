@@ -1,12 +1,9 @@
 package com.ssafy.benaeng.domain.user.requestDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 @Builder
 public class UpdateUserDto {
