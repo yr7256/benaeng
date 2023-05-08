@@ -60,7 +60,7 @@ button, input {
     @apply text-black dark:text-white;
   }
   .modal {
-    @apply fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-300;
+    @apply fixed top-0 left-0 flex items-center justify-center w-full h-full overflow-hidden transition-all duration-500;
   }
   .center {
     @apply flex items-center justify-center;

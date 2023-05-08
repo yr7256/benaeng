@@ -41,11 +41,11 @@ interface Props {
  */
 function Modal({ mode, size, open = false, onClose, label, children, submitText, onSubmit }: Props) {
 	return (
-		<div className={`modal ${open ? 'bg-black/50 z-[1000]' : 'z-[-1]'}`}>
+		<div className={`modal delay-100 ${open ? 'bg-black/50 z-[1000] opacity-1' : 'z-[-1] opacity-0'}`}>
 			<section
-				className={`w-full border component stroke overflow-hidden ${
-					size === 'lg' ? 'max-w-lg m-6' : 'max-w-sm m-10'
-				} ${open ? 'slide-in-bottom' : 'slide-out-bottom'}`}
+				className={`w-full border component stroke ${size === 'lg' ? 'max-w-lg m-6' : 'max-w-sm m-10'} ${
+					open ? 'slide-in-bottom' : 'slide-out-bottom'
+				}`}
 			>
 				{/* 라벨 */}
 				<div className="h-12 text-sm flex items-center justify-between">
