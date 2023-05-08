@@ -16,6 +16,7 @@ import com.ssafy.benaeng.domain.food.service.FoodService;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,10 +40,10 @@ public class FoodController {
         }
     }
 
-    @GetMapping("/{userId}")
-    public CommonDto<Object> getMyFood(@PathVariable Long userId) {
+    @GetMapping()
+    public CommonDto<Object> getMyFood(@AuthenticationPrincipal String id) {
         try {
-            System.out.println(userId);
+            Long userId = Long.parseLong(id);
             FoodsDto foodsDto = new FoodsDto();
             List<FoodsDto> myFoodList = foodService.findMyFoodList(userId);
             System.out.println(Arrays.toString(myFoodList.toArray()));
@@ -106,9 +107,10 @@ public class FoodController {
         }
     }
 
-    @GetMapping("/report/{userId}")
-    public CommonDto<Object> getReport(@PathVariable Long userId){
+    @GetMapping("/report")
+    public CommonDto<Object> getReport(@AuthenticationPrincipal String id) {
         try {
+            Long userId = Long.parseLong(id);
             ReportDto reportDto = foodService.getReportInfo(userId);
             return CommonDto.of("200", "리포트 분석 결과 입니다.", reportDto);
         } catch (Exception e) {

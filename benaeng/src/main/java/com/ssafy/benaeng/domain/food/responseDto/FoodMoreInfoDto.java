@@ -26,12 +26,12 @@ public class FoodMoreInfoDto {
     private Date endDate;
 
     private int count;
-
+    private 
     private NutrientInfo nutrientInfo;
 
     private Long purchase;
     private int percent;
-    private String recommendMessage;
+    private String msg;
     private Long cycle;
     private List<String> preferProducts = new ArrayList<>();
 }
