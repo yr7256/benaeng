@@ -3,22 +3,37 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
-import useGetSocial from '../apis/user';
-import { CACHE_TIME, SOCIAL, STALE_TIME } from '../constants/api';
+import { SOCIAL_API, useGetSocial } from '../apis/user';
+import { CACHE_TIME, STALE_TIME } from '../constants/api';
+import { setCookie } from '../utils/cookie';
+import { SocialResponse } from '../types/UserTypes';
+import { useAppDispatch } from '../hooks/useStore';
+import { setUser } from '../store/modules/user';
 
 // 로그인 화면
 
 function Login() {
+	const dispatch = useAppDispatch();
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
 	if (code) {
-		const { isLoading, data } = useQuery<AxiosResponse, AxiosError>([SOCIAL], () => useGetSocial(code), {
-			keepPreviousData: true,
-			staleTime: STALE_TIME,
-			cacheTime: CACHE_TIME,
-		});
+		const { isLoading, data } = useQuery<AxiosResponse<SocialResponse>, AxiosError>(
+			[SOCIAL_API],
+			() => useGetSocial(code),
+			{
+				keepPreviousData: true,
+				staleTime: STALE_TIME,
+				cacheTime: CACHE_TIME,
+			},
+		);
 
-		if (!isLoading) console.log(data);
+		if (!isLoading) {
+			if (data) {
+				setCookie('accessToken', data.data.data.accessToken);
+				dispatch(setUser(data.data.data));
+				window.location.href = '/';
+			}
+		}
 	}
 	return (
 		<div className="w-screen h-screen py-20 page">
