@@ -16,11 +16,12 @@ public class FoodData {
     @Column(name = "food_info_id")
     private Long id;
 
-    private String name;
+    private String foodName;
     private String barcode;
-    private int pogDaycnt;
+    private String pogDaycnt;
 
     @OneToOne
+    @JoinColumn(name = "FOOD_CATEGORY_ID")
     private FoodCategory foodCategory;
 
 

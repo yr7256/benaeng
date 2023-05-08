@@ -8,4 +8,5 @@ import java.util.List;
 public interface WastedFoodRepository extends JpaRepository<WastedFood , Long> {
     long countByFoodCategoryIdAndUserId(Long foodCategoryId, Long userId);
     List<WastedFood> findAllByFoodCategoryIdAndUserId(Long foodCategoryId , Long userId);
+    List<WastedFood> findAllByUserId(Long userId);
 }

@@ -1,6 +1,8 @@
 package com.ssafy.benaeng.domain.food.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
+import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.entity.Purchase;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
@@ -9,10 +11,13 @@ import com.ssafy.benaeng.domain.food.requestDto.StateDto;
 import com.ssafy.benaeng.domain.food.responseDto.CommonDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
+import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
 import com.ssafy.benaeng.domain.food.service.FoodService;
+import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +76,16 @@ public class FoodController {
 
 
     }
-
+    private final AwsS3ServiceImpl awsS3Service;
+    @PostMapping("/barcode")
+    public CommonDto<FoodData> uploadImage(@RequestPart MultipartFile multipartFile) throws JsonProcessingException {
+        List<String> fileName = awsS3Service.uploadImage(multipartFile);
+        String path = awsS3Service.getThumbnailPath(fileName.get(0));
+        System.out.println(path);
+        FoodData foodData = awsS3Service.getBarcode(path);
+        if(foodData != null)return CommonDto.of("200" , "요청한 바코드의 식품정보입니다." , foodData);
+        else return CommonDto.of("400" , "요청한 바코드의 식품정보가 존재하지 않습니다." , null);
+    }
     @PutMapping("")
     public CommonDto<Object> changeCount(@RequestBody ChangeCountDto changeCountDto){
         try {
@@ -87,6 +101,16 @@ public class FoodController {
         try {
             FoodMoreInfoDto foodMoreInfoDto = foodService.getFoodMoreInfo(foodId);
             return CommonDto.of("200", "선택한 식품의 식품상세정보 입니다..", foodMoreInfoDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/report/{userId}")
+    public CommonDto<Object> getReport(@PathVariable Long userId){
+        try {
+            ReportDto reportDto = foodService.getReportInfo(userId);
+            return CommonDto.of("200", "리포트 분석 결과 입니다.", reportDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
