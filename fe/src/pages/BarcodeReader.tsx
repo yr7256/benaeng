@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { TbCamera } from 'react-icons/tb';
 import { useNavigate } from 'react-router';
-import Modal from '../components/common/modal/Modal';
+import { useAppDispatch, useAppSelector } from '../hooks/useStore';
+import { getBarcodeData, selectBarcode, useEmptyBarcodeData } from '../store/modules/barcode';
 import getStream from '../utils/camera';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
-	const [openModal, setOpenModal] = useState<boolean>(false);
+	const barcode = useAppSelector(selectBarcode);
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -25,13 +27,13 @@ function BarcodeReader() {
 
 			// 비디오 시작 시 비디오 크기로 캔버스의 크기를 조절합니다
 			video.addEventListener('play', () => {
-				const maxSize = 480;
+				const maxSize = Math.min(window.innerWidth, 400);
 				const videoSize = Math.min(video.videoHeight, video.videoWidth);
 
 				// 캔버스 설정
 				canvas.width = Math.min(videoSize, maxSize) - 32;
+				canvas.height = canvas.width / 2;
 				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
-				canvas.height = canvas.width;
 			});
 
 			[track] = stream.getVideoTracks();
@@ -51,7 +53,7 @@ function BarcodeReader() {
 			// 스트림에 따라 캔버스를 업데이트할 수 있도록 인터벌 객체를 선언합니다
 			interval = setInterval(() => {
 				const dx = -video.videoWidth / 2 + canvas.width / 2;
-				const dy = -video.videoHeight / 2 + canvas.width / 2;
+				const dy = -video.videoHeight / 2 + canvas.height / 2;
 
 				if (!ctx) return;
 				ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
@@ -66,19 +68,21 @@ function BarcodeReader() {
 		};
 	}, []);
 
+	useEffect(() => {
+		if (barcode.status === 'success') navigate('/');
+	}, [barcode.status]);
+
 	/** 촬영 클릭 함수 */
 	const onCapture = () => {
 		const canvas = document.getElementsByTagName('canvas')[0];
-		const result = document.getElementsByTagName('img')[0];
 
-		const data = canvas.toDataURL('image/jpeg');
-		result.src = data;
-		setOpenModal(true);
+		const dataURL = canvas.toDataURL('image/jpg');
+		dispatch(getBarcodeData(dataURL));
 	};
 
 	/** 직접 입력 이동 클릭 함수 */
 	const onHanWriting = () => {
-		navigate('/?barcode=null');
+		dispatch(useEmptyBarcodeData());
 	};
 
 	return (
@@ -115,18 +119,6 @@ function BarcodeReader() {
 					직접 입력
 				</button>
 			</div>
-
-			<Modal
-				mode="form"
-				size="sm"
-				label="촬영 결과"
-				open={openModal}
-				onClose={() => setOpenModal(false)}
-				submitText="확인"
-				onSubmit={() => setOpenModal(false)}
-			>
-				<img alt="result" />
-			</Modal>
 		</div>
 	);
 }
