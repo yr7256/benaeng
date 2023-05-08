@@ -40,8 +40,8 @@ public class UserController {
         }
     }
     @PutMapping("/user")
-    public ResponseEntity<?> update(@AuthenticationPrincipal UserDetails userDetails, @RequestBody UpdateUserDto updateUserDto){
-        Long id = Long.parseLong(userDetails.getUsername());
+    public ResponseEntity<?> update(@AuthenticationPrincipal String userId, @RequestBody UpdateUserDto updateUserDto){
+        Long id = Long.parseLong(userId);
         log.info("name : " + id); // 이게 사용자 unique 값
         UserDto user = userService.updateUser(id, updateUserDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
