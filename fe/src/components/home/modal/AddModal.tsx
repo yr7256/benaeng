@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { VscQuestion } from 'react-icons/vsc';
+import { useSelector } from 'react-redux';
 import CheckInput from '../../common/input/CheckInput';
 import Input from '../../common/input/Input';
 import Modal from '../../common/modal/Modal';
 import SearchCategoryModal from './SearchCategoryModal';
 import { CategoryData, FoodData } from '../../../types';
 import Category from '../../../constants/category.json';
+import { selectBarcode } from '../../../store/modules/barcode';
+import { getDateDiff } from '../../../utils/string';
 
-/**
- * AddModal Props
- */
+/** AddModal Props */
 interface Props {
 	/**
 	 * 모달 열림 여부
@@ -22,24 +22,16 @@ interface Props {
 	setClose(): void;
 }
 
-/**
- * 식품 추가 폼
- */
+/** 식품 추가 폼 */
 interface AddFrom extends FoodData {
-	/**
-	 * 유통기한 사용여부
-	 */
+	/** 유통기한 사용여부 */
 	isConsume: boolean;
-	/**
-	 * 소비기한 직접입력 선택여부
-	 */
+	/** 소비기한 직접입력 선택여부 */
 	isRecommend: boolean;
 }
 
 // TODO: Alert Modal의 경우 추후 외부로 뺄 예정
-/**
- * 알람 모달 폼
- */
+/** 알람 모달 폼 */
 interface AlertModal {
 	open: boolean;
 	type: number;
@@ -48,21 +40,22 @@ interface AlertModal {
 const CategoryList: CategoryData[] = Category.data;
 
 function AddModal({ open, setClose }: Props) {
+	const barcode = useSelector(selectBarcode);
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [alertModal, setAlertModal] = useState<AlertModal>({
 		open: false,
 		type: 0,
 	});
 	const [form, setForm] = useState<AddFrom>({
-		foodId: -1,
+		foodId: barcode.foodId,
 		totalCount: '',
-		foodCategoryId: -1,
-		foodName: '',
+		foodCategoryId: barcode.foodCategoryId,
+		foodName: barcode.foodName,
 		count: 0,
 		startDate: '',
 		endDate: '',
 		isConsume: true,
-		isRecommend: true,
+		isRecommend: Boolean(barcode.barcode),
 	});
 
 	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
@@ -92,23 +85,15 @@ function AddModal({ open, setClose }: Props) {
 	 * 제조일자·소비기한 설정 이벤트
 	 */
 	const onChangeDate = (value: string, target: 'startDate' | 'endDate') => {
-		let startDate = moment();
-		let endDate = moment();
+		const nextForm = { ...form, [target]: value };
 
-		if (target === 'startDate') {
-			startDate = moment(value, 'YYYY-MM-DD');
-			endDate = moment(form.endDate ?? value, 'YYYY-MM-DD');
-		}
-		if (target === 'endDate') {
-			startDate = moment(form.startDate ?? value, 'YYYY-MM-DD');
-			endDate = moment(value, 'YYYY-MM-DD');
-		}
+		const diff = getDateDiff(nextForm.startDate, nextForm.endDate);
 
-		if (endDate.diff(startDate) < 0) {
+		if (diff < 0) {
 			setAlertModal({ open: true, type: 0 });
-			setForm({ ...form, [target]: '' });
+			setForm({ ...nextForm, [target]: '' });
 		} else {
-			setForm({ ...form, [target]: value });
+			setForm({ ...nextForm });
 		}
 	};
 
@@ -175,10 +160,10 @@ function AddModal({ open, setClose }: Props) {
 						className="flex-initial w-28"
 					/>
 
-					<div className="flex items-end">
+					<div className={`flex items-end ${!barcode.barcode ? 'opacity-60' : ''}`}>
 						<CheckInput
 							value={form.isRecommend}
-							onToggle={() => onChangeForm(!form.isRecommend, 'isRecommend')}
+							onToggle={() => onChangeForm(!form.isRecommend && Boolean(barcode.barcode), 'isRecommend')}
 							disabled={undefined}
 							className="text-green font-bold mt-4"
 						>
@@ -232,37 +217,36 @@ function AddModal({ open, setClose }: Props) {
 						</CheckInput>
 					</div>
 				</div>
-			</Modal>
+				{/* 식품 분류 선택 모달 */}
+				<SearchCategoryModal
+					open={openSearchCategoryModal}
+					onClose={() => {
+						setOpenSearchCategoryModal(false);
+					}}
+					onSubmit={setCategory}
+				/>
 
-			{/* 식품 분류 선택 모달 */}
-			<SearchCategoryModal
-				open={openSearchCategoryModal}
-				onClose={() => {
-					setOpenSearchCategoryModal(false);
-				}}
-				onSubmit={setCategory}
-			/>
-
-			{/* 알림 모달 */}
-			<Modal
-				mode="alert"
-				size="sm"
-				label="알림"
-				open={alertModal.open}
-				onClose={() => setAlertModal({ ...alertModal, open: false })}
-				submitText="확인"
-				onSubmit={() => setAlertModal({ ...alertModal, open: false })}
-			>
-				{alertModal.type === 0 ? (
-					// 유통기한 입력에 대한 오류인 경우
-					<span>{form.isConsume ? '소비기한' : '유통기한'}과 제조일자를 확인해주세요!</span>
-				) : (
-					// 예측 소비기한 설명인 경우
-					<div className="whitespace-pre-wrap text-left flex flex-col gap-2">
-						<span>바코드 입력 시 저장된 소비기한 정보를 토대로 연산한 예측 소비기한을 사용합니다.</span>
-						<span>정확한 소비기한을 사용하기 위해서는 직접 소비기한 정보를 기입해야 합니다.</span>
-					</div>
-				)}
+				{/* 알림 모달 */}
+				<Modal
+					mode="alert"
+					size="sm"
+					label="알림"
+					open={alertModal.open}
+					onClose={() => setAlertModal({ ...alertModal, open: false })}
+					submitText="확인"
+					onSubmit={() => setAlertModal({ ...alertModal, open: false })}
+				>
+					{alertModal.type === 0 ? (
+						// 유통기한 입력에 대한 오류인 경우
+						<span>{form.isConsume ? '소비기한' : '유통기한'}과 제조일자를 확인해주세요!</span>
+					) : (
+						// 예측 소비기한 설명인 경우
+						<div className="whitespace-pre-wrap text-left flex flex-col gap-2">
+							<span>바코드 입력 시 저장된 소비기한 정보를 토대로 연산한 예측 소비기한을 사용합니다.</span>
+							<span>정확한 소비기한을 사용하기 위해서는 직접 소비기한 정보를 기입해야 합니다.</span>
+						</div>
+					)}
+				</Modal>
 			</Modal>
 		</>
 	);

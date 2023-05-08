@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import { throttle } from 'lodash';
-import { useSearchParams } from 'react-router-dom';
 import Accordion from '../components/common/accordion/Accordion';
 import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
@@ -17,6 +16,8 @@ import Category from '../constants/category.json';
 import { CategoryData, FoodData, HomeFoodData } from '../types';
 import FoodIcon from '../components/home/button/FoodIcon';
 import { matchKo } from '../utils/string';
+import { useAppDispatch, useAppSelector } from '../hooks/useStore';
+import { resetBarcodeData, selectBarcode } from '../store/modules/barcode';
 
 declare global {
 	interface Window {
@@ -33,16 +34,10 @@ interface Refrigerator {
 const debounceFoodList = throttle(getFoodList, 3000);
 // 메인화면
 function Home() {
-	const [token, setToken] = useState<string | null>(null);
-	const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>('');
-	const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		window.flutter_inappwebview.callHandler('requestToken').then(result => {
-			setToken(result);
-		});
-	};
-
+	const barcode = useAppSelector(selectBarcode);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const foodListQuery = useQuery(['foodList', search], debounceFoodList, {
 		keepPreviousData: true,
 		select: res => {
@@ -80,20 +75,7 @@ function Home() {
 		},
 	});
 
-	const [searchParams] = useSearchParams();
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		// 바코드 파라미터가 있는 경우
-		if (searchParams.get('barcode')) {
-			// TODO: 바코드 값을 이용한 요청 전송
-			setOpenAddModal(true);
-		}
-	}, []);
-
-	/**
-	 * 추가 버튼 이벤트
-	 */
+	/** 추가 버튼 이벤트 */
 	const onClickAddBtn = () => {
 		navigate('/barcode');
 	};
@@ -120,10 +102,10 @@ function Home() {
 					<AlarmButton isAlarm={false} />
 				</div>
 			</header>
-			<div id="token-display">{token ? `Token: ${token}` : 'Token not available'}</div>
+			{/* <div id="token-display">{token ? `Token: ${token}` : 'Token not available'}</div>
 			<button type="button" onClick={requestTokenFromFlutter}>
 				Request Token
-			</button>
+			</button> */}
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 
@@ -159,7 +141,7 @@ function Home() {
 
 			{/* 식품 추가 버튼 */}
 			<AddButton onClick={onClickAddBtn} className="fixed bottom-10 left-1/2 -translate-x-10 z-10" />
-			<AddModal open={openAddModal} setClose={() => setOpenAddModal(false)} />
+			<AddModal open={barcode.status === 'success'} setClose={() => dispatch(resetBarcodeData())} />
 		</div>
 	);
 }

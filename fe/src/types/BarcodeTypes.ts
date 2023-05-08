@@ -1,7 +1,12 @@
 /** 바코드 인식 Response */
 export interface BarcodeData {
-	category: string;
-	subCategory: string;
-	name: string;
-	recommendedExpDate: string;
+	id: number;
+	foodName: string;
+	barcode: string;
+	pogDaycnt: number;
+	foodCategory: {
+		id: number;
+		middleCategory: string;
+		subCategory: string;
+	};
 }

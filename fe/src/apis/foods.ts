@@ -7,11 +7,12 @@ export const FOOD_API = 'foods';
 
 /** [POST] 바코드 인식 */
 export function postFoodBarcode(image: File) {
-	return instance.post<Response<BarcodeData>>(
-		`${FOOD_API}/barcode`,
-		{ image },
-		{ headers: { 'Content-Type': 'multipart/form' } },
-	);
+	const formData = new FormData();
+	formData.append('multipartFile', image);
+
+	return instance.post<Response<BarcodeData>>(`${FOOD_API}/barcode`, formData, {
+		headers: { 'Content-Type': 'multipart/form' },
+	});
 }
 
 /** [POST] 식품 등록 */
@@ -26,7 +27,7 @@ export function getFoodCategory() {
 
 /** [GET] 등록한 식품 목록 조회 */
 export function getFoodList() {
-	return instance.get<Response<FoodData[]>>(`${FOOD_API}/1`);
+	return instance.get<Response<FoodData[]>>(`${FOOD_API}`);
 }
 
 /** [GET] 등록한 식품 상세 조회 */
