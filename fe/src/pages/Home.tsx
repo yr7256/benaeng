@@ -33,15 +33,15 @@ interface Refrigerator {
 const debounceFoodList = throttle(getFoodList, 3000);
 // 메인화면
 function Home() {
-	const [token, setToken] = useState<string | null>(null);
+	// const [token, setToken] = useState<string | null>(null);
 	const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 	const [search, setSearch] = useState<string>('');
-	const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		window.flutter_inappwebview.callHandler('requestToken').then(result => {
-			setToken(result);
-		});
-	};
+	// const requestTokenFromFlutter = (event: React.MouseEvent<HTMLButtonElement>) => {
+	// 	event.preventDefault();
+	// 	window.flutter_inappwebview.callHandler('requestToken').then(result => {
+	// 		setToken(result);
+	// 	});
+	// };
 
 	const foodListQuery = useQuery(['foodList', search], debounceFoodList, {
 		keepPreviousData: true,
@@ -120,10 +120,10 @@ function Home() {
 					<AlarmButton isAlarm={false} />
 				</div>
 			</header>
-			<div id="token-display">{token ? `Token: ${token}` : 'Token not available'}</div>
+			{/* <div id="token-display">{token ? `Token: ${token}` : 'Token not available'}</div>
 			<button type="button" onClick={requestTokenFromFlutter}>
 				Request Token
-			</button>
+			</button> */}
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 
