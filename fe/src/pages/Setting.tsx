@@ -34,7 +34,6 @@ function Setting() {
 		fetchAndSendToken();
 	}, [tokenMutation]);
 
->>>>>>> fe/src/pages/Setting.tsx
 	return (
 		<div className="px-6 pt-10">
 			<Topbar />
