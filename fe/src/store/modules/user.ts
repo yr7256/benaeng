@@ -23,10 +23,10 @@ const userSlice = createSlice({
 	reducers: {
 		setUser(state, action) {
 			const temp = state;
-			temp.isDark = action.payload;
-			temp.isAlarm = action.payload;
-			temp.isCycle = action.payload;
-			temp.isPurchase = action.payload;
+			temp.isDark = action.payload.isDark;
+			temp.isAlarm = action.payload.isAlarm;
+			temp.isCycle = action.payload.isCycle;
+			temp.isPurchase = action.payload.isPurchase;
 		},
 		setIsDark(state, action) {
 			const temp = state;

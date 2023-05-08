@@ -2,6 +2,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import FoodIcon from '../../common/foodIcon/FoodIcon';
 import Slider from '../slider/Slider';
 import { FoodDetailData } from '../../../types';
+import CategoryData from '../../../constants/category.json';
 
 interface Props {
 	foodData: FoodDetailData;
@@ -25,15 +26,17 @@ function FoodContent({ foodData }: Props) {
 					<div className="relative flex items-center">
 						<div className="relative mr-4">
 							<div
-								className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xxs flex justify-center font-bold text-white items-center`}
+								className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xs flex justify-center font-bold text-white items-center`}
 							>
-								D-{dDay > 99 ? '99+' : dDay}
+								D-{dDay === 1 ? 99 : dDay}
+								{dDay === 1 && <sup>+</sup>}
 							</div>
 							<FoodIcon food={foodData.subCategory} size="lg" />
 						</div>
 						<div>
-							<div className="text-xs">
-								{foodData.middleCategory}·{foodData.subCategory}
+							<div className="text-xs text-left">
+								{CategoryData.data[foodData.foodCategoryId - 1].category}
+								&#32;&#62; {foodData.subCategory}
 							</div>
 							<div className="text-base font-bold">{foodData.foodName}</div>
 						</div>

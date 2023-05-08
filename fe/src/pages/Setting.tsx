@@ -4,6 +4,7 @@ import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
+import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
 
 // 설정 화면
@@ -11,6 +12,10 @@ import sendToken from '../apis/token';
 function Setting() {
 	const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
+	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
+	useEffect(() => {
+		mutation.mutate();
+	}, [userInfo]);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [token, setToken] = useState<string | null>(null);
 
@@ -29,6 +34,7 @@ function Setting() {
 		fetchAndSendToken();
 	}, [tokenMutation]);
 
+>>>>>>> fe/src/pages/Setting.tsx
 	return (
 		<div className="px-6 pt-10">
 			<Topbar />

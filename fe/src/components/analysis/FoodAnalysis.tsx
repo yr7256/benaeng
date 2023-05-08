@@ -52,7 +52,7 @@ function FoodAnalysis(): JSX.Element {
 			'더 작은 크기의 우유을(를) 구매해보세요!',
 		],
 		cycle: 22,
-		preferProduct: ['파스퇴르 저온살균 흰우유', '서울우유 1급 A우유', '연세우유 연세대학교 전용목장 우유'],
+		preferProducts: ['파스퇴르 저온살균 흰우유', '서울우유 1급 A우유', '연세우유 연세대학교 전용목장 우유'],
 	};
 	const [openSearchCategoryModal, setOpenSearchCategoryModal] = useState<boolean>(false);
 	const [form, setForm] = useState<AddFrom>({
