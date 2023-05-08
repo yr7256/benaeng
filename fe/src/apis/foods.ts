@@ -26,7 +26,7 @@ export function getFoodCategory() {
 
 /** [GET] 등록한 식품 목록 조회 */
 export function getFoodList() {
-	return instance.get<Response<FoodData[]>>(`${FOOD_API}/1`);
+	return instance.get<Response<FoodData[]>>(`${FOOD_API}`);
 }
 
 /** [GET] 등록한 식품 상세 조회 */
