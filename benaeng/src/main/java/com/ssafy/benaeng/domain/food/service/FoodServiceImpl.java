@@ -37,6 +37,7 @@ public class FoodServiceImpl implements FoodService{
         myFood.setFoodName(registDto.getFoodName());
         myFood.setFoodCategory(foodCategoryRepository.findById(registDto.getFoodCategoryId()).orElseThrow());
         myFood.setTotalCount(registDto.getTotalCount());
+        myFood.setCount(registDto.getTotalCount());
         myFood.setUser(userRepository.findById(registDto.getUserId()).orElseThrow());
         if(registDto.getIsRecommend()){
             log.info("소비기한 계산로직이 들어갈예정입니다.");
@@ -133,6 +134,7 @@ public class FoodServiceImpl implements FoodService{
         Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
         foodMoreInfoDto.setFoodId(foodId);
         foodMoreInfoDto.setFoodName(myFood.getFoodName());
+        foodMoreInfoDto.setTotal(myFood.getTotalCount());
         foodMoreInfoDto.setCount(myFood.getCount());
         if(nutrientInfo != null){
             foodMoreInfoDto.setNutrientInfo(nutrientInfo);

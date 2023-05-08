@@ -26,7 +26,8 @@ public class FoodMoreInfoDto {
     private Date endDate;
 
     private int count;
-    private 
+
+    private int total;
     private NutrientInfo nutrientInfo;
 
     private Long purchase;
