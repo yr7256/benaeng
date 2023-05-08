@@ -23,15 +23,8 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     private final HttpSession httpSession;
     private final UserService userService;
-    @GetMapping("/check")
-    public ResponseEntity<String> check(){
-        log.info("------------check of User controller-------------");
-        return new ResponseEntity<>("안녕 나는 check야 ", HttpStatus.OK);
-    }
     @GetMapping("/social/{code}")
     public ResponseEntity<?> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
-        log.info("------------code of User controller-------------");
-        log.info("인가 코드 : " + code);
         try {
             loginUserDto user = userService.login(code, response);
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -42,7 +35,6 @@ public class UserController {
     @PutMapping("/user")
     public ResponseEntity<?> update(@AuthenticationPrincipal String userId, @RequestBody UpdateUserDto updateUserDto){
         Long id = Long.parseLong(userId);
-        log.info("name : " + id); // 이게 사용자 unique 값
         UserDto user = userService.updateUser(id, updateUserDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

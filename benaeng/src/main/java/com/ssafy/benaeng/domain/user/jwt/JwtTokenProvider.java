@@ -37,7 +37,6 @@ public class JwtTokenProvider {
     }
 
     public JwtToken generateToken(Authentication authentication){
-        log.info("-----------------generateToken of JwtTokenProvider--------------------");
         String authorities = authentication.getAuthorities()
                 .stream().map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -75,7 +74,6 @@ public class JwtTokenProvider {
 
     // JWT 토큰을 복호화해 토큰에 들어있는 정보 Get
     public Authentication getAuthentication(String accessToken) {
-        log.info("-----------getAuthentication of JwtTokenProvider0--------------");
         Claims claims = parseClaims(accessToken);
 
         if(claims.get("auth") == null){
@@ -96,13 +94,10 @@ public class JwtTokenProvider {
         }
     }
     public String resolveToken(HttpServletRequest request) {
-        log.info("-----------resolveToken of JwtTokenProvider0--------------");
         String bearerToken = request.getHeader("Authorization");
-        log.info("auth : " + bearerToken);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
             String accessToken = bearerToken.split(" ")[1];
-            log.info("accessToken : " + accessToken);
             return accessToken;
         }
         // TODO exception
