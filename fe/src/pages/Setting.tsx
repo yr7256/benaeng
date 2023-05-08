@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
+import { USER_API, usePutUser } from '../apis/user';
 
 // 설정 화면
 
 function Setting() {
 	const userInfo = useAppSelector(selectUser);
+	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
+	useEffect(() => {
+		mutation.mutate();
+	}, [userInfo]);
 	return (
 		<div className="px-6 pt-10">
 			<Topbar />
