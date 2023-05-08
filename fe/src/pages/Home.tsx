@@ -19,6 +19,14 @@ import { matchKo } from '../utils/string';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { resetBarcodeData, selectBarcode } from '../store/modules/barcode';
 
+declare global {
+	interface Window {
+		flutter_inappwebview: {
+			callHandler: (handlerName: string, ...args: any[]) => Promise<any>;
+		};
+	}
+}
+
 interface Refrigerator {
 	[category: string]: HomeFoodData[];
 }
@@ -94,7 +102,10 @@ function Home() {
 					<AlarmButton isAlarm={false} />
 				</div>
 			</header>
-			<div id="token-display" />
+			{/* <div id="token-display">{token ? `Token: ${token}` : 'Token not available'}</div>
+			<button type="button" onClick={requestTokenFromFlutter}>
+				Request Token
+			</button> */}
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 

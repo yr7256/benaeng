@@ -1,13 +1,9 @@
-import axios from 'axios';
-import { BASE_URL, SOCIAL } from '../constants/api';
+import instance from '.';
 
-export const useGetSocial = (code: string) => {
-	//   요청 url
-	const queryKey = `${BASE_URL}${SOCIAL}/${code}`;
-	//   axios 요청
-	const queryFn = axios.get(queryKey).then(res => res.data);
+const SOCIAL_API = '/social';
 
-	return queryFn;
-};
+export function useGetSocial(code: string) {
+	return instance.get(`${SOCIAL_API}/${code}`);
+}
 
 export default useGetSocial;

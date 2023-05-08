@@ -14,12 +14,14 @@ interface Props {
 function Alarm({ name, food, type, day, foodId }: Props) {
 	// 음식명, 소분류, 알림 타입, d-day, 음식 id
 	return (
-		<div className="flex items-center h-24 pl-4 border-2 rounded-lg min-w-75.5 max-w-88 text component stroke">
-			<FoodIcon food={food} size="lg" />
+		<div className="flex items-center w-full h-24 px-4 border rounded-lg text component stroke">
+			<div>
+				<FoodIcon food={food} size="lg" />
+			</div>
 			{/* 구매주기 알림 */}
 			{type === 0 && (
 				<div className="ml-4">
-					<div className="mb-1 text-sm font-bold text-left max-w-60">
+					<div className="w-full mb-1 text-sm font-bold text-left">
 						슬슬 <span className="text-green">{food}</span>을(를) 구매해야 할 시기에요
 					</div>
 					<a
@@ -33,7 +35,7 @@ function Alarm({ name, food, type, day, foodId }: Props) {
 			{/* 소비기한 임박 알림 */}
 			{type === 1 && (
 				<div className="ml-4">
-					<div className="mb-1 text-sm font-bold text-left max-w-60">
+					<div className="w-full mb-1 text-sm font-bold text-left">
 						<span className="text-green">{name}</span>의 소비기한이 <span className="text-green">{day}</span>일 남았어요
 					</div>
 					<Link className="flex items-center text-xs text-green" to={`/foods/${foodId}`}>
@@ -44,7 +46,7 @@ function Alarm({ name, food, type, day, foodId }: Props) {
 			{/* 소비기한 만료 알림 */}
 			{type === 2 && (
 				<div className="ml-4">
-					<div className="mb-1 text-sm font-bold text-left max-w-60">
+					<div className="w-full mb-1 text-sm font-bold text-left ">
 						<span className="text-green">{name}</span>의 소비기한이 끝났어요!😭
 					</div>
 					<Link className="flex items-center text-xs text-green" to={`/foods/${foodId}`}>

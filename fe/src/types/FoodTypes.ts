@@ -22,26 +22,55 @@ export interface HomeFoodData extends FoodData {
 }
 
 /** 식품 상세조회 Response */
-export interface FoodDetailData {
-	category: string;
-	food_category_id: number;
-	sub_category: string;
-	name: string;
-	quantity: string;
-	manufacturing_date: string;
-	expiration_date: string;
+export interface NutrientData {
+	id: number;
+	totalContents: number;
+	calories: number;
+	carbohydrates: number;
+	cholesterol: number;
+	fat: number;
+	protein: number;
+	saturatedFattyAcids: number;
+	sodium: number;
+	sugars: number;
+	transFat: number;
+	foodName: string;
 }
+
+export interface FoodDetailData {
+	foodId: number;
+	foodCategoryId: number;
+	middleCategory: string;
+	subCategory: string;
+	foodName: string;
+	total: number;
+	count: number;
+	startDate: string;
+	endDate: string;
+	nutrientInfo: NutrientData;
+	purchase: number;
+	percent: number;
+	msg: string[];
+	cycle: number;
+	preferProduct: string[];
+}
+
+export type enameType =
+	| 'carbohydrates'
+	| 'protein'
+	| 'cholesterol'
+	| 'fat'
+	| 'saturatedFattyAcids'
+	| 'sodium'
+	| 'sugars'
+	| 'transFat';
 
 /** 식품 영양정보 */
 export interface UtrientInfoData {
-	carbohydrate: string;
-	protein: string;
-	cholesterol: string;
-	fat: string;
-	saturatedFattyAcids: string;
-	sodium: string;
-	sugars: string;
-	transFat: string;
+	ename: enameType;
+	kname: string;
+	point: string;
+	aver: number;
 }
 
 /** 알림메시지 */
