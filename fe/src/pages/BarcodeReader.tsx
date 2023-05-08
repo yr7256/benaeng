@@ -65,6 +65,7 @@ function BarcodeReader() {
 		return () => {
 			if (interval) clearInterval(interval);
 			if (track) track.stop();
+			video.pause();
 		};
 	}, []);
 
