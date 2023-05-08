@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @EnableScheduling
 @SpringBootApplication(
 		exclude = {
+				SecurityAutoConfiguration.class,
 				org.springframework.cloud.aws.autoconfigure.context.ContextInstanceDataAutoConfiguration.class,
 				org.springframework.cloud.aws.autoconfigure.context.ContextStackAutoConfiguration.class,
 				org.springframework.cloud.aws.autoconfigure.context.ContextRegionProviderAutoConfiguration.class
