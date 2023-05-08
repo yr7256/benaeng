@@ -13,13 +13,17 @@ function BarcodeReader() {
 		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
 		const ctx = canvas.getContext('2d');
+		// 이후 스트림 종료 이벤트를 위해 아래의 변수를 저장하여 활용합니다
+		let track: MediaStreamTrack | null = null;
 		let interval: NodeJS.Timer | null = null;
 
-		async function getCamera() {
+		async function startCamera() {
+			// 먼저 스트림 객체를 받아옵니다
 			const stream = await getStream(0);
 			if (!stream) return;
 			video.srcObject = stream;
 
+			// 비디오 시작 시 비디오 크기로 캔버스의 크기를 조절합니다
 			video.addEventListener('play', () => {
 				const maxSize = 480;
 				const videoSize = Math.min(video.videoHeight, video.videoWidth);
@@ -29,7 +33,8 @@ function BarcodeReader() {
 				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
 				canvas.height = canvas.width;
 			});
-			const track = stream.getVideoTracks()[0];
+
+			[track] = stream.getVideoTracks();
 			// 오토 포커싱을 위한 설정 추가
 			const constraints = track.getConstraints();
 
@@ -43,6 +48,7 @@ function BarcodeReader() {
 				});
 			}
 
+			// 스트림에 따라 캔버스를 업데이트할 수 있도록 인터벌 객체를 선언합니다
 			interval = setInterval(() => {
 				const dx = -video.videoWidth / 2 + canvas.width / 2;
 				const dy = -video.videoHeight / 2 + canvas.width / 2;
@@ -52,10 +58,11 @@ function BarcodeReader() {
 			});
 		}
 
-		getCamera();
+		startCamera();
 
 		return () => {
 			if (interval) clearInterval(interval);
+			if (track) track.stop();
 		};
 	}, []);
 
