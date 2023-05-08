@@ -47,12 +47,12 @@ export interface FoodDetailData {
 	count: number;
 	startDate: string;
 	endDate: string;
-	nutrientInfo: NutrientData;
+	nutrientInfo: NutrientData | null;
 	purchase: number;
 	percent: number;
-	msg: string[];
+	msg: string[] | null;
 	cycle: number;
-	preferProduct: string[];
+	preferProducts: string[] | null;
 }
 
 export type enameType =
