@@ -1,4 +1,5 @@
 import instance from '.';
+import { AddFrom } from '../components/home/modal/AddModal';
 import { CategoryData, FoodDetailData, Response } from '../types';
 import { FoodData, BarcodeData } from '../types/index';
 import { getCookie } from '../utils/cookie';
@@ -16,8 +17,10 @@ export function postFoodBarcode(image: File) {
 }
 
 /** [POST] 식품 등록 */
-export function postFood(food: FoodData) {
-	return instance.post<Response<null>>(`${FOOD_API}`, food);
+export function postFood(food: AddFrom) {
+	const { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate } = food;
+	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate };
+	return instance.post<Response<null>>(`${FOOD_API}`, data);
 }
 
 /** [GET] 등록한 식품의 카테고리 목록 조회 */

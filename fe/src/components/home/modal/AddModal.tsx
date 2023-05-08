@@ -9,6 +9,7 @@ import { CategoryData, FoodData } from '../../../types';
 import Category from '../../../constants/category.json';
 import { selectBarcode } from '../../../store/modules/barcode';
 import { getDateDiff } from '../../../utils/string';
+import { postFood } from '../../../apis/foods';
 
 /** AddModal Props */
 interface Props {
@@ -23,14 +24,13 @@ interface Props {
 }
 
 /** 식품 추가 폼 */
-interface AddFrom extends FoodData {
+export interface AddFrom extends FoodData {
 	/** 유통기한 사용여부 */
 	isConsume: boolean;
 	/** 소비기한 직접입력 선택여부 */
 	isRecommend: boolean;
 }
 
-// TODO: Alert Modal의 경우 추후 외부로 뺄 예정
 /** 알람 모달 폼 */
 interface AlertModal {
 	open: boolean;
@@ -64,9 +64,14 @@ function AddModal({ open, setClose }: Props) {
 		foodCategoryId: -1,
 	};
 
-	/**
-	 * form data 변경 이벤트
-	 */
+	const onSubmit = async () => {
+		// TODO: 빈 데이터가 있는지 확인
+
+		const { data } = await postFood(form);
+		if (data.resultCode === '200') setClose();
+	};
+
+	/** form data 변경 이벤트 */
 	const onChangeForm = (value: string | number | boolean, target: string) => {
 		let newValue = value;
 
@@ -81,9 +86,7 @@ function AddModal({ open, setClose }: Props) {
 		}
 	};
 
-	/**
-	 * 제조일자·소비기한 설정 이벤트
-	 */
+	/** 제조일자·소비기한 설정 이벤트 */
 	const onChangeDate = (value: string, target: 'startDate' | 'endDate') => {
 		const nextForm = { ...form, [target]: value };
 
@@ -97,9 +100,7 @@ function AddModal({ open, setClose }: Props) {
 		}
 	};
 
-	/**
-	 * 카테고리 설정 이벤트
-	 */
+	/** 카테고리 설정 이벤트 */
 	const setCategory = (foodCategoryId: number) => {
 		setForm({ ...form, foodCategoryId });
 		setOpenSearchCategoryModal(false);
@@ -115,7 +116,7 @@ function AddModal({ open, setClose }: Props) {
 				open={open}
 				onClose={setClose}
 				submitText="추가하기"
-				onSubmit={setClose}
+				onSubmit={onSubmit}
 			>
 				{/* 추가 폼 */}
 				<div className="flex flex-col gap-2">
