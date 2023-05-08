@@ -17,4 +17,5 @@ public class loginUserDto {
     private  Boolean isPurchase;
 
     private  Boolean isCycle;
+    private String accessToken;
 }

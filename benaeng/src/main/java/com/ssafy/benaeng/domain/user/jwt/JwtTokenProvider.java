@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -97,16 +98,13 @@ public class JwtTokenProvider {
     }
     public String resolveToken(HttpServletRequest request) {
         log.info("-----------resolveToken of JwtTokenProvider0--------------");
-        Cookie[] cookies = request.getCookies();
+        String bearerToken = request.getHeader("Authorization");
+        log.info("auth : " + bearerToken);
 
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Authorization")) {
-                    String token = cookie.getValue();
-                    log.info("cookie token : " + token);
-                    return token;
-                }
-            }
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){
+            String accessToken = bearerToken.split(" ")[1];
+            log.info("accessToken : " + accessToken);
+            return accessToken;
         }
         // TODO exception
         return null;

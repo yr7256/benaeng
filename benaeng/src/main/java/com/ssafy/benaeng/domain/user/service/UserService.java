@@ -57,14 +57,15 @@ public class UserService {
         // 5. add jwt to Http only cookie
         setHttpOnlyCookie(jwt, response);
 
-        return user2loginDto(user);
+        return user2loginDto(user, jwt);
     }
-    public loginUserDto user2loginDto(User user){
+    public loginUserDto user2loginDto(User user, JwtToken jwt){
         return loginUserDto.builder()
                 .isCycle(user.getIsCycle())
                 .isPurchase(user.getIsPurchase())
                 .isDark(user.getIsDark())
                 .isAlarm(user.getIsAlarm())
+                .accessToken(jwt.getAccessToken())
                 .build();
     }
     public void setHttpOnlyCookie(JwtToken jwt, HttpServletResponse response){
