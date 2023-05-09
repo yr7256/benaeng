@@ -22,9 +22,9 @@ function Setting() {
 	useEffect(() => {
 		const fetchAndSendToken = async () => {
 			try {
-				const result = await window.flutter_inappwebview.callHandler('requestToken');
-				setToken(result);
-				await tokenMutation.mutateAsync(result);
+				// const result = await window.flutter_inappwebview.callHandler('requestToken');
+				// setToken(result);
+				await tokenMutation.mutateAsync('1');
 				console.log('Token sent successfully');
 			} catch (error) {
 				console.error('Error fetching or sending token:', error);
