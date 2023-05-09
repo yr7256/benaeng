@@ -1,49 +1,80 @@
-import React from 'react';
-import AnalysisBar from '../common/analysisbar/AnalysisBar';
-import FoodMonthlyReport from '../foods/analysis/FoodMonthlyReport';
-
-type EncCategoryType = {
-	[key: number]: string;
-};
-
-export interface FavoriteCategory {
-	category: number;
-	value: number;
-}
-
-export interface ReportData {
-	best_category: string;
-	discard: number;
-	purchase: number;
-	consume: number;
-	preferSubCategory: string[];
-	favorite_category: FavoriteCategory[];
-}
+import React, { useState } from 'react';
+import QuarterTag from './monthly/QuarterTag';
+import { MonthlyReportData } from '../../types/AnalysisTypes';
+import Input from '../common/input/Input';
 
 function MonthlyReport() {
-	const reportData: ReportData = {
-		best_category: '우유',
-		discard: 2,
-		purchase: 24,
-		consume: 18,
-		preferSubCategory: ['빵류', '우유', '고기'],
-		favorite_category: [
-			{ category: 0, value: 12 },
-			{ category: 1, value: 8 },
-			{ category: 2, value: 6 },
+	const thisYear = new Date().getFullYear();
+	const thisMonth = new Date().getMonth() - 1;
+	const [year, setYear] = useState(thisYear);
+	const [month, setMonth] = useState(thisMonth);
+	const reportData: MonthlyReportData = {
+		countPurchase: 24,
+		countConsumer: 18,
+		countWaste: 10,
+		mostConsumer: [
+			{
+				foodCategoryId: 1,
+				Consumer: 20,
+				Waste: 2,
+			},
+			{
+				foodCategoryId: 10,
+				Consumer: 13,
+				Waste: 5,
+			},
+			{
+				foodCategoryId: 6,
+				Consumer: 10,
+				Waste: 3,
+			},
 		],
-		// id, mid, sub 중에 mid 뽑아서 사용
+		mostWaste: [
+			{
+				foodCategoryId: 21,
+				Consumer: 7,
+				Waste: 7,
+			},
+			{
+				foodCategoryId: 13,
+				Consumer: 5,
+				Waste: 15,
+			},
+			{
+				foodCategoryId: 28,
+				Consumer: 9,
+				Waste: 20,
+			},
+		],
 	};
-	const maxValue = reportData?.favorite_category[0]?.value;
-	const EncCategory: EncCategoryType = { 0: '유제품', 1: '채소류', 2: '육류' };
+
 	return (
-		<div className="stroke text component min-w-75.5 max-w-88 px-6 pt-8 pb-12 mt-6">
-			<FoodMonthlyReport reportData={reportData} />
-			{reportData?.favorite_category.map((food, index) => (
-				<div key={food.category} className="flex">
-					<AnalysisBar ranking={index + 1} name={EncCategory[food.category]} value={food.value} maxvalue={maxValue} />
+		<div>
+			<div className="flex items-center justify-between my-6">
+				<div className="text-xl font-bold">
+					<span className="text-green">
+						{' '}
+						{year}년 {month}월
+					</span>{' '}
+					<span>리포트</span>
 				</div>
-			))}
+				<Input
+					icon="calendar"
+					label="선택날짜"
+					type="month"
+					disabled={undefined}
+					value={`${year}-${month}`}
+					className=""
+					setValue={(value: string) => {
+						const date: string[] = value.split('-');
+						setYear(Number(date[0]));
+						setMonth(Number(date[1]));
+					}}
+				/>
+			</div>
+			<div>
+				<QuarterTag reportData={reportData} />
+			</div>
 		</div>
 	);
 }
