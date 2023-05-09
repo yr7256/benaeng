@@ -4,16 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
-import com.ssafy.benaeng.domain.food.entity.Purchase;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
-import com.ssafy.benaeng.domain.food.responseDto.CommonDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
 import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
 import com.ssafy.benaeng.domain.food.service.FoodService;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
+import com.ssafy.benaeng.global.responseDto.CommonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,8 +29,9 @@ import java.util.List;
 public class FoodController {
     private final FoodService foodService;
     @PostMapping("/regist")
-    public CommonDto<Object> registMyFood(@RequestBody RegistDto registDto) {
+    public CommonDto<Object> registMyFood(@AuthenticationPrincipal String id , @RequestBody RegistDto registDto) {
         try {
+            registDto.setUserId(Long.parseLong(id));
             MyFood myFood = foodService.saveMyFood(registDto);
             foodService.savePurchase(myFood);
             return CommonDto.of("200", "음식 저장됨", null);
