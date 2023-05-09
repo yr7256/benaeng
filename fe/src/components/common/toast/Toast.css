@@ -1,0 +1,36 @@
+.toast {
+	-webkit-animation: toast 2.5s linear both;
+	        animation: toast 2.5s linear both;
+}
+
+@keyframes toast {
+  0% {
+    transform: translateY(-1000px);
+    min-height: 0;
+  }
+  5% {
+    min-height: 2.5rem;
+    margin: 8px;
+  }
+  20% {
+    transform: translateY(60px);
+  }
+  25% {
+    transform: translateY(30px);
+  }
+  30% {
+    transform: translateY(40px);
+  }
+  65% {
+    transform: translateY(40px);
+  }
+  78% {
+    transform: translateY(50px);
+  }
+  80% {
+    transform: translateY(40px);
+  }
+  100% {
+    transform: translateY(-1000px);
+  }
+}
