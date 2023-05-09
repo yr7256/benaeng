@@ -27,7 +27,7 @@ function AnalysisBar({ ranking, name, value, maxvalue }: BarProps) {
 			<div className="flex w-12 h-8 border-r-2 stroke">
 				<div className="flex items-center">{name}</div>
 			</div>
-			<div className="relative flex min-w-36 h-8 flex items-center mr-1.5">
+			<div className="relative flex min-w-36 h-8 items-center mr-1.5">
 				<div
 					className={`absolute h-4 bg-green ${ranking === 1 ? '' : 'opacity-50'} rounded-e-2xl`}
 					style={{ width: `${widthPercentage}%` }}

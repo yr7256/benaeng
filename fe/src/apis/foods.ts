@@ -2,7 +2,6 @@ import getInstance from '.';
 import { AddFrom } from '../components/home/modal/AddModal';
 import { CategoryData, FoodDetailData, Response } from '../types';
 import { FoodData, BarcodeData } from '../types/index';
-import { getCookie } from '../utils/cookie';
 
 export const FOOD_API = 'foods';
 
@@ -35,16 +34,12 @@ export function getFoodList() {
 
 /** [GET] 등록한 식품 상세 조회 */
 export function getFood(foodId: number) {
-	return getInstance().get<Response<FoodDetailData>>(`${FOOD_API}/moreInfo/${foodId}`, {
-		headers: {
-			Authorization: `Bearer ${getCookie('accessToken')}`,
-		},
-	});
+	return getInstance().get<Response<FoodDetailData>>(`${FOOD_API}/moreInfo/${foodId}`);
 }
 
 /** [PUT] 등록한 식품 수량 변경 */
-export function putFoodCount(myfoodId: number, count: number) {
-	return getInstance().put<Response<null>>(`${FOOD_API}`, { myfoodId, count });
+export function putFoodCount(myFoodId: number, count: number) {
+	return getInstance().put<Response<null>>(`${FOOD_API}`, { myFoodId, count });
 }
 
 /** [DELETE] 잘못 등록된 식품 삭제 */

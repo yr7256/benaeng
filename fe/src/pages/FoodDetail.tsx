@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { HiPencilAlt } from 'react-icons/hi';
 import Accordion from '../components/common/accordion/Accordion';
 import FoodInfo from '../components/foods/info/FoodInfo';
 import FoodContent from '../components/foods/detail/FoodContent';
@@ -21,7 +22,10 @@ function FoodDetail() {
 		<div>
 			{!isLoading && data && (
 				<div className="px-6 pt-10 page">
-					<Topbar />
+					<div className="flex items-center justify-between">
+						<Topbar />
+						<HiPencilAlt className="mb-10 mr-2 w-7 h-7 text-light/boldStroke dark:text-dark/boldStroke" />
+					</div>
 					<div className="mb-4">
 						<FoodContent foodData={data.data.data} />
 					</div>
