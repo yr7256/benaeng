@@ -26,7 +26,8 @@ function Setting() {
 				setToken(result);
 				console.log(result);
 				if (token) {
-					await tokenMutation.mutateAsync(token);
+					const response = await tokenMutation.mutateAsync(token);
+					console.log(response);
 				}
 				console.log('Token sent successfully');
 			} catch (error) {
