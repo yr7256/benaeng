@@ -24,12 +24,8 @@ function Setting() {
 			try {
 				const result = await window.flutter_inappwebview.callHandler('requestToken');
 				setToken(result);
-				console.log(result);
-				if (token) {
-					const response = await tokenMutation.mutateAsync(token);
-					console.log(response);
-				}
-				console.log('Token sent successfully');
+				const serverResponse = await tokenMutation.mutateAsync(result);
+				console.log('Token sent successfully, server response:', serverResponse);
 			} catch (error) {
 				console.error('Error fetching or sending token:', error);
 			}
