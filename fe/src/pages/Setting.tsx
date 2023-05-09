@@ -36,6 +36,7 @@ function Setting() {
 	// }, []);
 	useEffect(() => {
 		apiTestQuery.refetch();
+		console.log(apiTestQuery);
 	}, []);
 
 	return (
