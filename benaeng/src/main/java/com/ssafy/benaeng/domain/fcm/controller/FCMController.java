@@ -3,6 +3,7 @@ package com.ssafy.benaeng.domain.fcm.controller;
 import com.ssafy.benaeng.domain.fcm.service.FCMService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,8 @@ public class FCMController {
     private final FCMService fcmService;
 
     @PostMapping
-    public void getToken(@RequestBody Map<String, String> request) {
-        log.info("{}", request.get("deviceToken"));
+    public void getToken(@AuthenticationPrincipal String userId, @RequestBody Map<String, String> request) {
+        log.info("user id = {}", userId);
+        log.info("device token = {}", request.get("deviceToken"));
     }
 }
