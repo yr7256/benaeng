@@ -7,17 +7,27 @@ export default async function getStream(order: number): Promise<MediaStream | nu
 		throw error;
 	}
 
+	const devices = await navigator.mediaDevices.enumerateDevices();
+	const camera = devices.filter(device => device.kind === 'videoinput');
+
 	// order별 시도할 setting 단계
 	// order가 높을수록 우선순위가 높은 카메라입니다
 	const setting = [
-		{ video: { facingMode: { exact: 'environment', focusMode: true } } },
+		{
+			video: {
+				deviceId: camera.length ? camera[camera.length - 1] : null,
+				facingMode: { exact: 'environment', focusMode: { ideal: 'continuous' }, zoom: { ideal: 1 } },
+			},
+		},
 		{ video: { facingMode: { exact: 'environment' } } },
-		{ video: { facingMode: { focusMode: true } } },
+		{ video: { focusMode: { ideal: 'continuous' }, zoom: { ideal: 1 } } },
 		{ video: true },
 	];
 
 	try {
 		// CASE 1: 카메라 접근 권한 수락
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		const stream = await navigator.mediaDevices.getUserMedia(setting[order]);
 		return stream;
 	} catch (e) {
