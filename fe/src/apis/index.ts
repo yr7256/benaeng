@@ -19,7 +19,7 @@ function getInstance() {
 
 export function getHttpInstance() {
 	const instance = axios.create({
-		baseURL: `${BASE_HTTP_URL}/api`,
+		baseURL: `${BASE_HTTP_URL}:8080/api`,
 		timeout: 2000,
 		headers: {
 			Authorization: `Bearer ${getCookie('accessToken')}`,
