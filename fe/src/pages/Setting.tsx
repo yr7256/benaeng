@@ -6,6 +6,7 @@ import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
+import { getCookie } from '../utils/cookie';
 
 // 설정 화면
 
@@ -25,6 +26,7 @@ function Setting() {
 				setToken(result);
 				const serverResponse = await tokenMutation.mutateAsync(result);
 				console.log('Token sent successfully, server response:', serverResponse);
+				console.log(getCookie('accessToken'));
 			} catch (error) {
 				console.error('Error fetching or sending token:', error);
 			}
