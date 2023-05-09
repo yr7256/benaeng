@@ -1,12 +1,10 @@
 package com.ssafy.benaeng.domain.user.responseDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
+@ToString
 @Getter
 @Builder
 public class loginUserDto {
