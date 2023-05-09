@@ -10,9 +10,9 @@ export default async function getStream(order: number): Promise<MediaStream | nu
 	// order별 시도할 setting 단계
 	// order가 높을수록 우선순위가 높은 카메라입니다
 	const setting = [
-		{ video: { facingMode: { exact: 'environment', focusMode: 'continuous' } } },
+		{ video: { facingMode: { exact: 'environment', focusMode: true } } },
 		{ video: { facingMode: { exact: 'environment' } } },
-		{ video: { facingMode: { focusMode: 'continuous' } } },
+		{ video: { facingMode: { focusMode: true } } },
 		{ video: true },
 	];
 
