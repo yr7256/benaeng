@@ -21,8 +21,19 @@ export default async function getStream(order: number): Promise<MediaStream | nu
 				zoom: { ideal: 1 },
 			},
 		},
-		{ video: { facingMode: { exact: 'environment' } } },
-		{ video: { focusMode: { ideal: 'continuous' }, zoom: { ideal: 1 } } },
+		{
+			video: {
+				deviceId: camera.length ? camera[camera.length - 1] : null,
+				facingMode: { exact: 'environment' },
+			},
+		},
+		{
+			video: {
+				deviceId: camera.length ? camera[camera.length - 1] : null,
+				focusMode: { ideal: 'continuous' },
+				zoom: { ideal: 1 },
+			},
+		},
 		{ video: true },
 	];
 
