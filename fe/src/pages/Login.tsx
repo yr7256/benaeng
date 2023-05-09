@@ -1,6 +1,7 @@
 // import React, { useEffect } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
 import { SOCIAL_API, useGetSocial } from '../apis/user';
@@ -13,6 +14,7 @@ import { setUser } from '../store/modules/user';
 // 로그인 화면
 
 function Login() {
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
@@ -31,7 +33,7 @@ function Login() {
 			if (data) {
 				setCookie('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
-				window.location.href = '/';
+				navigate('/');
 			}
 		}
 	}
