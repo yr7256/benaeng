@@ -11,13 +11,11 @@ import sendToken from '../apis/token';
 
 function Setting() {
 	const tokenMutation = useMutation(sendToken);
-	// const apiTestQuery = useQuery(['/test'], sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [token, setToken] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -32,11 +30,10 @@ function Setting() {
 			}
 		};
 
-		fetchAndSendToken();
-	}, [tokenMutation]);
-	// useEffect(() => {
-	// 	apiTestQuery.refetch();
-	// }, []);
+		if (!token) {
+			fetchAndSendToken();
+		}
+	}, [token, tokenMutation]);
 
 	return (
 		<div className="px-6 pt-10">
