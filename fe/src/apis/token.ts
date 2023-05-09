@@ -1,15 +1,9 @@
-import getInstance from '.';
+import { getTestInstance } from '.';
 import { Response } from '../types';
 
-// const FCM_API = '/fcm';
-
-const TEST = '/test';
+const FCM_API = '/fcm';
 
 /** [POST] FCM 토큰 전송 */
-// export default function sendToken(deviceToken: string) {
-// 	return getInstance().post<Response<null>>(`${TEST}`, { deviceToken });
-// }
-
-export default function apiTest() {
-	return getInstance().get<Response<null>>(`${TEST}`);
+export default function sendToken(deviceToken: string) {
+	return getTestInstance().post<Response<null>>(`${FCM_API}`, { deviceToken });
 }
