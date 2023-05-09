@@ -51,7 +51,7 @@ function BarcodeReader() {
 				track.applyConstraints({
 					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 					// @ts-ignore
-					advanced: [{ focusMode: { ideal: 'continuous' } }],
+					advanced: [{ focusMode: 'continuous' }],
 				});
 			}
 
