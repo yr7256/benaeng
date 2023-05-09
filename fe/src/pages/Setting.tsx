@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
-import apiTest from '../apis/token';
+import sendToken from '../apis/token';
 
 // 설정 화면
 
 function Setting() {
-	const apiTestQuery = useQuery(['apiTestKey'], apiTest);
+	const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	useEffect(() => {
@@ -18,9 +18,21 @@ function Setting() {
 	}, [userInfo]);
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [token, setToken] = useState<string | null>(null);
+
 	useEffect(() => {
-		apiTestQuery.refetch();
-	}, []);
+		const fetchAndSendToken = async () => {
+			try {
+				const result = await window.flutter_inappwebview.callHandler('requestToken');
+				setToken(result);
+				await tokenMutation.mutateAsync(result);
+				console.log('Token sent successfully');
+			} catch (error) {
+				console.error('Error fetching or sending token:', error);
+			}
+		};
+
+		fetchAndSendToken();
+	}, [tokenMutation]);
 
 	return (
 		<div className="px-6 pt-10">
