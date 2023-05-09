@@ -28,6 +28,8 @@ public class UserController {
     public CommonDto<Object> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
         try {
             loginUserDto user = userService.login(code, response);
+            log.info("--------------------code of UserController--------------------");
+            log.info("accessToken : " + user.getAccessToken());
             return CommonDto.of("200", "login 성공", user);
         }catch (RuntimeException re){
             return CommonDto.of("400", "login 실패", re.getMessage());

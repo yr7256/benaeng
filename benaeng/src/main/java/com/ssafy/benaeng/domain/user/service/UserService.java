@@ -154,6 +154,7 @@ public class UserService {
         }catch(Exception e){
             e.printStackTrace();
         }
+        log.info("accessToken : " + accessToken);
         return accessToken;
     }
     public HashMap<String, Object> getUserInfo (String accessToken) throws RuntimeException{
