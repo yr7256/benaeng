@@ -29,6 +29,7 @@ function Login() {
 
 		if (!isLoading) {
 			if (data) {
+				console.log(data);
 				setCookie('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
 				window.location.href = '/';
