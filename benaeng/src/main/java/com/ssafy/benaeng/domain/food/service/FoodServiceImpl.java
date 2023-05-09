@@ -142,6 +142,7 @@ public class FoodServiceImpl implements FoodService{
         foodMoreInfoDto.setStartDate(myFood.getStartDate());
         foodMoreInfoDto.setEndDate(myFood.getEndDate());
         FoodCategory foodCategory = foodCategoryRepository.findById(myFood.getFoodCategory().getId()).orElseThrow();
+        foodMoreInfoDto.setFoodCategoryId(foodCategory.getId());
         foodMoreInfoDto.setMiddleCategory(foodCategory.getMiddleCategory());
         foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo != null) {

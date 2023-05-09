@@ -16,6 +16,7 @@ import java.util.List;
 public class FoodMoreInfoDto {
     private Long foodId;
     private String foodName;
+    private Long foodCategoryId;
     private String middleCategory;
     private String subCategory;
 
