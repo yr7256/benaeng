@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
 import { TbCamera } from 'react-icons/tb';
 import { useNavigate } from 'react-router';
+import Toast from '../components/common/toast/Toast';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
-import { getBarcodeData, selectBarcode, useEmptyBarcodeData } from '../store/modules/barcode';
+import useToast from '../hooks/useToast';
+import { getBarcodeData, resetBarcodeData, selectBarcode, useEmptyBarcodeData } from '../store/modules/barcode';
 import getStream from '../utils/camera';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
+	const [messageList, addMessage] = useToast();
 	const barcode = useAppSelector(selectBarcode);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	useEffect(() => {
+		dispatch(resetBarcodeData);
+
 		const video = document.getElementsByTagName('video')[0];
 		const canvas = document.getElementsByTagName('canvas')[0];
 		const ctx = canvas.getContext('2d');
@@ -71,6 +76,7 @@ function BarcodeReader() {
 
 	useEffect(() => {
 		if (barcode.status === 'success') navigate('/');
+		if (barcode.status === 'fail') addMessage('바코드 인식을 실패했습니다');
 	}, [barcode.status]);
 
 	/** 촬영 클릭 함수 */
@@ -120,6 +126,7 @@ function BarcodeReader() {
 					직접 입력
 				</button>
 			</div>
+			<Toast messageList={messageList} />
 		</div>
 	);
 }
