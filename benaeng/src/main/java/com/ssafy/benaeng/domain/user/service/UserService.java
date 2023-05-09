@@ -106,7 +106,7 @@ public class UserService {
         String accessToken = "";
         String refreshToken = "";
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
-
+        String redirectUrl = "https://k8b205.p.ssafy.io/login";
         try{
             URL url = new URL(tokenUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -120,7 +120,7 @@ public class UserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=515ed9f41272edc7e02a5e79d58334f6");
-            sb.append("&redirect_uri=http://localhost:3000/login");  // 인가 코드 받은 uri 입력. 여기로 redirect를 해준다는 건지 아니면 그냥 식별을 위해 필요한건지 알아봐야 함
+            sb.append("&redirect_uri="+redirectUrl);  // 인가 코드 받은 uri 입력. 여기로 redirect를 해준다는 건지 아니면 그냥 식별을 위해 필요한건지 알아봐야 함
             sb.append("&code=" + code);
             sb.append("&client_secret=t74WWAPHe7HAJQ1kJX6jiAp472D7VopO");
 
