@@ -7,7 +7,3 @@ const FCM_API = '/test';
 export default function sendToken(deviceToken: string) {
 	return getInstance().post<Response<null>>(`${FCM_API}`, { deviceToken });
 }
-
-// export default function sendToken() {
-// 	return getInstance().get<Response<null>>(`${FCM_API}`);
-// }
