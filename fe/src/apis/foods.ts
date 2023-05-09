@@ -19,7 +19,7 @@ export function postFoodBarcode(image: File) {
 export function postFood(food: AddFrom) {
 	const { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate } = food;
 	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate };
-	return getInstance().post<Response<null>>(`${FOOD_API}`, data);
+	return getInstance().post<Response<null>>(`${FOOD_API}/regist`, data);
 }
 
 /** [GET] 등록한 식품의 카테고리 목록 조회 */
