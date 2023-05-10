@@ -1,6 +1,7 @@
 package com.ssafy.benaeng.domain.food.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.benaeng.domain.food.entity.Alarm;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
@@ -115,6 +116,17 @@ public class FoodController {
             return CommonDto.of("200", "리포트 분석 결과 입니다.", reportDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/alarm")
+    public CommonDto<Object> getAlarm(@AuthenticationPrincipal String id){
+        try{
+            Long userId = Long.parseLong(id);
+            foodService.makeAlarm(1L);
+            return null;
+        }catch (Exception e){
+            return CommonDto.of("400" , "내용 : " + e.getMessage(), null );
         }
     }
 }

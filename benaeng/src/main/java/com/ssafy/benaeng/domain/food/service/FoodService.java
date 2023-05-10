@@ -1,5 +1,6 @@
 package com.ssafy.benaeng.domain.food.service;
 
+import com.ssafy.benaeng.domain.food.entity.Alarm;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
@@ -21,4 +22,5 @@ public interface FoodService {
     FoodMoreInfoDto getFoodMoreInfo(Long foodId);
     void savePurchase(MyFood myFood);
     ReportDto getReportInfo(Long userId);
+    Alarm makeAlarm(Long userId);
 }
