@@ -1,49 +1,26 @@
-import React, { useEffect } from 'react';
-import { TbCamera } from 'react-icons/tb';
-import { useNavigate } from 'react-router';
-import Toast from '../components/common/toast/Toast';
+import React from 'react';
+import Camera from '../components/barcodeReader/camera/Camera';
+import BackButton from '../components/common/button/BackButton';
 import useBarcode from '../hooks/useBarcode';
-import { useAppSelector } from '../hooks/useStore';
-import useToast from '../hooks/useToast';
-import { selectBarcode } from '../store/modules/barcode';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
-	const [messageList, addMessage] = useToast();
-	const [onCapture, onHanWriting] = useBarcode();
-	const barcode = useAppSelector(selectBarcode);
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (barcode.status === 'success') navigate('/');
-		if (barcode.status === 'fail') addMessage('바코드 인식을 실패했습니다');
-	}, [barcode.status]);
+	const [onHanWriting] = useBarcode();
 
 	return (
 		<div className="center flex-col w-screen h-screen box-border bg-black overflow-hidden">
 			{/* 헤더 */}
-			<div className="min-h-[12%] h-[4rem] text-white text-xs flex flex-col justify-end items-center p-5">
-				화면 중앙에 바코드를 스캔해주세요
+			<div className="min-h-[12%] h-28 w-full text-white text-xs flex justify-between items-end p-4 relative">
+				<BackButton className="translate-y-4" />
+				<span>등록할 식품의 바코드를 스캔해주세요</span>
+				<div className="w-16" />
 			</div>
 
 			{/* 비디오 공간 */}
-			<div className="min-w-full flex-1 relative center">
-				<video className="h-full object-cover" autoPlay muted playsInline />
-				<div className="absolute top-0 w-full h-full bg-black/20 backdrop-blur-sm" />
-				<canvas className="camera-canvas absolute z-1" />
-			</div>
+			<Camera />
 
 			{/* 제어버튼 공간 */}
-			<div className="max-w-4xl w-full min-h-[15%] m-4 pb-2 center relative">
-				{/* 촬영 버튼 */}
-				<button
-					type="button"
-					onClick={onCapture}
-					className="w-20 box-border aspect-square rounded-full border-solid border-[0.5rem] border-white bg-green center"
-				>
-					<TbCamera className="text-4xl text-white" />
-				</button>
-
+			<div className="max-w-4xl w-full min-h-[12%] m-4 pb-2 center relative">
 				{/* 직접 입력 버튼 */}
 				<button
 					type="button"
@@ -53,7 +30,6 @@ function BarcodeReader() {
 					직접 입력
 				</button>
 			</div>
-			<Toast messageList={messageList} />
 		</div>
 	);
 }
