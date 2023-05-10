@@ -5,14 +5,9 @@ import { FoodData, BarcodeData } from '../types/index';
 
 export const FOOD_API = 'foods';
 
-/** [POST] 바코드 인식 */
-export function postFoodBarcode(image: File) {
-	const formData = new FormData();
-	formData.append('multipartFile', image);
-
-	return getInstance().post<Response<BarcodeData>>(`${FOOD_API}/barcode`, formData, {
-		headers: { 'Content-Type': 'multipart/form' },
-	});
+/** [GET] 바코드 인식 */
+export function getFoodBarcode(barcode: string) {
+	return getInstance().get<Response<BarcodeData>>(`${FOOD_API}/foodData/${barcode}`);
 }
 
 /** [POST] 식품 등록 */
