@@ -2,95 +2,22 @@ import React, { useEffect } from 'react';
 import { TbCamera } from 'react-icons/tb';
 import { useNavigate } from 'react-router';
 import Toast from '../components/common/toast/Toast';
-import { useAppDispatch, useAppSelector } from '../hooks/useStore';
+import useBarcode from '../hooks/useBarcode';
+import { useAppSelector } from '../hooks/useStore';
 import useToast from '../hooks/useToast';
-import { getBarcodeData, resetBarcodeData, selectBarcode, useEmptyBarcodeData } from '../store/modules/barcode';
-import getStream from '../utils/camera';
+import { selectBarcode } from '../store/modules/barcode';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
 	const [messageList, addMessage] = useToast();
+	const [onCapture, onHanWriting] = useBarcode();
 	const barcode = useAppSelector(selectBarcode);
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		dispatch(resetBarcodeData);
-
-		const video = document.getElementsByTagName('video')[0];
-		const canvas = document.getElementsByTagName('canvas')[0];
-		const ctx = canvas.getContext('2d');
-		// 이후 스트림 종료 이벤트를 위해 아래의 변수를 저장하여 활용합니다
-		let track: MediaStreamTrack | null = null;
-		let interval: NodeJS.Timer | null = null;
-
-		async function startCamera() {
-			// 먼저 스트림 객체를 받아옵니다
-			const stream = await getStream(0);
-			if (!stream) return;
-			video.srcObject = stream;
-
-			// 비디오 시작 시 비디오 크기로 캔버스의 크기를 조절합니다
-			video.addEventListener('play', () => {
-				const maxSize = Math.min(window.innerWidth, 400);
-				const videoSize = Math.min(video.videoHeight, video.videoWidth);
-
-				// 캔버스 설정
-				canvas.width = Math.min(videoSize, maxSize) - 32;
-				canvas.height = canvas.width / 2;
-				canvas.style.transform = `scale(${video.clientHeight / video.videoHeight})`;
-			});
-
-			[track] = stream.getVideoTracks();
-			// 오토 포커싱을 위한 설정 추가
-			const constraints = track.getConstraints();
-
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			if (constraints.focusMode) {
-				track.applyConstraints({
-					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-					// @ts-ignore
-					advanced: [{ focusMode: 'continuous' }],
-				});
-			}
-
-			// 스트림에 따라 캔버스를 업데이트할 수 있도록 인터벌 객체를 선언합니다
-			interval = setInterval(() => {
-				const dx = -video.videoWidth / 2 + canvas.width / 2;
-				const dy = -video.videoHeight / 2 + canvas.height / 2;
-
-				if (!ctx) return;
-				ctx.drawImage(video, dx, dy, video.videoWidth, video.videoHeight);
-			});
-		}
-
-		startCamera();
-
-		return () => {
-			if (interval) clearInterval(interval);
-			if (track) track.stop();
-			video.pause();
-		};
-	}, []);
 
 	useEffect(() => {
 		if (barcode.status === 'success') navigate('/');
 		if (barcode.status === 'fail') addMessage('바코드 인식을 실패했습니다');
 	}, [barcode.status]);
-
-	/** 촬영 클릭 함수 */
-	const onCapture = () => {
-		const canvas = document.getElementsByTagName('canvas')[0];
-
-		const dataURL = canvas.toDataURL('image/jpg');
-		dispatch(getBarcodeData(dataURL));
-	};
-
-	/** 직접 입력 이동 클릭 함수 */
-	const onHanWriting = () => {
-		dispatch(useEmptyBarcodeData());
-	};
 
 	return (
 		<div className="center flex-col w-screen h-screen box-border bg-black overflow-hidden">
