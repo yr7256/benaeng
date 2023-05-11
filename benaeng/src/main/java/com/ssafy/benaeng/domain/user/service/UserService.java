@@ -135,8 +135,8 @@ public class UserService {
         String accessToken = "";
         String refreshToken = "";
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
-//        String redirectUrl = "https://k8b205.p.ssafy.io";
-        String redirectUrl = "http://localhost:3000";
+        String redirectUrl = "https://k8b205.p.ssafy.io";
+//        String redirectUrl = "http://localhost:3000";
         URL url = new URL(tokenUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
