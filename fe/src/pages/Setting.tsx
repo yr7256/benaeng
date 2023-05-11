@@ -33,7 +33,7 @@ function Setting() {
 	// 	sendDeviceToken();
 	// }, []);
 	axios
-		.post('https:/k8b205.p.ssafy.io/api/fcm', {
+		.post('https://k8b205.p.ssafy.io/api/fcm', {
 			deviceToken: window.flutter_inappwebview.callHandler('requestToken'),
 		})
 		.then(function (response) {
