@@ -9,7 +9,7 @@ const TEST = '/test';
 // 	return getInstance().post<Response<null>>(`${FCM_API}`, { deviceToken });
 // }
 
-export function apiPostTest() {
+export function sendToken() {
 	return getInstance().post<Response<null>>(`${TEST}`);
 }
 
