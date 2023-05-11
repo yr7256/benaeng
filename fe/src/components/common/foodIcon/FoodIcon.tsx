@@ -33,7 +33,7 @@ function FoodIcon({ food, size }: Props) {
 	}, [size]);
 	return (
 		<div className={`flex justify-center ${iconSize} rounded-lg bg-skyBlue`}>
-			<img className={`block ${imgSize} m-auto`} src={`/assets/food/${food}.svg`} alt="milk" />
+			<img className={`block ${imgSize} m-auto`} src={`/assets/food/${food}.svg`} alt="food" />
 		</div>
 	);
 }

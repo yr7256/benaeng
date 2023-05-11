@@ -1,49 +1,76 @@
-import React from 'react';
-import AnalysisBar from '../common/analysisbar/AnalysisBar';
-import FoodMonthlyReport from '../foods/analysis/FoodMonthlyReport';
-
-type EncCategoryType = {
-	[key: number]: string;
-};
-
-export interface FavoriteCategory {
-	category: number;
-	value: number;
-}
-
-export interface ReportData {
-	best_category: string;
-	discard: number;
-	purchase: number;
-	consume: number;
-	preferSubCategory: string[];
-	favorite_category: FavoriteCategory[];
-}
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import QuarterTag from './monthly/QuarterTag';
+// import { MonthlyReportData } from '../../types/AnalysisTypes';
+import Input from '../common/input/Input';
+import Graph from './monthly/Graph';
+import { FOOD_API, getFoodFoodDataMonth } from '../../apis/foods';
+import { CACHE_TIME, STALE_TIME } from '../../constants/api';
+import { useAppSelector } from '../../hooks/useStore';
+import { selectUser } from '../../store/modules/user';
 
 function MonthlyReport() {
-	const reportData: ReportData = {
-		best_category: '우유',
-		discard: 2,
-		purchase: 24,
-		consume: 18,
-		preferSubCategory: ['빵류', '우유', '고기'],
-		favorite_category: [
-			{ category: 0, value: 12 },
-			{ category: 1, value: 8 },
-			{ category: 2, value: 6 },
-		],
-		// id, mid, sub 중에 mid 뽑아서 사용
-	};
-	const maxValue = reportData?.favorite_category[0]?.value;
-	const EncCategory: EncCategoryType = { 0: '유제품', 1: '채소류', 2: '육류' };
+	const thisYear = new Date().getFullYear();
+	const thisMonth = new Date().getMonth() + 1;
+	const [year, setYear] = useState(thisYear);
+	const [month, setMonth] = useState(thisMonth);
+	const query = useQuery([FOOD_API, 'foodData', 'month'], () => getFoodFoodDataMonth(year, month), {
+		keepPreviousData: true,
+		staleTime: STALE_TIME,
+		cacheTime: CACHE_TIME,
+		select: res => res.data.data,
+	});
+	useEffect(() => {
+		query.refetch();
+	}, [year, month]);
+	const user = useAppSelector(selectUser);
+	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-box.svg`;
+
 	return (
-		<div className="stroke text component min-w-75.5 max-w-88 px-6 pt-8 pb-12 mt-6">
-			<FoodMonthlyReport reportData={reportData} />
-			{reportData?.favorite_category.map((food, index) => (
-				<div key={food.category} className="flex">
-					<AnalysisBar ranking={index + 1} name={EncCategory[food.category]} value={food.value} maxvalue={maxValue} />
+		<div>
+			{!query.isLoading && query.data && (
+				<div>
+					<div className="flex items-center justify-between my-6">
+						<div className="text-lg font-bold">
+							<span className="text-green">
+								{year}년 {month}월
+							</span>
+							<span>리포트</span>
+						</div>
+						<Input
+							icon="calendar"
+							label="선택날짜"
+							type="month"
+							disabled={undefined}
+							value={`${year}-${month < 10 ? `0${month}` : month}`}
+							className="bg-light/component dark:bg-dark/component"
+							setValue={(value: string) => {
+								const date: string[] = value.split('-');
+								setYear(Number(date[0]));
+								setMonth(Number(date[1]));
+							}}
+						/>
+					</div>
+					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
+						<div className="w-full px-4 py-10 border component stroke">
+							<div className="mb-4 text-center">
+								이번 달 데이터가 부족해 <br /> 리포트는 존재하지 않습니다.{' '}
+							</div>
+							<img className="block m-auto" src={emptyReport} alt="empty" />
+						</div>
+					)}
+					{(query.data.countConsumer || query.data.countPurchase || query.data.countWaste) && (
+						<>
+							<div className="mb-6">
+								<QuarterTag reportData={query.data} />
+							</div>
+							<div className="p-4 border rounded-xl component stroke">
+								<Graph reportData={query.data} />
+							</div>
+						</>
+					)}
 				</div>
-			))}
+			)}
 		</div>
 	);
 }

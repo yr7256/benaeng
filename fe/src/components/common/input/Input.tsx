@@ -16,7 +16,7 @@ interface Props {
 	/**
 	 * 타입
 	 */
-	type: 'number' | 'text' | 'date' | 'password';
+	type: 'number' | 'text' | 'date' | 'password' | 'month';
 	/**
 	 * 수정 가능 여부
 	 */

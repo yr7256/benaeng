@@ -1,6 +1,7 @@
 import getInstance from '.';
 import { AddFrom } from '../components/home/modal/AddModal';
 import { CategoryData, FoodDetailData, Response } from '../types';
+import { MonthlyReportData } from '../types/AnalysisTypes';
 import { FoodData, BarcodeData } from '../types/index';
 
 export const FOOD_API = 'foods';
@@ -62,4 +63,9 @@ export function postFoodUsed(myFoodId: number) {
 export function postFoodExpire(myFoodId: number) {
 	const status = 0;
 	return getInstance().post<Response<null>>(`${FOOD_API}/state`, { myFoodId, status });
+}
+
+/** [GET] 월간 데이터 분석 조회 */
+export function getFoodFoodDataMonth(year: number, month: number) {
+	return getInstance().get<Response<MonthlyReportData>>(`${FOOD_API}/foodData/month/${year}/${month}`);
 }
