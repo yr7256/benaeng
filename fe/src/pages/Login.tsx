@@ -7,7 +7,7 @@ import LoginButton from '../components/common/button/LoginButton';
 import { SOCIAL_API, useGetSocial } from '../apis/user';
 import { CACHE_TIME, STALE_TIME } from '../constants/api';
 import { setCookie } from '../utils/cookie';
-import { SocialResponse } from '../types/UserTypes';
+import { UserResponse } from '../types/UserTypes';
 import { useAppDispatch } from '../hooks/useStore';
 import { setUser } from '../store/modules/user';
 
@@ -19,7 +19,7 @@ function Login() {
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
 	if (code) {
-		const { isLoading, data } = useQuery<AxiosResponse<SocialResponse>, AxiosError>(
+		const { isLoading, data } = useQuery<AxiosResponse<UserResponse>, AxiosError>(
 			[SOCIAL_API],
 			() => useGetSocial(code),
 			{
@@ -31,9 +31,8 @@ function Login() {
 
 		if (!isLoading) {
 			if (data) {
-				console.log(data);
-				setCookie('accessToken', data.data.data.accessToken);
-				dispatch(setUser(data.data.data));
+				setCookie('accessToken', data.data.accessToken);
+				dispatch(setUser(data.data));
 				navigate('/');
 			}
 		}
