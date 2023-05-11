@@ -6,6 +6,7 @@ import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
+import { getCookie } from '../utils/cookie';
 // import sendToken from '../apis/token';
 
 // 설정 화면
@@ -33,9 +34,13 @@ function Setting() {
 	// 	sendDeviceToken();
 	// }, []);
 	axios
-		.post('https://k8b205.p.ssafy.io/api/fcm', {
-			deviceToken: 1,
-		})
+		.post(
+			'https://k8b205.p.ssafy.io/api/fcm',
+			{
+				deviceToken: 1,
+			},
+			{ headers: { Authorization: `Bearer ${getCookie('accessToken')}` } },
+		)
 		.then(function (response) {
 			// response
 			console.log(response);
