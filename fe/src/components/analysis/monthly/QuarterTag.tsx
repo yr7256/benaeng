@@ -35,7 +35,9 @@ function QuarterTag({ reportData }: Props) {
 				<div className="flex items-center justify-between w-full px-4 py-2 ml-1 border rounded-xl component stroke">
 					<div>
 						<div className="text-xs">월간 폐기율</div>
-						<div className="text-base font-bold">{reportData.countPurchase}개</div>
+						<div className="text-base font-bold">
+							{Math.floor((reportData.countWaste / (reportData.countConsumer + reportData.countWaste)) * 100)}%
+						</div>
 					</div>
 					<img className="w-10 h-10" src="/assets/common/data-management.svg" alt="percent" />
 				</div>
