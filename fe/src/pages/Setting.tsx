@@ -6,15 +6,14 @@ import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 // import sendToken from '../apis/token';
-import { apiGetTest, apiPostTest } from '../apis/token';
+import { apiGetTest, sendToken } from '../apis/token';
 import { getCookie } from '../utils/cookie';
 
 // 설정 화면
 
 function Setting() {
-	// const tokenMutation = useMutation(sendToken);
-	const postTest = useMutation(apiPostTest);
-	const apiTestQuery = useQuery(['/test', apiGetTest]);
+	const tokenMutation = useMutation(sendToken);
+	const apiTestQuery = useQuery(['/test'], apiGetTest);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	useEffect(() => {
@@ -25,10 +24,9 @@ function Setting() {
 	useEffect(() => {
 		const fetchAndSendToken = async () => {
 			try {
-				const result = await window.flutter_inappwebview.callHandler('requestToken');
+				// const result = await window.flutter_inappwebview.callHandler('requestToken');
 				// setToken(result);
-				// const serverResponse = await tokenMutation.mutateAsync(result);
-				const serverResponse = await postTest.mutateAsync(result);
+				const serverResponse = await tokenMutation.mutateAsync();
 				console.log('Token sent successfully, server response:', serverResponse);
 				console.log(getCookie('accessToken'));
 			} catch (error) {
@@ -39,13 +37,13 @@ function Setting() {
 		if (!token) {
 			fetchAndSendToken();
 		}
-	}, [token, postTest]);
+	}, []);
 
 	useEffect(() => {
 		apiTestQuery.refetch();
 	}, []);
 
-	return (
+	return ( 
 		<div className="px-6 pt-10">
 			<Topbar />
 			<div className="flex items-center justify-between px-6 py-3 mb-4 border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">
