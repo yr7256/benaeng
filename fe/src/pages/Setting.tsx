@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
@@ -6,36 +6,31 @@ import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
-import { getCookie } from '../utils/cookie';
 
 // 설정 화면
 
 function Setting() {
-	const tokenMutation = useMutation(sendToken);
+	// const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
+	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
-	const [token, setToken] = useState<string | null>(null);
 
 	useEffect(() => {
-		const fetchAndSendToken = async () => {
+		async function sendDeviceToken() {
 			try {
-				const result = await window.flutter_inappwebview.callHandler('requestToken');
-				setToken(result);
-				const serverResponse = await tokenMutation.mutateAsync(result);
-				console.log('Token sent successfully, server response:', serverResponse);
-				console.log(getCookie('accessToken'));
+				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
+				await sendTokenMutation.mutate(deviceToken);
+				console.log('Device token sent successfully');
 			} catch (error) {
-				console.error('Error fetching or sending token:', error);
+				console.error('Error sending device token:', error);
 			}
-		};
-
-		if (!token) {
-			fetchAndSendToken();
 		}
-	}, [token, tokenMutation]);
+
+		sendDeviceToken();
+	}, []);
 
 	return (
 		<div className="px-6 pt-10">
