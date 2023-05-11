@@ -5,21 +5,16 @@ import { FoodData, BarcodeData } from '../types/index';
 
 export const FOOD_API = 'foods';
 
-/** [POST] 바코드 인식 */
-export function postFoodBarcode(image: File) {
-	const formData = new FormData();
-	formData.append('multipartFile', image);
-
-	return getInstance().post<Response<BarcodeData>>(`${FOOD_API}/barcode`, formData, {
-		headers: { 'Content-Type': 'multipart/form' },
-	});
+/** [GET] 바코드 인식 */
+export function getFoodBarcode(barcode: string) {
+	return getInstance().get<Response<BarcodeData>>(`${FOOD_API}/foodData/${barcode}`);
 }
 
 /** [POST] 식품 등록 */
 export function postFood(food: AddFrom) {
 	const { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate } = food;
 	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate };
-	return getInstance().post<Response<null>>(`${FOOD_API}`, data);
+	return getInstance().post<Response<null>>(`${FOOD_API}/regist`, data);
 }
 
 /** [GET] 등록한 식품의 카테고리 목록 조회 */

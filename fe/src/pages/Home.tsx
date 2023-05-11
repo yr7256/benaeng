@@ -125,7 +125,7 @@ function Home() {
 						<Accordion key={categoryKey} primary={undefined} label={categoryKey} open>
 							<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 								{foodListQuery.data[categoryKey].map(({ foodId, subCategory, foodName, dDay }) => (
-									<FoodIcon key={foodName} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />
+									<FoodIcon key={`${foodName}-${foodId}`} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />
 								))}
 							</div>
 						</Accordion>
