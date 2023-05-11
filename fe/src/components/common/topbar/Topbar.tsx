@@ -24,7 +24,7 @@ function Topbar() {
 					<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
 					<img className="hidden dark:block" src="/assets/dark/back-btn.svg" alt="back" />
 				</Link>
-				<p className="text-2xl">{displayText}</p>
+				<p className="text-xl">{displayText}</p>
 			</div>
 		</div>
 	);
