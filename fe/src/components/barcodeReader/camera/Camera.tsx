@@ -1,6 +1,10 @@
 import React from 'react';
 
-function Camera() {
+interface Props {
+	setBarcodeModal(): void;
+}
+
+function Camera({ setBarcodeModal }: Props) {
 	const size = Math.min(400, Math.min(window.innerWidth, window.innerHeight)) - 48;
 
 	return (
@@ -8,7 +12,11 @@ function Camera() {
 			<div className="absolute z-20 center flex-col">
 				<img alt="바코드 이미지" src="assets/common/barcode.svg" className="p-2 mt-[32px]" />
 				<canvas width={size} height={size} className="rounded-lg border-2 border-green" />
-				<button type="button" className="bg-green text-white rounded-lg h-10 mt-[32px] px-6 text-sm font-bold">
+				<button
+					type="button"
+					onClick={setBarcodeModal}
+					className="bg-green text-white rounded-lg h-10 mt-[32px] px-6 text-sm font-bold"
+				>
 					바코드 직접 입력
 				</button>
 			</div>
