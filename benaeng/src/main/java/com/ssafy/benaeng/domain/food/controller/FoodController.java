@@ -7,10 +7,8 @@ import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodDataDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
-import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
+import com.ssafy.benaeng.domain.food.requestDto.YearMonthDto;
+import com.ssafy.benaeng.domain.food.responseDto.*;
 import com.ssafy.benaeng.domain.food.service.FoodService;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
 import com.ssafy.benaeng.global.responseDto.CommonDto;
@@ -125,6 +123,19 @@ public class FoodController {
             FoodDataDto foodDataDto = foodService.getFoodData(codeNumber);
             System.out.println(foodDataDto);
             return CommonDto.of("200", "바코드로 검색된 식품의 정보입니다.", foodDataDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/foodData/month/{year}/{month}")
+    public CommonDto<Object> getFoodMonthData(@PathVariable int year , @PathVariable int month){
+        try {
+            YearMonthDto yearMonthDto = new YearMonthDto();
+            yearMonthDto.setMonth(month);
+            yearMonthDto.setYear(year);
+            MonthReportDto monthReportDto = foodService.getMonthReport(yearMonthDto , 2771736803L);
+            return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
