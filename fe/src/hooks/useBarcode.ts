@@ -13,7 +13,7 @@ declare global {
 	}
 }
 
-function useBarcode() {
+function useBarcode(): [() => void, (string: string) => void] {
 	const barcode = useAppSelector(selectBarcode);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -22,6 +22,7 @@ function useBarcode() {
 		enabled: Boolean(code),
 	});
 
+	// 바코드 인식 결과에 따른 처리 로직
 	useEffect(() => {
 		if (barcode.status === 'success') navigate('/');
 		if (barcode.status === 'fail') setCode('');
@@ -100,7 +101,11 @@ function useBarcode() {
 		dispatch(useEmptyBarcodeData());
 	};
 
-	return [onHanWriting];
+	const onSubmitBarcode = (string: string) => {
+		setCode(string);
+	};
+
+	return [onHanWriting, onSubmitBarcode];
 }
 
 export default useBarcode;
