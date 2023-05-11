@@ -1,7 +1,7 @@
 export interface MostCategory {
 	foodCategoryId: number;
-	Consumer: number;
-	Waste: number;
+	consumer: number;
+	waste: number;
 }
 
 export interface MonthlyReportData {
