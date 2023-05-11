@@ -47,7 +47,7 @@ function AddModal({ open, setClose }: Props) {
 		type: 0,
 	});
 	const [form, setForm] = useState<AddFrom>({
-		foodId: barcode.foodId,
+		foodId: -1,
 		totalCount: '',
 		foodCategoryId: barcode.foodCategoryId,
 		foodName: barcode.foodName,

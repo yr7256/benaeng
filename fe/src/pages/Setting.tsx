@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
@@ -10,32 +10,25 @@ import sendToken from '../apis/token';
 // 설정 화면
 
 function Setting() {
-	const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
+	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [token, setToken] = useState<string | null>(null);
 
 	useEffect(() => {
-		const fetchAndSendToken = async () => {
+		async function sendDeviceToken() {
 			try {
-				const result = await window.flutter_inappwebview.callHandler('requestToken');
-				setToken(result);
-				console.log(result);
-				if (token) {
-					const response = await tokenMutation.mutateAsync(token);
-					console.log(response);
-				}
-				console.log('Token sent successfully');
+				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
+				await sendTokenMutation.mutate(deviceToken);
+				console.log('Device token sent successfully');
 			} catch (error) {
-				console.error('Error fetching or sending token:', error);
+				console.error('Error sending device token:', error);
 			}
-		};
+		}
 
-		fetchAndSendToken();
+		sendDeviceToken();
 	}, []);
 
 	return (
