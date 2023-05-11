@@ -1,80 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import QuarterTag from './monthly/QuarterTag';
-import { MonthlyReportData } from '../../types/AnalysisTypes';
+// import { MonthlyReportData } from '../../types/AnalysisTypes';
 import Input from '../common/input/Input';
+import Graph from './monthly/Graph';
+import { FOOD_API, getFoodFoodDataMonth } from '../../apis/foods';
+import { CACHE_TIME, STALE_TIME } from '../../constants/api';
+import { useAppSelector } from '../../hooks/useStore';
+import { selectUser } from '../../store/modules/user';
 
 function MonthlyReport() {
 	const thisYear = new Date().getFullYear();
-	const thisMonth = new Date().getMonth() - 1;
+	const thisMonth = new Date().getMonth() + 1;
 	const [year, setYear] = useState(thisYear);
 	const [month, setMonth] = useState(thisMonth);
-	const reportData: MonthlyReportData = {
-		countPurchase: 24,
-		countConsumer: 18,
-		countWaste: 10,
-		mostConsumer: [
-			{
-				foodCategoryId: 1,
-				Consumer: 20,
-				Waste: 2,
-			},
-			{
-				foodCategoryId: 10,
-				Consumer: 13,
-				Waste: 5,
-			},
-			{
-				foodCategoryId: 6,
-				Consumer: 10,
-				Waste: 3,
-			},
-		],
-		mostWaste: [
-			{
-				foodCategoryId: 21,
-				Consumer: 7,
-				Waste: 7,
-			},
-			{
-				foodCategoryId: 13,
-				Consumer: 5,
-				Waste: 15,
-			},
-			{
-				foodCategoryId: 28,
-				Consumer: 9,
-				Waste: 20,
-			},
-		],
-	};
+	const query = useQuery([FOOD_API, 'foodData', 'month'], () => getFoodFoodDataMonth(year, month), {
+		keepPreviousData: true,
+		staleTime: STALE_TIME,
+		cacheTime: CACHE_TIME,
+		select: res => res.data.data,
+	});
+	useEffect(() => {
+		query.refetch();
+	}, [year, month]);
+	const user = useAppSelector(selectUser);
+	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-box.svg`;
 
 	return (
 		<div>
-			<div className="flex items-center justify-between my-6">
-				<div className="text-xl font-bold">
-					<span className="text-green">
-						{' '}
-						{year}년 {month}월
-					</span>{' '}
-					<span>리포트</span>
+			{!query.isLoading && query.data && (
+				<div>
+					<div className="flex items-center justify-between my-6">
+						<div className="text-lg font-bold">
+							<span className="text-green">
+								{year}년 {month}월
+							</span>
+							<span>리포트</span>
+						</div>
+						<Input
+							icon="calendar"
+							label="선택날짜"
+							type="month"
+							disabled={undefined}
+							value={`${year}-${month < 10 ? `0${month}` : month}`}
+							className="bg-light/component dark:bg-dark/component"
+							setValue={(value: string) => {
+								const date: string[] = value.split('-');
+								setYear(Number(date[0]));
+								setMonth(Number(date[1]));
+							}}
+						/>
+					</div>
+					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
+						<div className="w-full px-4 py-10 border component stroke">
+							<div className="mb-4 text-center">
+								이번 달 데이터가 부족해 <br /> 리포트는 존재하지 않습니다.{' '}
+							</div>
+							<img className="block m-auto" src={emptyReport} alt="empty" />
+						</div>
+					)}
+					{(query.data.countConsumer || query.data.countPurchase || query.data.countWaste) && (
+						<>
+							<div className="mb-6">
+								<QuarterTag reportData={query.data} />
+							</div>
+							<div className="p-4 border rounded-xl component stroke">
+								<Graph reportData={query.data} />
+							</div>
+						</>
+					)}
 				</div>
-				<Input
-					icon="calendar"
-					label="선택날짜"
-					type="month"
-					disabled={undefined}
-					value={`${year}-${month}`}
-					className=""
-					setValue={(value: string) => {
-						const date: string[] = value.split('-');
-						setYear(Number(date[0]));
-						setMonth(Number(date[1]));
-					}}
-				/>
-			</div>
-			<div>
-				<QuarterTag reportData={reportData} />
-			</div>
+			)}
 		</div>
 	);
 }
