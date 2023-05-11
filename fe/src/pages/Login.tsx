@@ -31,6 +31,7 @@ function Login() {
 
 		if (!isLoading) {
 			if (data) {
+				console.log(data.data);
 				setCookie('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
 				navigate('/');
