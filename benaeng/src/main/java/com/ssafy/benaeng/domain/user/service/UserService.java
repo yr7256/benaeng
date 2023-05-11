@@ -65,6 +65,9 @@ public class UserService {
                 .accessToken(token)
                 .build();
     }
+    public void logout(){
+        SecurityContextHolder.clearContext();
+    }
     public UserDto login(String code, HttpServletResponse response) throws Exception {
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
