@@ -101,5 +101,11 @@ public class JwtTokenProvider {
         // TODO exception
         return null;
     }
+    public Date getExpDate(String token){
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        Date expirationDate = claims.getExpiration();
+        log.info("exp Date : " + expirationDate);
+        return expirationDate;
+    }
 
 }
