@@ -7,22 +7,23 @@ import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.jwt.JwtTokenProvider;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
-import com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto;
+import com.ssafy.benaeng.domain.user.responseDto.UpdateUserDto;
 import com.ssafy.benaeng.domain.user.responseDto.UserDto;
-import com.ssafy.benaeng.domain.user.responseDto.loginUserDto;
 import com.ssafy.benaeng.global.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -34,11 +35,11 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserDto updateUser(Long id, UpdateUserDto userDto) {
+    public UpdateUserDto updateUser(Long id, com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
         user.updateUser(userDto.getIsDark(), userDto.getIsAlarm(), userDto.getIsPurchase(), userDto.getIsCycle());
         userRepository.save(user);
-        return UserDto.builder()
+        return UpdateUserDto.builder()
                 .isAlarm(user.getIsAlarm())
                 .isCycle(user.getIsCycle())
                 .isDark(user.getIsDark())
@@ -46,10 +47,25 @@ public class UserService {
                 .build();
     }
 
-    public User getUser(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
+    public UserDto getUser(HttpServletRequest request, Long id) {
+        String token = jwtTokenProvider.resolveToken(request);
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
+
+        if(jwtTokenProvider.isNewJwt(token)){
+            SecurityContextHolder.clearContext();
+            JwtToken jwt = getJwt(user.getId(), user.getName());
+            token = jwt.getAccessToken();
+        }
+
+        return UserDto.builder()
+                .isPurchase(user.getIsPurchase())
+                .isAlarm(user.getIsAlarm())
+                .isCycle(user.getIsCycle())
+                .isDark(user.getIsDark())
+                .accessToken(token)
+                .build();
     }
-    public loginUserDto login(String code, HttpServletResponse response) throws Exception {
+    public UserDto login(String code, HttpServletResponse response) throws Exception {
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
         if (kakaoToken.isEmpty()) throw new EntityNotFoundException("kakao token 없음");
@@ -67,8 +83,8 @@ public class UserService {
 
         return user2loginDto(user, jwt);
     }
-    public loginUserDto user2loginDto(User user, JwtToken jwt) {
-        return loginUserDto.builder()
+    public UserDto user2loginDto(User user, JwtToken jwt) {
+        return UserDto.builder()
                 .isCycle(user.getIsCycle())
                 .isPurchase(user.getIsPurchase())
                 .isDark(user.getIsDark())
