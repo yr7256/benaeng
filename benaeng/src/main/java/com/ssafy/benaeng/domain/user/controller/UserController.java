@@ -25,12 +25,9 @@ public class UserController {
     private final HttpSession httpSession;
     private final UserService userService;
     @GetMapping("/social/{code}")
-    public CommonDto<Object> code(@PathVariable("code") String code, HttpServletResponse response) throws RuntimeException{
+    public CommonDto<Object> code(@PathVariable("code") String code, HttpServletResponse response) throws Exception{
         try {
             loginUserDto user = userService.login(code, response);
-            log.info("--------------------code of UserController--------------------");
-            log.info("accessToken : " + user.getAccessToken());
-            log.info(user.toString());
             return CommonDto.of("200", "login 성공", user);
         }catch (RuntimeException re){
             return CommonDto.of("400", "login 실패", re.getMessage());
