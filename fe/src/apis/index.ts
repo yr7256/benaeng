@@ -6,7 +6,7 @@ import { getCookie } from '../utils/cookie';
 function getInstance() {
 	const instance = axios.create({
 		baseURL: `${BASE_URL}/api`,
-		timeout: 400,
+		timeout: 2000,
 		headers: {
 			Authorization: `Bearer ${getCookie('accessToken')}`,
 			'Access-Control-Allow-Origin': BASE_URL,
@@ -20,7 +20,7 @@ function getInstance() {
 export function getInstanceWithoutAuth() {
 	const instance = axios.create({
 		baseURL: `${BASE_URL}/api`,
-		timeout: 800,
+		timeout: 2000,
 		headers: {
 			'Access-Control-Allow-Origin': BASE_URL,
 			'Content-Type': 'application/json',
