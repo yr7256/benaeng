@@ -60,7 +60,7 @@ public class UserService {
         HashMap<String, Object> userInfo = getUserInfo(kakaoToken);
         Long id = (Long) userInfo.get("kakaoId");
         String name = (String) userInfo.get("nickname");
-
+        System.out.println(id  + " " + name);
         // 3. select user
         User user = getOrRegisterUser(id, name);
 
@@ -106,7 +106,8 @@ public class UserService {
         String accessToken = "";
         String refreshToken = "";
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
-        String redirectUrl = "https://k8b205.p.ssafy.io/login";
+//        String redirectUrl = "https://k8b205.p.ssafy.io/login";
+        String redirectUrl = "http://localhost:3000/login";
         try{
             URL url = new URL(tokenUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -129,8 +130,15 @@ public class UserService {
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            if(responseCode != 200){
-                throw new RuntimeException("code 값을 확인해주세요");
+
+            if (responseCode != 200) {
+                BufferedReader errorBr = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                String errorLine;
+                StringBuilder errorResult = new StringBuilder();
+                while ((errorLine = errorBr.readLine()) != null) {
+                    errorResult.append(errorLine);
+                }
+                log.error("Error response: " + errorResult.toString());
             }
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기

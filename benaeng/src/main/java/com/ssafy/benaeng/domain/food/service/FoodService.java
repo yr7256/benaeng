@@ -1,10 +1,12 @@
 package com.ssafy.benaeng.domain.food.service;
 
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
+import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
+import com.ssafy.benaeng.domain.food.responseDto.FoodDataDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
 import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
@@ -19,6 +21,7 @@ public interface FoodService {
     void changeStateMyFood(StateDto stateDto) throws ParseException;
     void changeCountMyFood(ChangeCountDto changeCountDto);
     FoodMoreInfoDto getFoodMoreInfo(Long foodId);
+    FoodDataDto getFoodData(String codeNumber);
     void savePurchase(MyFood myFood);
     ReportDto getReportInfo(Long userId);
 }

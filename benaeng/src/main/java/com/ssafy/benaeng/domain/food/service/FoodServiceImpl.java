@@ -5,6 +5,7 @@ import com.ssafy.benaeng.domain.food.repository.*;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
+import com.ssafy.benaeng.domain.food.responseDto.FoodDataDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
 import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
@@ -212,6 +213,18 @@ public class FoodServiceImpl implements FoodService{
         System.out.println(foodMoreInfoDto.getCycle());
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         return foodMoreInfoDto;
+    }
+
+    @Override
+    public FoodDataDto getFoodData(String codeNumber) {
+        List<FoodData> foodDatas = foodDataRepository.findAllByBarcode(codeNumber);
+        FoodData foodData = foodDatas.get(0);
+        FoodDataDto foodDataDto = new FoodDataDto();
+        foodDataDto.setFoodName(foodData.getFoodName());
+        foodDataDto.setFoodCategoryId(foodData.getFoodCategory().getId());
+        foodDataDto.setPogDaycnt(foodData.getPogDaycnt());
+        foodDataDto.setFoodId(foodData.getId());
+        return foodDataDto;
     }
 
     @Override

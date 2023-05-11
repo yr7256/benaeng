@@ -7,6 +7,7 @@ import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
+import com.ssafy.benaeng.domain.food.responseDto.FoodDataDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
 import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
 import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
@@ -113,6 +114,17 @@ public class FoodController {
             Long userId = Long.parseLong(id);
             ReportDto reportDto = foodService.getReportInfo(userId);
             return CommonDto.of("200", "리포트 분석 결과 입니다.", reportDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/foodData/{codeNumber}")
+    public CommonDto<Object> getFoodDate(@PathVariable String codeNumber){
+        try {
+            FoodDataDto foodDataDto = foodService.getFoodData(codeNumber);
+            System.out.println(foodDataDto);
+            return CommonDto.of("200", "바코드로 검색된 식품의 정보입니다.", foodDataDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
