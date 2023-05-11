@@ -1,63 +1,35 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
-import { getCookie } from '../utils/cookie';
-// import sendToken from '../apis/token';
+import sendToken from '../apis/token';
 
 // 설정 화면
 
 function Setting() {
-	// const tokenMutation = useMutation(sendToken);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
-	// const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
+	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
 
-	// useEffect(() => {
-	// 	async function sendDeviceToken() {
-	// 		try {
-	// 			const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
-	// 			await sendTokenMutation.mutate(deviceToken);
-	// 			console.log('Device token sent successfully');
-	// 		} catch (error) {
-	// 			console.error('Error sending device token:', error);
-	// 		}
-	// 	}
+	useEffect(() => {
+		async function sendDeviceToken() {
+			try {
+				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
+				await sendTokenMutation.mutate(deviceToken);
+				console.log('Device token sent successfully');
+			} catch (error) {
+				console.error('Error sending device token:', error);
+			}
+		}
 
-	// 	sendDeviceToken();
-	// }, []);
-	axios
-		.post(
-			'https://k8b205.p.ssafy.io/api/fcm',
-			{
-				deviceToken: 1,
-			},
-			{
-				headers: {
-					Authorization: `Bearer ${getCookie('accessToken')}`,
-					'Content-Type': 'application/json',
-				},
-			},
-		)
-		.then(function (response) {
-			// response
-			console.log(response);
-		})
-		.catch(function (error) {
-			// 오류발생시 실행
-			console.log(error);
-		})
-		.then(function () {
-			// 항상 실행
-			console.log('실행 되냐고');
-		});
+		sendDeviceToken();
+	}, []);
 
 	return (
 		<div className="px-6 pt-10">
