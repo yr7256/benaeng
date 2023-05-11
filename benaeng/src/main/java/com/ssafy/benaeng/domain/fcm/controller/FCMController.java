@@ -16,7 +16,7 @@ public class FCMController {
     private final FCMService fcmService;
 
     @PostMapping
-    public void getToken(@AuthenticationPrincipal String userId, @RequestBody Map<String, String> request) {
+    public void getToken(@RequestBody Map<String, String> request) {
         log.info("user id = {}", userId);
         log.info("device token = {}", request.get("deviceToken"));
     }
