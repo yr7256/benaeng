@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()      // 로그인 안했을 경우 /api/social/** 요청만 가능
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
 //                .and()
 //                .formLogin().loginPage("http://localhost:3000/login").permitAll()      // 로그인 안했을 경우 해당 URL로 보내기
                 .and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
