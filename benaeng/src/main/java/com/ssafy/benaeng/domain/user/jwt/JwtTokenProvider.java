@@ -101,11 +101,20 @@ public class JwtTokenProvider {
         // TODO exception
         return null;
     }
-    public Date getExpDate(String token){
+    public Boolean isNewJwt(String token){
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
         Date expirationDate = claims.getExpiration();
-        log.info("exp Date : " + expirationDate);
-        return expirationDate;
+        Date nowDate = new Date();
+        Long differenceInMillis = expirationDate.getTime() - nowDate.getTime();
+
+        Long years = (differenceInMillis / (365 * 24 * 60 * 60 * 1000L));
+        Long days = (differenceInMillis / (24 * 60 * 60 * 1000L)) % 365;
+
+        if(years == 0 && days <= 3){
+            return true;
+        }
+
+        return false;
     }
 
 }

@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -48,6 +50,12 @@ public class UserService {
     public UserDto getUser(HttpServletRequest request, Long id) {
         String token = jwtTokenProvider.resolveToken(request);
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
+
+        if(jwtTokenProvider.isNewJwt(token)){
+            SecurityContextHolder.clearContext();
+            JwtToken jwt = getJwt(user.getId(), user.getName());
+            token = jwt.getAccessToken();
+        }
 
         return UserDto.builder()
                 .isPurchase(user.getIsPurchase())
