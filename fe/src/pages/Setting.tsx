@@ -39,7 +39,13 @@ function Setting() {
 			{
 				deviceToken: 1,
 			},
-			{ headers: { Authorization: `Bearer ${getCookie('accessToken')}` } },
+			{
+				headers: {
+					Authorization: `Bearer ${getCookie('accessToken')}`,
+					'Access-Control-Allow-Origin': '*',
+					'Content-Type': 'application/json',
+				},
+			},
 		)
 		.then(function (response) {
 			// response
