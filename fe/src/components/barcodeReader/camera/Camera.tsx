@@ -1,5 +1,4 @@
 import React from 'react';
-import './Camera.css';
 
 function Camera() {
 	const size = Math.min(400, Math.min(window.innerWidth, window.innerHeight)) - 48;
