@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @GetMapping("/user/logout")
-    public CommonDto<Object> update(@AuthenticationPrincipal String userId){
+    public CommonDto<Object> logout(@AuthenticationPrincipal String userId){
         Long id = Long.parseLong(userId);
         try {
             userService.logout();
