@@ -34,7 +34,7 @@ function Setting() {
 	// }, []);
 	axios
 		.post('https://k8b205.p.ssafy.io/api/fcm', {
-			deviceToken: window.flutter_inappwebview.callHandler('requestToken'),
+			deviceToken: 1,
 		})
 		.then(function (response) {
 			// response
