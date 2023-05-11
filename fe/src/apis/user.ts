@@ -16,3 +16,8 @@ export function usePutUser(user: UserData) {
 		isPurchase: user.isPurchase,
 	});
 }
+
+/** [GET] cookie 내 token을 통한 사용자정보 요청 */
+export function getUserData() {
+	return getInstance().get(`${USER_API}`);
+}
