@@ -121,9 +121,7 @@ public class AwsS3ServiceImpl implements AwsS3Service {
                 result += inferText;
             }
         }
-        System.out.println(result);
         FoodData foodData = foodDataRepository.findByBarcode(result);
-        System.out.println(response.getStatusCodeValue());
         return foodData;
     }
 
