@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
-import sendToken from '../apis/token';
+// import sendToken from '../apis/token';
+import { apiGetTest, apiPostTest } from '../apis/token';
 import { getCookie } from '../utils/cookie';
 
 // 설정 화면
 
 function Setting() {
-	const tokenMutation = useMutation(sendToken);
+	// const tokenMutation = useMutation(sendToken);
+	const postTest = useMutation(apiPostTest);
+	const apiTestQuery = useQuery(['/test', apiGetTest]);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	useEffect(() => {
@@ -23,8 +26,9 @@ function Setting() {
 		const fetchAndSendToken = async () => {
 			try {
 				const result = await window.flutter_inappwebview.callHandler('requestToken');
-				setToken(result);
-				const serverResponse = await tokenMutation.mutateAsync(result);
+				// setToken(result);
+				// const serverResponse = await tokenMutation.mutateAsync(result);
+				const serverResponse = await postTest.mutateAsync(result);
 				console.log('Token sent successfully, server response:', serverResponse);
 				console.log(getCookie('accessToken'));
 			} catch (error) {
@@ -35,7 +39,11 @@ function Setting() {
 		if (!token) {
 			fetchAndSendToken();
 		}
-	}, [token, tokenMutation]);
+	}, [token, postTest]);
+
+	useEffect(() => {
+		apiTestQuery.refetch();
+	}, []);
 
 	return (
 		<div className="px-6 pt-10">
