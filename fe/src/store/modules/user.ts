@@ -3,6 +3,7 @@ import { RootState } from '../store';
 
 // state type
 export interface userSlice {
+	isValid: boolean;
 	isDark: boolean;
 	isAlarm: boolean;
 	isCycle: boolean;
@@ -11,6 +12,7 @@ export interface userSlice {
 
 // 초기 상태 정의
 const initialState: userSlice = {
+	isValid: false,
 	isDark: false,
 	isAlarm: true,
 	isCycle: true,
@@ -23,10 +25,19 @@ const userSlice = createSlice({
 	reducers: {
 		setUser(state, action) {
 			const temp = state;
+			temp.isValid = true;
 			temp.isDark = action.payload.isDark;
 			temp.isAlarm = action.payload.isAlarm;
 			temp.isCycle = action.payload.isCycle;
 			temp.isPurchase = action.payload.isPurchase;
+		},
+		logout(state) {
+			const temp = state;
+			temp.isValid = false;
+			temp.isDark = false;
+			temp.isAlarm = false;
+			temp.isCycle = true;
+			temp.isPurchase = true;
 		},
 		setIsDark(state, action) {
 			const temp = state;
