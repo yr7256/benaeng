@@ -42,7 +42,6 @@ function Setting() {
 			{
 				headers: {
 					Authorization: `Bearer ${getCookie('accessToken')}`,
-					'Access-Control-Allow-Origin': '*',
 					'Content-Type': 'application/json',
 				},
 			},
