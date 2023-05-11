@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@CrossOrigin
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +46,18 @@ public class UserController {
         try {
             UpdateUserDto user = userService.updateUser(id, updateUserDto);
             return CommonDto.of("200", "사용자 정보 변경 성공", user);
+        }catch(RuntimeException re){
+            return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
+        }
+    }
+
+    @GetMapping("/user/logout")
+    public CommonDto<Object> logout(@AuthenticationPrincipal String userId){
+        Long id = Long.parseLong(userId);
+        try {
+            userService.logout();
+            log.info("logout " + userId);
+            return CommonDto.of("200", "사용자 정보 변경 성공", id);
         }catch(RuntimeException re){
             return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
         }
