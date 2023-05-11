@@ -56,6 +56,7 @@ public class UserController {
         Long id = Long.parseLong(userId);
         try {
             userService.logout();
+            log.info("logout " + userId);
             return CommonDto.of("200", "사용자 정보 변경 성공", id);
         }catch(RuntimeException re){
             return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
