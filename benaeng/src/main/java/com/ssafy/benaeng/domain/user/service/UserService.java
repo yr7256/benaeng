@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -44,8 +45,17 @@ public class UserService {
                 .build();
     }
 
-    public User getUser(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
+    public UserDto getUser(HttpServletRequest request, Long id) {
+        String token = jwtTokenProvider.resolveToken(request);
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id + "에 해당하는 User"));
+
+        return UserDto.builder()
+                .isPurchase(user.getIsPurchase())
+                .isAlarm(user.getIsAlarm())
+                .isCycle(user.getIsCycle())
+                .isDark(user.getIsDark())
+                .accessToken(token)
+                .build();
     }
     public UserDto login(String code, HttpServletResponse response) throws Exception {
         // 1. get kakao token
@@ -117,8 +127,8 @@ public class UserService {
         String accessToken = "";
         String refreshToken = "";
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
-        String redirectUrl = "https://k8b205.p.ssafy.io";
-//        String redirectUrl = "http://localhost:3000";
+//        String redirectUrl = "https://k8b205.p.ssafy.io";
+        String redirectUrl = "http://localhost:3000";
         URL url = new URL(tokenUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 

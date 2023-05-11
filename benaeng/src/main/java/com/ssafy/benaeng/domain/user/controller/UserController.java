@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +27,16 @@ public class UserController {
             return CommonDto.of("200", "login 성공", user);
         }catch (RuntimeException re){
             return CommonDto.of("400", "login 실패", re.getMessage());
+        }
+    }
+    @GetMapping("/user")
+    public CommonDto<Object> getUser(@AuthenticationPrincipal String userId, HttpServletRequest request){
+        Long id = Long.parseLong(userId);
+        try {
+            UserDto user = userService.getUser(request, id);
+            return CommonDto.of("200", "사용자 정보 획득 성공", user);
+        }catch(RuntimeException re){
+            return CommonDto.of("400", "사용자 정보 획득 실패", re.getMessage());
         }
     }
     @PutMapping("/user")
