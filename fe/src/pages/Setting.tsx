@@ -1,45 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
-import sendToken from '../apis/token';
+// import sendToken from '../apis/token';
+import { apiGetTest, sendToken } from '../apis/token';
+import { getCookie } from '../utils/cookie';
 
 // 설정 화면
 
 function Setting() {
-	// const tokenMutation = useMutation(sendToken);
-	const apiTestQuery = useQuery(['/test'], sendToken);
+	const tokenMutation = useMutation(sendToken);
+	const apiTestQuery = useQuery(['/test'], apiGetTest);
 	const userInfo = useAppSelector(selectUser);
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [token, setToken] = useState<string | null>(null);
 
-	// useEffect(() => {
-	// 	const fetchAndSendToken = async () => {
-	// 		try {
-	// 			// const result = await window.flutter_inappwebview.callHandler('requestToken');
-	// 			// setToken(result);
-	// 			const serverResponse = await tokenMutation.mutateAsync('1');
-	// 			console.log('Token sent successfully, server response:', serverResponse);
-	// 		} catch (error) {
-	// 			console.error('Error fetching or sending token:', error);
-	// 		}
-	// 	};
-
-	// 	fetchAndSendToken();
-	// }, []);
 	useEffect(() => {
-		apiTestQuery.refetch();
-		console.log(apiTestQuery);
+		const fetchAndSendToken = async () => {
+			try {
+				// const result = await window.flutter_inappwebview.callHandler('requestToken');
+				// setToken(result);
+				const serverResponse = await tokenMutation.mutateAsync();
+				console.log('Token sent successfully, server response:', serverResponse);
+				console.log(getCookie('accessToken'));
+			} catch (error) {
+				console.error('Error fetching or sending token:', error);
+			}
+		};
+
+		if (!token) {
+			fetchAndSendToken();
+		}
 	}, []);
 
-	return (
+	useEffect(() => {
+		apiTestQuery.refetch();
+	}, []);
+
+	return ( 
 		<div className="px-6 pt-10">
 			<Topbar />
 			<div className="flex items-center justify-between px-6 py-3 mb-4 border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">

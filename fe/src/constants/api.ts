@@ -1,5 +1,5 @@
 export const REST_API_KEY = import.meta.env.VITE_REST_API_KEY;
-export const REDIRECT_URI = 'https://k8b205.p.ssafy.io/login';
+export const REDIRECT_URI = 'https://k8b205.p.ssafy.io';
 
 // 기본 base 경로
 // export const BASE_URL = 'https://k8b205.p.ssafy.io';
