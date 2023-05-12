@@ -22,7 +22,7 @@ public class Alarm {
     private User user;
     private Integer type;
     private Integer status;
-    private Date createTime;
+    private Date createDate;
     private Integer dDay;
     private String foodName;
     @OneToOne

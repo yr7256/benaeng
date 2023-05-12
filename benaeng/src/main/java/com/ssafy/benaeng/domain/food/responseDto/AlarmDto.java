@@ -12,7 +12,7 @@ public class AlarmDto {
     private Long userId;
     private Integer type;
     private Integer status;
-    private Date createTime;
+    private Date createDate;
     private Integer dDay;
     private String foodName;
     private Long foodId;
