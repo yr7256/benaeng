@@ -148,7 +148,7 @@ public class FoodServiceImpl implements FoodService{
         foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo != null) {
             if (purchaseInfo.getCnt() == 1) {
-                foodMoreInfoDto.setPurchase(null);
+                foodMoreInfoDto.setPurchase(-1L);
             } else {
                 Long cnt = purchaseInfo.getCnt();
                 long differenceInMilliseconds = purchaseInfo.getLastDate().getTime() - purchaseInfo.getFirstDate().getTime();
@@ -207,7 +207,8 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        if(usedFoodList.size() != 0) foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        if(usedFoodList.size() >=2) foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        else if(usedFoodList.size() == 1) foodMoreInfoDto.setCycle(-1L);
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
         return foodMoreInfoDto;
     }
@@ -512,11 +513,8 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        System.out.println(total);
-        System.out.println(usedFoodList.size());
         if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
         else if(usedFoodList.size() == 1) reportDetailDto.setCycle(-1L);
-        System.out.println(myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
         return reportDetailDto;
     }
