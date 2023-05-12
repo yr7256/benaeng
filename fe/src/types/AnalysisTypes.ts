@@ -11,3 +11,11 @@ export interface MonthlyReportData {
 	mostConsumer: MostCategory[];
 	mostWaste: MostCategory[];
 }
+
+export interface PurchaseData {
+	name: string;
+}
+
+export interface CalendarData {
+	name: string;
+}
