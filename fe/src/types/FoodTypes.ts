@@ -21,7 +21,7 @@ export interface HomeFoodData extends FoodData {
 	dDay: number;
 }
 
-/** 식품 상세조회 Response */
+/** 식품 영양정보 Response */
 export interface NutrientData {
 	id: number;
 	totalContents: number;
@@ -37,6 +37,7 @@ export interface NutrientData {
 	foodName: string;
 }
 
+/** 식품 상세정보 */
 export interface FoodDetailData {
 	foodId: number;
 	foodCategoryId: number;
@@ -48,6 +49,16 @@ export interface FoodDetailData {
 	startDate: string;
 	endDate: string;
 	nutrientInfo: NutrientData | null;
+	purchase: number;
+	percent: number;
+	msg: string[] | null;
+	cycle: number;
+	preferProducts: string[] | null;
+}
+
+/** 식품별 분석 */
+export interface FoodReportData {
+	subCategory: string;
 	purchase: number;
 	percent: number;
 	msg: string[] | null;
