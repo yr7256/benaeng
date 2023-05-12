@@ -9,7 +9,6 @@ import java.util.Date;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class AlarmDto {
-    private Long userId;
     private Integer type;
     private Integer status;
     private Date createDate;
