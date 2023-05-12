@@ -1,12 +1,9 @@
 package com.ssafy.benaeng.domain.food.repository.alarm;
 
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.utils.DateUtils;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -41,7 +38,6 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
         LocalDate ago7 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<AlarmDto> alarmDtoList =
                 queryFactory.select(Projections.fields(AlarmDto.class,
-                        user.id.as("userId"),
                         alarm.type,
                         alarm.status,
                         alarm.createDate,
