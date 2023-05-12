@@ -19,5 +19,5 @@ export function usePutUser(user: UserData) {
 
 /** [GET] cookie 내 token을 통한 사용자정보 요청 */
 export function getUserData() {
-	return getInstance().get(`${USER_API}`);
+	return getInstance().get(`${USER_API}`, { timeout: 400 });
 }
