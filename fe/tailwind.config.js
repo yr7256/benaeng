@@ -92,6 +92,9 @@ export default {
 				'light/boldStroke': '#AAAAAA',
 				'light/text': '#000000',
 			},
+			boxShadow: {
+				day: `2px -2px 0px 0px`,
+			},
 		},
 	},
 	plugins: [],
