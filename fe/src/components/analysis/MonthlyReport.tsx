@@ -61,7 +61,7 @@ function MonthlyReport() {
 							<img className="block m-auto" src={emptyReport} alt="empty" />
 						</div>
 					)}
-					{isEmpty && (
+					{Boolean(isEmpty) && (
 						<>
 							<div className="mb-6">
 								<QuarterTag reportData={query.data} />
