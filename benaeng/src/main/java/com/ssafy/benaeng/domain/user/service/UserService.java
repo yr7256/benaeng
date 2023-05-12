@@ -108,7 +108,7 @@ public class UserService {
                     .name(name)
                     .id(id)
                     .isAlarm(true)
-                    .isDark(true)
+                    .isDark(false)
                     .isPurchase(true)
                     .isCycle(true)
                     .build();
