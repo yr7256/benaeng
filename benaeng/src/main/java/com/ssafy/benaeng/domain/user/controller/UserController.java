@@ -18,6 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+
+    /**
+     * login API
+     * @param code  kakao authorization code
+     * @return      login result
+     */
     @GetMapping("/social/{code}")
     public CommonDto<Object> login(@PathVariable("code") String code){
         try {
@@ -27,6 +33,13 @@ public class UserController {
             return CommonDto.of("400", "login 실패", re.getMessage());
         }
     }
+
+    /**
+     * get user information API
+     * @param userId    user identification value
+     * @param request
+     * @return
+     */
     @GetMapping("/user")
     public CommonDto<Object> getUser(@AuthenticationPrincipal String userId, HttpServletRequest request){
         Long id = Long.parseLong(userId);
@@ -37,6 +50,13 @@ public class UserController {
             return CommonDto.of("400", "사용자 정보 획득 실패", re.getMessage());
         }
     }
+
+    /**
+     * change user information API
+     * @param userId            user identification value
+     * @param updateUserDto     changed user information
+     * @return
+     */
     @PutMapping("/user")
     public CommonDto<Object> update(@AuthenticationPrincipal String userId, @RequestBody com.ssafy.benaeng.domain.user.requestDto.UpdateUserDto updateUserDto){
         Long id = Long.parseLong(userId);
@@ -48,6 +68,11 @@ public class UserController {
         }
     }
 
+    /**
+     * logout API
+     * @param userId    user identification value
+     * @return
+     */
     @GetMapping("/user/logout")
     public CommonDto<Object> logout(@AuthenticationPrincipal String userId){
         Long id = Long.parseLong(userId);
