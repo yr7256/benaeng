@@ -52,9 +52,9 @@ public class UserController {
     }
 
     /**
-     * change user information API
+     * update user information API
      * @param userId            user identification value
-     * @param updateUserDto     changed user information
+     * @param updateUserDto     updated user information
      * @return
      */
     @PutMapping("/user")
