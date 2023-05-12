@@ -6,7 +6,7 @@ import { selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
 import { getUserData } from './apis/user';
-import { setCookie } from './utils/cookie';
+import { getCookie, setCookie } from './utils/cookie';
 import Loading from './components/common/loading/Loading';
 
 function App() {
@@ -18,14 +18,14 @@ function App() {
 			setCookie('accessToken', data.data.accessToken);
 			dispatch(setUser(data.data));
 		},
-		enabled: !user.isValid,
+		enabled: !user.isValid && getCookie('accessToken'),
 	});
 
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
-					{userQuery.isLoading ? <Loading /> : undefined}
+					{userQuery.isFetching ? <Loading /> : undefined}
 					<Login />
 				</div>
 			</div>
@@ -35,7 +35,7 @@ function App() {
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 			<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
-				{userQuery.isLoading ? <Loading /> : undefined}
+				{userQuery.isFetching ? <Loading /> : undefined}
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/foods/:id" element={<FoodDetail />} />
