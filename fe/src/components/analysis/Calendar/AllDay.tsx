@@ -17,7 +17,7 @@ function allDay({ day, nowDate, setNowDate, clickedDate, setClickedDate }: Props
 		setClickedDate(day);
 	};
 	return (
-		<div onClick={() => clickDate()} className={dateClassName}>
+		<div onClick={() => clickDate()} className={`text-center ${dateClassName}`}>
 			<p>{day.getDate()}</p>
 		</div>
 	);
