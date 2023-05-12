@@ -20,6 +20,9 @@ export interface HomeFoodData extends FoodData {
 	subCategory: string;
 	dDay: number;
 }
+export interface Refrigerator {
+	[category: string]: HomeFoodData[];
+}
 
 /** 식품 상세조회 Response */
 export interface NutrientData {
