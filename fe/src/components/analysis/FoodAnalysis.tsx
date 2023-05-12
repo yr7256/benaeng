@@ -5,9 +5,7 @@ import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
 import Input from '../common/input/Input';
 import SearchCategoryModal from '../home/modal/SearchCategoryModal';
 import Category from '../../constants/category.json';
-import { FOOD_API, getFood } from '../../apis/foods';
-import { CACHE_TIME, STALE_TIME } from '../../constants/api';
-// import { FoodData } from '../../pages/FoodDetail';
+import { FOOD_API, getFoodFoodDataDetail } from '../../apis/foods';
 
 interface AddFrom extends FoodData {
 	/**
@@ -23,8 +21,8 @@ interface AddFrom extends FoodData {
 const CategoryList: CategoryData[] = Category.data;
 
 function FoodAnalysis(): JSX.Element {
-	const foodData: FoodReportData = {
-		subCategory: '우유',
+	const dummy: FoodReportData = {
+		subCategory: '더미',
 		purchase: 20,
 		percent: 34,
 		msg: [
@@ -49,11 +47,10 @@ function FoodAnalysis(): JSX.Element {
 	});
 
 	/** 상품 상세정보 조회 쿼리 */
-	const query = useQuery([FOOD_API], () => getFood(form.foodCategoryId), {
+	const query = useQuery([FOOD_API], () => getFoodFoodDataDetail(form.foodCategoryId), {
 		keepPreviousData: true,
-		staleTime: STALE_TIME,
-		cacheTime: CACHE_TIME,
 		enabled: form.foodCategoryId > 0,
+		select: res => res.data.data,
 	});
 
 	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
@@ -97,9 +94,16 @@ function FoodAnalysis(): JSX.Element {
 					className="flex-1 min-w-0"
 				/>
 			</div>
-			<div className="mt-6">
-				<FoodDetailAnalysis foodData={foodData} />
-			</div>
+			{!query.isFetching && query.data && (
+				<div className="mt-6">
+					<FoodDetailAnalysis foodData={query.data} />
+				</div>
+			)}
+			{!query.isFetching && !query.data && (
+				<div className="mt-6">
+					<FoodDetailAnalysis foodData={dummy} />
+				</div>
+			)}
 			<SearchCategoryModal
 				open={openSearchCategoryModal}
 				onClose={() => {

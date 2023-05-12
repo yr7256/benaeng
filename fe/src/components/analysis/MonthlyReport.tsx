@@ -5,19 +5,56 @@ import QuarterTag from './monthly/QuarterTag';
 import Input from '../common/input/Input';
 import Graph from './monthly/Graph';
 import { FOOD_API, getFoodFoodDataMonth } from '../../apis/foods';
-import { CACHE_TIME, STALE_TIME } from '../../constants/api';
 import { useAppSelector } from '../../hooks/useStore';
 import { selectUser } from '../../store/modules/user';
+import { MonthlyReportData } from '../../types/AnalysisTypes';
 
 function MonthlyReport() {
+	const dummy: MonthlyReportData = {
+		countPurchase: 0,
+		countConsumer: 0,
+		countWaste: 0,
+		mostConsumer: [
+			{
+				foodCategoryId: 32,
+				consumer: 20,
+				waste: 6,
+			},
+			{
+				foodCategoryId: 9,
+				consumer: 15,
+				waste: 10,
+			},
+			{
+				foodCategoryId: 10,
+				consumer: 10,
+				waste: 8,
+			},
+		],
+		mostWaste: [
+			{
+				foodCategoryId: 5,
+				consumer: 10,
+				waste: 15,
+			},
+			{
+				foodCategoryId: 4,
+				consumer: 3,
+				waste: 10,
+			},
+			{
+				foodCategoryId: 32,
+				consumer: 7,
+				waste: 3,
+			},
+		],
+	};
 	const thisYear = new Date().getFullYear();
 	const thisMonth = new Date().getMonth() + 1;
 	const [year, setYear] = useState(thisYear);
 	const [month, setMonth] = useState(thisMonth);
 	const query = useQuery([FOOD_API, 'foodData', 'month'], () => getFoodFoodDataMonth(year, month), {
 		keepPreviousData: true,
-		staleTime: STALE_TIME,
-		cacheTime: CACHE_TIME,
 		select: res => res.data.data,
 	});
 	useEffect(() => {
@@ -30,8 +67,8 @@ function MonthlyReport() {
 
 	return (
 		<div>
-			{!query.isLoading && query.data && (
-				<div>
+			{!query.isFetching && query.data && (
+				<div className="relative">
 					<div className="flex items-center justify-between my-6">
 						<div className="text-lg font-bold">
 							<span className="text-green">
@@ -53,13 +90,27 @@ function MonthlyReport() {
 							}}
 						/>
 					</div>
+					{/* 테스트 */}
 					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
-						<div className="w-full px-4 py-10 border component stroke">
-							<div className="mb-4 text-center">
-								이번 달 데이터가 부족해 <br /> 리포트는 존재하지 않습니다.{' '}
+						<>
+							<div className="absolute z-20 w-full px-4 py-10 top-20">
+								<div className="mb-4 text-center text">
+									이번 달 데이터가 부족해 <br /> 리포트는 존재하지 않습니다.{' '}
+								</div>
+								<img className="block w-40 m-auto" src={emptyReport} alt="empty" />
 							</div>
-							<img className="block m-auto" src={emptyReport} alt="empty" />
-						</div>
+							<div className="absolute z-10 w-full h-[450px] bg-white dark:bg-dark/component opacity-50 top-20" />
+						</>
+					)}
+					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
+						<>
+							<div className="mb-6 blur-sm">
+								<QuarterTag reportData={dummy} />
+							</div>
+							<div className="p-4 border rounded-xl component stroke blur-sm">
+								<Graph reportData={dummy} />
+							</div>
+						</>
 					)}
 					{Boolean(isEmpty) && (
 						<>
