@@ -4,7 +4,6 @@ import lombok.*;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
 @Getter
 @Builder
 public class UserDto {
