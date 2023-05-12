@@ -125,7 +125,9 @@ public class FoodServiceImpl implements FoodService{
     public FoodMoreInfoDto getFoodMoreInfo(Long foodId) {
         FoodMoreInfoDto foodMoreInfoDto = new FoodMoreInfoDto();
         MyFood myFood = myfoodRepository.findById(foodId).orElseThrow();
-        NutrientInfo nutrientInfo = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName()).get(0);
+        List<NutrientInfo> nutrientInfos = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName());
+        NutrientInfo nutrientInfo = null;
+        if(nutrientInfos.size() != 0) nutrientInfo = nutrientInfos.get(0);
         Long cateId = myFood.getFoodCategory().getId();
         Long userId = myFood.getUser().getId();
         Long usedCount = usedFoodRepository.countByFoodCategoryIdAndUserId(cateId , userId);
@@ -213,6 +215,7 @@ public class FoodServiceImpl implements FoodService{
     @Override
     public FoodDataDto getFoodData(String codeNumber) {
         List<FoodData> foodDatas = foodDataRepository.findAllByBarcode(codeNumber);
+        if(foodDatas.size() == 0 ) return null;
         FoodData foodData = foodDatas.get(0);
         FoodDataDto foodDataDto = new FoodDataDto();
         foodDataDto.setFoodName(foodData.getFoodName());

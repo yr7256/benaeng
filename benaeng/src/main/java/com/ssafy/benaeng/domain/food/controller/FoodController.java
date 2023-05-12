@@ -119,6 +119,7 @@ public class FoodController {
     public CommonDto<Object> getFoodDate(@PathVariable String codeNumber){
         try {
             FoodDataDto foodDataDto = foodService.getFoodData(codeNumber);
+            if(foodDataDto == null) return CommonDto.of("204", "등록되지 않은 바코드 입니다.", null);
             System.out.println(foodDataDto);
             return CommonDto.of("200", "바코드로 검색된 식품의 정보입니다.", foodDataDto);
         } catch (Exception e) {
