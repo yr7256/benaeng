@@ -24,5 +24,5 @@ public interface FoodService {
     ReportDto getReportInfo(Long userId);
     MonthReportDto getMonthReport(YearMonthDto yearMonthDto , Long userId);
 
-    ReportDetailDto getReportDeatil(Long userId, Long foodCategoryId);
+    ReportDetailDto getReportDetail(Long userId, Long foodCategoryId);
 }

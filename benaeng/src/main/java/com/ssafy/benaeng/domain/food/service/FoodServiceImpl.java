@@ -208,7 +208,7 @@ public class FoodServiceImpl implements FoodService{
             total += differenceInDays;
         }
         if(usedFoodList.size() != 0) foodMoreInfoDto.setCycle(total / usedFoodList.size());
-        foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
         return foodMoreInfoDto;
     }
 
@@ -443,25 +443,16 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public ReportDetailDto getReportDeatil(Long userId, Long foodCategoryId) {
+    public ReportDetailDto getReportDetail(Long userId, Long foodCategoryId) {
         ReportDetailDto reportDetailDto = new ReportDetailDto();
         Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(foodCategoryId , userId);
-        reportDetailDto.setSubCategory();
-        foodMoreInfoDto.setFoodName(myFood.getFoodName());
-        foodMoreInfoDto.setTotal(myFood.getTotalCount());
-        foodMoreInfoDto.setCount(myFood.getCount());
-        if(nutrientInfo != null){
-            foodMoreInfoDto.setNutrientInfo(nutrientInfo);
-        }
-        foodMoreInfoDto.setStartDate(myFood.getStartDate());
-        foodMoreInfoDto.setEndDate(myFood.getEndDate());
-        FoodCategory foodCategory = foodCategoryRepository.findById(myFood.getFoodCategory().getId()).orElseThrow();
-        foodMoreInfoDto.setFoodCategoryId(foodCategory.getId());
-        foodMoreInfoDto.setMiddleCategory(foodCategory.getMiddleCategory());
-        foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
+        FoodCategory foodCategory = foodCategoryRepository.findById(foodCategoryId).orElseThrow();
+        System.out.println(purchaseInfo);
+        reportDetailDto.setSubCategory(foodCategory.getSubCategory());
+        if(purchaseInfo == null) return null;
         if(purchaseInfo != null) {
             if (purchaseInfo.getCnt() == 1) {
-                foodMoreInfoDto.setPurchase(null);
+                reportDetailDto.setPurchase(-1L);
             } else {
                 Long cnt = purchaseInfo.getCnt();
                 long differenceInMilliseconds = purchaseInfo.getLastDate().getTime() - purchaseInfo.getFirstDate().getTime();
@@ -470,12 +461,12 @@ public class FoodServiceImpl implements FoodService{
                 long differenceInHours = differenceInMinutes / 60;
                 long differenceInDays = differenceInHours / 24;
 
-                foodMoreInfoDto.setPurchase(differenceInDays / (cnt - 1));
+                reportDetailDto.setPurchase(differenceInDays / (cnt - 1));
             }
         }
-        List<MyFood> myFoodList = myfoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
-        List<UsedFood> usedFoodList = usedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
-        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        List<MyFood> myFoodList = myfoodRepository.findAllByFoodCategoryIdAndUserId( foodCategoryId, userId);
+        List<UsedFood> usedFoodList = usedFoodRepository.findAllByFoodCategoryIdAndUserId(foodCategoryId, userId);
+        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByFoodCategoryIdAndUserId(foodCategoryId, userId);
 
         Map<String , Long> topthree  = new HashMap<>();
         for(MyFood mf: myFoodList){
@@ -504,13 +495,14 @@ public class FoodServiceImpl implements FoodService{
         while(true){
             if(entryList.size() ==0) break;
             if(index >= 3 || index >= entryList.size()) break;
-            foodMoreInfoDto.getPreferProducts().add(entryList.get(index).getKey());
+            reportDetailDto.getPreferProducts().add(entryList.get(index).getKey());
             index +=1;
         }
 
         long start = Integer.MAX_VALUE;
         long end = Integer.MIN_VALUE;
         long total = 0;
+
         for(UsedFood uf : usedFoodList){
             start = uf.getStartDate().getTime();
             end = uf.getEndDate().getTime();
@@ -520,9 +512,12 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        if(usedFoodList.size() != 0) foodMoreInfoDto.setCycle(total / usedFoodList.size());
-        foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
-        return foodMoreInfoDto;
-        return null;
+        System.out.println(total);
+        System.out.println(usedFoodList.size());
+        if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
+        else if(usedFoodList.size() == 1) reportDetailDto.setCycle(-1L);
+        System.out.println(myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
+        return reportDetailDto;
     }
 }
