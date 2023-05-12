@@ -21,20 +21,11 @@ function App() {
 		enabled: !user.isValid,
 	});
 
-	if (userQuery.isLoading) {
-		return (
-			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
-					<Loading />
-				</div>
-			</div>
-		);
-	}
-
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+					{userQuery.isLoading ? <Loading /> : undefined}
 					<Login />
 				</div>
 			</div>
@@ -44,6 +35,7 @@ function App() {
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 			<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+				{userQuery.isLoading ? <Loading /> : undefined}
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/foods/:id" element={<FoodDetail />} />
