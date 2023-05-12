@@ -441,4 +441,88 @@ public class FoodServiceImpl implements FoodService{
         System.out.println(monthReportDto);
         return monthReportDto;
     }
+
+    @Override
+    public ReportDetailDto getReportDeatil(Long userId, Long foodCategoryId) {
+        ReportDetailDto reportDetailDto = new ReportDetailDto();
+        Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(foodCategoryId , userId);
+        reportDetailDto.setSubCategory();
+        foodMoreInfoDto.setFoodName(myFood.getFoodName());
+        foodMoreInfoDto.setTotal(myFood.getTotalCount());
+        foodMoreInfoDto.setCount(myFood.getCount());
+        if(nutrientInfo != null){
+            foodMoreInfoDto.setNutrientInfo(nutrientInfo);
+        }
+        foodMoreInfoDto.setStartDate(myFood.getStartDate());
+        foodMoreInfoDto.setEndDate(myFood.getEndDate());
+        FoodCategory foodCategory = foodCategoryRepository.findById(myFood.getFoodCategory().getId()).orElseThrow();
+        foodMoreInfoDto.setFoodCategoryId(foodCategory.getId());
+        foodMoreInfoDto.setMiddleCategory(foodCategory.getMiddleCategory());
+        foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
+        if(purchaseInfo != null) {
+            if (purchaseInfo.getCnt() == 1) {
+                foodMoreInfoDto.setPurchase(null);
+            } else {
+                Long cnt = purchaseInfo.getCnt();
+                long differenceInMilliseconds = purchaseInfo.getLastDate().getTime() - purchaseInfo.getFirstDate().getTime();
+                long differenceInSeconds = differenceInMilliseconds / 1000;
+                long differenceInMinutes = differenceInSeconds / 60;
+                long differenceInHours = differenceInMinutes / 60;
+                long differenceInDays = differenceInHours / 24;
+
+                foodMoreInfoDto.setPurchase(differenceInDays / (cnt - 1));
+            }
+        }
+        List<MyFood> myFoodList = myfoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        List<UsedFood> usedFoodList = usedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
+
+        Map<String , Long> topthree  = new HashMap<>();
+        for(MyFood mf: myFoodList){
+            if(topthree.containsKey(mf.getFoodName())) topthree.replace (mf.getFoodName() ,topthree.get(mf.getFoodName()) + 1) ;
+            else {
+                topthree.put(mf.getFoodName() , 1L);
+            }
+        }
+        for(UsedFood uf: usedFoodList){
+            if(topthree.containsKey(uf.getFoodName())) topthree.replace (uf.getFoodName() ,topthree.get(uf.getFoodName()) + 1) ;
+            else {
+                topthree.put(uf.getFoodName() , 1L);
+            }
+        }
+        for(WastedFood wf: wastedFoodList){
+            if(topthree.containsKey(wf.getFoodName())) topthree.replace (wf.getFoodName() ,topthree.get(wf.getFoodName()) + 1) ;
+            else {
+                topthree.put(wf.getFoodName() , 1L);
+            }
+        }
+        List<Map.Entry<String, Long>> entryList = new LinkedList<>(topthree.entrySet());
+        entryList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(entryList);
+        int index = 0;
+
+        while(true){
+            if(entryList.size() ==0) break;
+            if(index >= 3 || index >= entryList.size()) break;
+            foodMoreInfoDto.getPreferProducts().add(entryList.get(index).getKey());
+            index +=1;
+        }
+
+        long start = Integer.MAX_VALUE;
+        long end = Integer.MIN_VALUE;
+        long total = 0;
+        for(UsedFood uf : usedFoodList){
+            start = uf.getStartDate().getTime();
+            end = uf.getEndDate().getTime();
+            long differenceInSeconds = (end - start) / 1000;
+            long differenceInMinutes = differenceInSeconds / 60;
+            long differenceInHours = differenceInMinutes / 60;
+            long differenceInDays = differenceInHours / 24;
+            total += differenceInDays;
+        }
+        if(usedFoodList.size() != 0) foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        return foodMoreInfoDto;
+        return null;
+    }
 }

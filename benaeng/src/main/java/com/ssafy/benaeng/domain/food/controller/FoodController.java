@@ -140,4 +140,15 @@ public class FoodController {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
+
+    @GetMapping("/foodData/{foodCategoryId}}")
+    public CommonDto<Object> getReportDetail(@AuthenticationPrincipal String id  ,@PathVariable Long foodCategoryId){
+        try {
+            Long userId = Long.parseLong(id);
+            ReportDetailDto reportDetailDto = foodService.getReportDeatil(userId , foodCategoryId);
+            return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
 }
