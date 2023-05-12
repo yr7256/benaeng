@@ -20,7 +20,7 @@ function AddButton({ onClick, className }: Props) {
 		<button
 			type="button"
 			onClick={onClick}
-			className={`${className} w-20 h-20 bg-green rounded-full cursor-pointer flex justify-center items-center shadow-xl`}
+			className={`${className} w-20 h-20 z-50 bg-green rounded-full cursor-pointer flex justify-center items-center shadow-xl`}
 		>
 			<TbPlus strokeWidth={3} className="text-white text-5xl" />
 		</button>
