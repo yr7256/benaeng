@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import Accordion from '../components/common/accordion/Accordion';
 import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
 import AddButton from '../components/home/button/AddButton';
@@ -12,6 +11,8 @@ import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { resetBarcodeData, selectBarcode } from '../store/modules/barcode';
 import useRefrigerator from '../hooks/useRefrigerator';
 import FoodList from '../components/home/foodList/FoodList';
+import WarningFoodList from '../components/home/foodList/WarningFoodList';
+import ExpiredFoodList from '../components/home/foodList/ExpiredFoodList';
 
 declare global {
 	interface Window {
@@ -54,12 +55,12 @@ function Home() {
 
 			{/* 냉장고 소비기한 임박 식품 목록 */}
 			<section className="mt-8">
-				<Accordion primary label="소비기한 임박 식품" open>
-					<div className="p-8 opacity-50">진행중...</div>
-				</Accordion>
+				<WarningFoodList data={data} />
+				<ExpiredFoodList data={data} />
 			</section>
 
 			<hr className="stroke" />
+
 			{/* 냉장고 식품 전체 목록 */}
 			<section className="flex flex-col gap-4">
 				<SearchBar value={search} setValue={setSearch} />

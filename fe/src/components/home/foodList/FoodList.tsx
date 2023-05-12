@@ -35,7 +35,7 @@ function FoodList({ data, isFetching, search }: Props) {
 			// 유효한 카테고리인 경우
 			if (categoryData) {
 				// 음식의 남은 날짜를 연산
-				const dDay = moment().diff(moment(food.endDate, 'YYYY-MM-DD'), 'day');
+				const dDay = moment(food.endDate, 'YYYY-MM-DD').diff(moment(), 'days');
 				const homeFood: HomeFoodData = { ...food, ...categoryData, dDay };
 
 				if (!matchKo(homeFood.subCategory, search) && !matchKo(homeFood.foodName, search)) return;
