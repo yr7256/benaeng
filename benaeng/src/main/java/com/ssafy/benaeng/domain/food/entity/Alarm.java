@@ -1,33 +1,35 @@
 package com.ssafy.benaeng.domain.food.entity;
 
+import com.ssafy.benaeng.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "alram_id")
+    @Column(name = "alarm_id")
     private Long id;
-
-    private int type;
-    private int status;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+    private Integer type;
+    private Integer status;
     private Date createTime;
-    private int dDay;
+    private Integer dDay;
     private String foodName;
-    private Long foodId;
-    private Long foodCategoryId;
+    @OneToOne
+    @JoinColumn(name = "id")
+    private MyFood food;
+    @OneToOne
+    @JoinColumn(name = "food_category_id")
+    private FoodCategory foodCategory;
     private String msg;
-
-
-
 }
