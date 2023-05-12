@@ -179,19 +179,10 @@ public class UserService {
         String accessToken = "";
         String refreshToken = "";
         String tokenUrl = "https://kauth.kakao.com/oauth/token";
-<<<<<<< HEAD
-//        String redirectUrl = "https://k8b205.p.ssafy.io/login";
-        String redirectUrl = "http://localhost:3000/login";
-
-        try{
-            URL url = new URL(tokenUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-=======
         String redirectUrl = "https://k8b205.p.ssafy.io";
 //        String redirectUrl = "http://localhost:3000";
         URL url = new URL(tokenUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
->>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
 
         //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
         conn.setRequestMethod("POST");

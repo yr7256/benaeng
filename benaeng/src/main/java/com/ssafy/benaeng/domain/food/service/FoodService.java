@@ -1,6 +1,5 @@
 package com.ssafy.benaeng.domain.food.service;
 
-import com.ssafy.benaeng.domain.food.entity.Alarm;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
@@ -23,9 +22,5 @@ public interface FoodService {
     FoodDataDto getFoodData(String codeNumber);
     void savePurchase(MyFood myFood);
     ReportDto getReportInfo(Long userId);
-<<<<<<< HEAD
-    Alarm makeAlarm(Long userId);
-=======
     MonthReportDto getMonthReport(YearMonthDto yearMonthDto , Long userId);
->>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
 }

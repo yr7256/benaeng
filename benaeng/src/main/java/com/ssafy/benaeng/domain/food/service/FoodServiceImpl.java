@@ -16,10 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -128,11 +125,9 @@ public class FoodServiceImpl implements FoodService{
     public FoodMoreInfoDto getFoodMoreInfo(Long foodId) {
         FoodMoreInfoDto foodMoreInfoDto = new FoodMoreInfoDto();
         MyFood myFood = myfoodRepository.findById(foodId).orElseThrow();
-<<<<<<< HEAD
         List<NutrientInfo> nutrientInfos = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName());
-=======
-        NutrientInfo nutrientInfo = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName()).get(0);
->>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
+        NutrientInfo nutrientInfo = null;
+        if(nutrientInfos.size() != 0) nutrientInfo = nutrientInfos.get(0);
         Long cateId = myFood.getFoodCategory().getId();
         Long userId = myFood.getUser().getId();
         Long usedCount = usedFoodRepository.countByFoodCategoryIdAndUserId(cateId , userId);
@@ -142,8 +137,8 @@ public class FoodServiceImpl implements FoodService{
         foodMoreInfoDto.setFoodName(myFood.getFoodName());
         foodMoreInfoDto.setTotal(myFood.getTotalCount());
         foodMoreInfoDto.setCount(myFood.getCount());
-        if(nutrientInfos != null){
-            foodMoreInfoDto.setNutrientInfo(nutrientInfos.get(nutrientInfos.size()-1));
+        if(nutrientInfo != null){
+            foodMoreInfoDto.setNutrientInfo(nutrientInfo);
         }
         foodMoreInfoDto.setStartDate(myFood.getStartDate());
         foodMoreInfoDto.setEndDate(myFood.getEndDate());
@@ -220,6 +215,7 @@ public class FoodServiceImpl implements FoodService{
     @Override
     public FoodDataDto getFoodData(String codeNumber) {
         List<FoodData> foodDatas = foodDataRepository.findAllByBarcode(codeNumber);
+        if(foodDatas.size() == 0 ) return null;
         FoodData foodData = foodDatas.get(0);
         FoodDataDto foodDataDto = new FoodDataDto();
         foodDataDto.setFoodName(foodData.getFoodName());
@@ -338,42 +334,6 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-<<<<<<< HEAD
-    public Alarm makeAlarm(Long userId) {
-        long myFoodCount = 0L;
-        long usedCount = 0L;
-        long wastedCount = 0L;
-        List<MyFood> myFoodList = myfoodRepository.findAllByUserId(userId);
-        List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
-        List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByUserId(userId);
-        LocalDate currentDate = LocalDate.now();
-        Map<FoodCategory, List<MyFood>> myFoodMap = myFoodList.stream()
-                .collect(Collectors.groupingBy(MyFood::getFoodCategory));
-
-        for (Map.Entry<FoodCategory, List<MyFood>> entry : myFoodMap.entrySet()) {
-            FoodCategory foodCategory = entry.getKey();
-            List<MyFood> categoryFoods = entry.getValue();
-            Date lastEndDate = categoryFoods.stream()
-                    .map(MyFood::getEndDate)
-                    .max(Date::compareTo)
-                    .orElse(null);
-            System.out.println(lastEndDate);
-            if (lastEndDate != null) {
-                long daysSinceLastPurchase = ChronoUnit.DAYS.between(lastEndDate.toInstant(), currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                int purchaseFrequency = categoryFoods.stream()
-                        .mapToInt(MyFood::getTotalCount)
-                        .sum() / categoryFoods.size();
-                if (daysSinceLastPurchase == purchaseFrequency) {
-                    String message = "슬슬 " + foodCategory.getId() + "를 구매할 시기가 되었어요";
-                    // do something with the message
-                    System.out.println(message);
-                }
-            }
-        }
-
-
-        return null;
-=======
     public MonthReportDto getMonthReport(YearMonthDto yearMonthDto , Long userId) {
         MonthReportDto monthReportDto = new MonthReportDto();
 
@@ -480,6 +440,5 @@ public class FoodServiceImpl implements FoodService{
         }
         System.out.println(monthReportDto);
         return monthReportDto;
->>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
     }
 }

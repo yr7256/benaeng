@@ -1,7 +1,6 @@
 package com.ssafy.benaeng.domain.food.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ssafy.benaeng.domain.food.entity.Alarm;
 import com.ssafy.benaeng.domain.food.entity.FoodCategory;
 import com.ssafy.benaeng.domain.food.entity.FoodData;
 import com.ssafy.benaeng.domain.food.entity.MyFood;
@@ -116,20 +115,11 @@ public class FoodController {
         }
     }
 
-<<<<<<< HEAD
-    @GetMapping("/alarm")
-    public CommonDto<Object> getAlarm(@AuthenticationPrincipal String id){
-        try{
-            Long userId = Long.parseLong(id);
-            foodService.makeAlarm(1L);
-            return null;
-        }catch (Exception e){
-            return CommonDto.of("400" , "내용 : " + e.getMessage(), null );
-=======
     @GetMapping("/foodData/{codeNumber}")
     public CommonDto<Object> getFoodDate(@PathVariable String codeNumber){
         try {
             FoodDataDto foodDataDto = foodService.getFoodData(codeNumber);
+            if(foodDataDto == null) return CommonDto.of("204", "등록되지 않은 바코드 입니다.", null);
             System.out.println(foodDataDto);
             return CommonDto.of("200", "바코드로 검색된 식품의 정보입니다.", foodDataDto);
         } catch (Exception e) {
@@ -148,7 +138,6 @@ public class FoodController {
             return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
->>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
         }
     }
 }
