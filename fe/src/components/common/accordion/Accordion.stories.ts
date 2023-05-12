@@ -31,6 +31,7 @@ export const Primary: Story = {
 		label: 'Accordion',
 		open: true,
 		children: undefined,
+		className: undefined,
 	},
 };
 
@@ -40,5 +41,6 @@ export const Default: Story = {
 		label: 'Accordion',
 		open: true,
 		children: undefined,
+		className: undefined,
 	},
 };

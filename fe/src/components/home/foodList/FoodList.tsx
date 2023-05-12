@@ -65,7 +65,7 @@ function FoodList({ data, isFetching, search }: Props) {
 	return (
 		<>
 			{Object.keys(refrigerator).map(categoryKey => (
-				<Accordion key={categoryKey} primary={undefined} label={categoryKey} open>
+				<Accordion key={categoryKey} primary={undefined} label={categoryKey} open className={undefined}>
 					<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 						{refrigerator[categoryKey].map(({ foodId, subCategory, foodName, dDay }) => (
 							<FoodIcon key={`${foodName}-${foodId}`} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />

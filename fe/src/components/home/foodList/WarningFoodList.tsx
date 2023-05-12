@@ -46,7 +46,7 @@ function WarningFoodList({ data }: Props) {
 	if (!data || refrigerator.length === 0) return null;
 
 	return (
-		<Accordion primary label="소비기한 임박 식품" open>
+		<Accordion primary label="소비기한 임박 식품" open className={undefined}>
 			<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 				{refrigerator.map(({ foodId, subCategory, foodName, dDay }) => (
 					<FoodIcon key={`${foodName}-${foodId}`} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />

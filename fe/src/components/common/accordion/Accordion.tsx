@@ -19,22 +19,26 @@ interface AccordionProps {
 	 * 내부에 담을 컴포넌트
 	 */
 	children: ReactNode | undefined;
+	/**
+	 * 사용자 정의 스타일
+	 */
+	className: string | undefined;
 }
 
 /**
  * Primary UI component for user interaction
  */
-function Accordion({ primary = false, open = false, label, children }: AccordionProps) {
+function Accordion({ primary = false, open = false, label, children, className }: AccordionProps) {
 	const [_open, setOpen] = useState(open);
 	const handleOpen = () => setOpen(!_open);
 
 	return (
-		<section className="border component stroke overflow-hidden">
+		<section className={`border component stroke overflow-hidden ${className}`}>
 			{/* 라벨 */}
 			<button
 				type="button"
 				className={`${
-					primary ? 'bg-green font-bold' : ''
+					primary ? 'bg-green font-bold text-white' : ''
 				} h-10 text-sm flex items-center justify-between cursor-pointer w-full`}
 				onClick={handleOpen}
 			>

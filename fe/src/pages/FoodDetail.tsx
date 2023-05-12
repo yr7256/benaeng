@@ -30,12 +30,12 @@ function FoodDetail() {
 						<FoodContent foodData={data.data.data} />
 					</div>
 					<div className="mb-4">
-						<Accordion primary={false} label="영양정보" open={false}>
+						<Accordion primary={false} label="영양정보" open={false} className={undefined}>
 							<FoodInfo foodData={data.data.data} />
 						</Accordion>
 					</div>
 					<div className="mb-4">
-						<Accordion primary={false} label="소비패턴 분석 보고서" open={false}>
+						<Accordion primary={false} label="소비패턴 분석 보고서" open={false} className={undefined}>
 							<FoodDetailAnalysis foodData={data.data.data} />
 						</Accordion>
 					</div>
