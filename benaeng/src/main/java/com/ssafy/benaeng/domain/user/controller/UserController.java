@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     private final UserService userService;
     @GetMapping("/social/{code}")
-    public CommonDto<Object> code(@PathVariable("code") String code, HttpServletResponse response) throws Exception{
+    public CommonDto<Object> code(@PathVariable("code") String code) throws Exception{
         try {
-            UserDto user = userService.login(code, response);
+            UserDto user = userService.login(code);
             return CommonDto.of("200", "login 성공", user);
         }catch (RuntimeException re){
             return CommonDto.of("400", "login 실패", re.getMessage());

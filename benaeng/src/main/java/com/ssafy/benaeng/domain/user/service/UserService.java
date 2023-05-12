@@ -67,7 +67,7 @@ public class UserService {
     public void logout(){
         SecurityContextHolder.clearContext();
     }
-    public UserDto login(String code, HttpServletResponse response) throws Exception {
+    public UserDto login(String code) throws Exception {
         // 1. get kakao token
         String kakaoToken = getKakaoToken(code);
         if (kakaoToken.isEmpty()) throw new EntityNotFoundException("kakao token 없음");
