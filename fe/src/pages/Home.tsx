@@ -11,8 +11,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { resetBarcodeData, selectBarcode } from '../store/modules/barcode';
 import useRefrigerator from '../hooks/useRefrigerator';
 import FoodList from '../components/home/foodList/FoodList';
-import WarningFoodList from '../components/home/foodList/WarningFoodList';
-import ExpiredFoodList from '../components/home/foodList/ExpiredFoodList';
 
 declare global {
 	interface Window {
@@ -55,8 +53,8 @@ function Home() {
 
 			{/* 냉장고 소비기한 임박 식품 목록 */}
 			<section className="mt-8">
-				<WarningFoodList data={data} />
-				<ExpiredFoodList data={data} />
+				{/* <WarningFoodList data={data} />
+				<ExpiredFoodList data={data} /> */}
 			</section>
 
 			<hr className="stroke" />
