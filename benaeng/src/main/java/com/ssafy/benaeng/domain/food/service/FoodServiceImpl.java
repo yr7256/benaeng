@@ -148,7 +148,7 @@ public class FoodServiceImpl implements FoodService{
         foodMoreInfoDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo != null) {
             if (purchaseInfo.getCnt() == 1) {
-                foodMoreInfoDto.setPurchase(-1L);
+                foodMoreInfoDto.setPurchase(null);
             } else {
                 Long cnt = purchaseInfo.getCnt();
                 long differenceInMilliseconds = purchaseInfo.getLastDate().getTime() - purchaseInfo.getFirstDate().getTime();
