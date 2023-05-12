@@ -40,12 +40,12 @@ function FoodList({ data, isFetching, search }: Props) {
 
 				if (!matchKo(homeFood.subCategory, search) && !matchKo(homeFood.foodName, search)) return;
 
-				if (categoryData?.category in refrigerator) {
+				if (categoryData?.category in result) {
 					// 이미 추가된 category인 경우
-					refrigerator[categoryData.category] = [...refrigerator[categoryData.category], homeFood];
+					result[categoryData.category] = [...result[categoryData.category], homeFood];
 				} else {
 					// 새로 추가된 category인 경우
-					refrigerator[categoryData.category] = [homeFood];
+					result[categoryData.category] = [homeFood];
 				}
 			}
 		});
