@@ -22,5 +22,6 @@ export const Default: Story = {
 		setValue(value) {
 			alert(value);
 		},
+		className: undefined,
 	},
 };
