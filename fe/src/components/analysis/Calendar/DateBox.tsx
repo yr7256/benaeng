@@ -8,8 +8,8 @@ interface Props {
 	setNowDate: React.Dispatch<React.SetStateAction<Date>>;
 	clickedDate: Date | undefined;
 	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
-	purchase: string[];
-	cycle: string[];
+	purchase: { [key: string]: number[] };
+	cycle: { [key: string]: number[] };
 }
 
 const dateToyyyymmdd = (date: Date): string => {
@@ -51,9 +51,6 @@ function DateBox({ nowDate, setNowDate, clickedDate, setClickedDate, purchase, c
 
 	const weeks = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Ft', 'Sa'];
 
-	console.log(purchase);
-	console.log(cycle);
-
 	return (
 		<div className="DateBox-Container">
 			{weeks.map(week => {
@@ -61,8 +58,8 @@ function DateBox({ nowDate, setNowDate, clickedDate, setClickedDate, purchase, c
 			})}
 			{allDay.map((day: Date) => {
 				const yyyymmdd = dateToyyyymmdd(day);
-				const todayIsPurchase = purchase.indexOf(yyyymmdd);
-				const todayIsCycle = cycle.indexOf(yyyymmdd);
+				const todayIsPurchase = Object.keys(purchase).indexOf(yyyymmdd);
+				const todayIsCycle = Object.keys(cycle).indexOf(yyyymmdd);
 				const isPurchase = todayIsPurchase !== -1;
 				const isCycle = todayIsCycle !== -1;
 				return (
@@ -75,6 +72,8 @@ function DateBox({ nowDate, setNowDate, clickedDate, setClickedDate, purchase, c
 						setClickedDate={setClickedDate}
 						isPurchase={isPurchase}
 						isCycle={isCycle}
+						purchase={purchase}
+						cycle={cycle}
 					/>
 				);
 			})}
