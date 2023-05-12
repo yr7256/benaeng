@@ -127,12 +127,13 @@ public class FoodController {
     }
 
     @GetMapping("/foodData/month/{year}/{month}")
-    public CommonDto<Object> getFoodMonthData(@PathVariable int year , @PathVariable int month){
+    public CommonDto<Object> getFoodMonthData(@AuthenticationPrincipal String id  ,@PathVariable int year , @PathVariable int month){
         try {
             YearMonthDto yearMonthDto = new YearMonthDto();
             yearMonthDto.setMonth(month);
             yearMonthDto.setYear(year);
-            MonthReportDto monthReportDto = foodService.getMonthReport(yearMonthDto , 2771736803L);
+            Long userId = Long.parseLong(id);
+            MonthReportDto monthReportDto = foodService.getMonthReport(yearMonthDto , userId);
             return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
