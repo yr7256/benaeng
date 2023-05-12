@@ -184,7 +184,6 @@ public class FoodServiceImpl implements FoodService{
         List<Map.Entry<String, Long>> entryList = new LinkedList<>(topthree.entrySet());
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList);
-        System.out.println(topthree);
         int index = 0;
         while(true){
             if(index >= 3 || index >= entryList.size()) break;
@@ -204,11 +203,7 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        System.out.println(total);
         foodMoreInfoDto.setCycle(total / usedFoodList.size());
-        System.out.println(foodMoreInfoDto.getPreferProducts());
-        System.out.println(foodMoreInfoDto.getPurchase());
-        System.out.println(foodMoreInfoDto.getCycle());
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         return foodMoreInfoDto;
     }
@@ -320,10 +315,6 @@ public class FoodServiceImpl implements FoodService{
         wastedList.sort(Map.Entry.comparingByValue());
         Collections.reverse(wastedList);
 
-        System.out.println(myFoodCount);
-        System.out.println(usedCount);
-        System.out.println(wastedCount);
-
         reportDto.setConsume(usedCount);
         reportDto.setDiscard(wastedCount);
         reportDto.setPurchase(myFoodCount + usedCount + wastedCount);
@@ -334,8 +325,6 @@ public class FoodServiceImpl implements FoodService{
         for(Map.Entry<String , Long> s : usedList){
             reportDto.getFavoriteTopThreeCategory().add(s);
         }
-        System.out.println(reportDto.getDiscardTopThreeCategory());
-        System.out.println(reportDto.getFavoriteTopThreeCategory());
         return reportDto;
     }
 

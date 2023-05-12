@@ -45,7 +45,6 @@ public class FoodController {
             Long userId = Long.parseLong(id);
             FoodsDto foodsDto = new FoodsDto();
             List<FoodsDto> myFoodList = foodService.findMyFoodList(userId);
-            System.out.println(Arrays.toString(myFoodList.toArray()));
             return CommonDto.of("200", "내 음식 리스트 입니다.", myFoodList);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
@@ -81,7 +80,6 @@ public class FoodController {
     public CommonDto<FoodData> uploadImage(@RequestPart MultipartFile multipartFile) throws JsonProcessingException {
         List<String> fileName = awsS3Service.uploadImage(multipartFile);
         String path = awsS3Service.getThumbnailPath(fileName.get(0));
-        System.out.println(path);
         FoodData foodData = awsS3Service.getBarcode(path);
         if(foodData != null)return CommonDto.of("200" , "요청한 바코드의 식품정보입니다." , foodData);
         else return CommonDto.of("400" , "요청한 바코드의 식품정보가 존재하지 않습니다." , null);

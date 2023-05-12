@@ -1,13 +1,15 @@
 package com.ssafy.benaeng.domain.user.responseDto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
-@ToString
 @Getter
 @Builder
-public class loginUserDto {
+public class UpdateUserDto {
     private Boolean isDark;
 
     private Boolean isAlarm;
@@ -15,5 +17,4 @@ public class loginUserDto {
     private  Boolean isPurchase;
 
     private  Boolean isCycle;
-    private String accessToken;
 }
