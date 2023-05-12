@@ -11,10 +11,11 @@ import java.util.Date;
 @Setter
 @RequiredArgsConstructor
 public class AlarmDto {
-    private int type;
-    private int status;
+    private Long userId;
+    private Integer type;
+    private Integer status;
     private Date createTime;
-    private int dDay;
+    private Integer dDay;
     private String foodName;
     private Long foodId;
     private Long foodCategoryId;
