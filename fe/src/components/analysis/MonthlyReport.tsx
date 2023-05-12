@@ -24,7 +24,7 @@ function MonthlyReport() {
 		query.refetch();
 	}, [year, month]);
 	const user = useAppSelector(selectUser);
-	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-box.svg`;
+	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-analysis.svg`;
 
 	return (
 		<div>
