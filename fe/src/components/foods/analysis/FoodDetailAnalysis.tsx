@@ -23,7 +23,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 						<div className="flex justify-center items-center flex-col w-full h-[109px] text-sm relative">
 							<img className="block w-20 h-20 mx-auto mb-2" src="/assets/common/purchase.svg" alt="purchase" />
 							<div className="absolute z-10 text-2xl font-black -translate-x-1/2 left-1/2 top-6 text-yellow text-inherit whitespace-nowrap text-stroke">
-								{foodData.purchase}일
+								{foodData.purchase < 0 ? '-' : `${foodData.purchase}일`}
 							</div>
 							<div>평균 구매주기</div>
 						</div>
@@ -36,7 +36,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 						<div className="flex justify-center items-center flex-col w-full h-[109px] text-sm relative">
 							<img className="block w-20 h-20 mx-auto mb-2" src="/assets/common/cycle.svg" alt="cycle" />
 							<div className="absolute z-10 text-2xl font-black -translate-x-1/2 left-1/2 top-6 text-blue whitespace-nowrap text-stroke">
-								{foodData.cycle}일
+								{foodData.cycle < 0 ? '-' : `${foodData.cycle}일`}
 							</div>
 							<div>평균 소비주기</div>
 						</div>
