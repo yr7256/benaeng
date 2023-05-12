@@ -1,14 +1,12 @@
 package com.ssafy.benaeng.domain.food.responseDto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class AlarmDto {
     private Long userId;
