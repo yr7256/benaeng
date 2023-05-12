@@ -18,9 +18,8 @@ function App() {
 			setCookie('accessToken', data.data.accessToken);
 			dispatch(setUser(data.data));
 		},
-		enabled: !user.isValid && getCookie('accessToken'),
+		enabled: !!getCookie('accessToken') && !user.isValid,
 	});
-
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
