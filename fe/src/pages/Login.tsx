@@ -1,4 +1,4 @@
-// import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
@@ -10,10 +10,12 @@ import { setCookie } from '../utils/cookie';
 import { SocialResponse } from '../types/UserTypes';
 import { useAppDispatch } from '../hooks/useStore';
 import { setUser } from '../store/modules/user';
+import Modal from '../components/common/modal/Modal';
 
 // 로그인 화면
 
 function Login() {
+	const [alartModal, setAlartModal] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	// 인가코드 받기
@@ -30,11 +32,12 @@ function Login() {
 		);
 
 		if (!isLoading) {
-			if (data) {
-				console.log(data);
+			if (data?.data.data.accessToken) {
 				setCookie('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
 				navigate('/');
+			} else {
+				setAlartModal(true);
 			}
 		}
 	}
@@ -57,6 +60,21 @@ function Login() {
 					<LoginButton />
 				</div>
 			</div>
+			{alartModal && (
+				<Modal
+					mode="alert"
+					size="sm"
+					label="로그인"
+					open={alartModal}
+					onClose={() => setAlartModal(false)}
+					submitText="확인"
+					onSubmit={() => setAlartModal(false)}
+				>
+					<div className="text-center">
+						로그인에 실패했습니다. <br /> 다시 시도해 주세요.
+					</div>
+				</Modal>
+			)}
 		</div>
 	);
 }
