@@ -4,8 +4,8 @@ import DateBox from './DateBox';
 import './calendar.css';
 
 interface CalendarProps {
-	purchase: string[];
-	cycle: string[];
+	purchase: { [key: string]: number[] };
+	cycle: { [key: string]: number[] };
 }
 
 function Main({ purchase, cycle }: CalendarProps) {
