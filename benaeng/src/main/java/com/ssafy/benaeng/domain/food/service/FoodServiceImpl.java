@@ -185,7 +185,10 @@ public class FoodServiceImpl implements FoodService{
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList);
         int index = 0;
-        System.out.println(entryList);
+        log.info("myFoodList = {}",myFoodList);
+        log.info("usedFoodList = {}",usedFoodList);
+        log.info("wastedFoodList = {}",wastedFoodList);
+        log.info("entryList = {}",entryList);
         while(true){
             if(index >= 3 || index >= entryList.size()) break;
             foodMoreInfoDto.getPreferProducts().add(entryList.get(index).getKey());
