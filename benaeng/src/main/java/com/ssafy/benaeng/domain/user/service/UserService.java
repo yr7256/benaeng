@@ -77,7 +77,7 @@ public class UserService {
         HashMap<String, Object> userInfo = getUserInfo(kakaoToken);
         Long id = (Long) userInfo.get("kakaoId");
         String name = (String) userInfo.get("nickname");
-
+        System.out.println(id  + " " + name);
         // 3. select user
         User user = getOrRegisterUser(id, name);
 

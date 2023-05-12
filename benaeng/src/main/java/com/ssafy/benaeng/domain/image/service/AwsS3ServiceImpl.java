@@ -19,9 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,8 +118,10 @@ public class AwsS3ServiceImpl implements AwsS3Service {
                 result += inferText;
             }
         }
-        FoodData foodData = foodDataRepository.findByBarcode(result);
-        return foodData;
+        System.out.println(result);
+        List<FoodData> foodData = foodDataRepository.findAllByBarcode(result);
+        System.out.println(response.getStatusCodeValue());
+        return foodData.get(foodData.size()-1);
     }
 
     private String getFileExtension(String fileName) {
