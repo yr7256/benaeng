@@ -7,7 +7,7 @@ import FoodInfo from '../components/foods/info/FoodInfo';
 import FoodContent from '../components/foods/detail/FoodContent';
 import FoodDetailAnalysis from '../components/foods/analysis/FoodDetailAnalysis';
 import Topbar from '../components/common/topbar/Topbar';
-import { CACHE_TIME, STALE_TIME } from '../constants/api';
+// import { CACHE_TIME, STALE_TIME } from '../constants/api';
 import { FOOD_API, getFood } from '../apis/foods';
 
 // 식품 상세화면
@@ -16,8 +16,6 @@ function FoodDetail() {
 	const { id } = useParams();
 	const { isFetching, data } = useQuery([FOOD_API], () => getFood(Number(id)), {
 		keepPreviousData: true,
-		staleTime: STALE_TIME,
-		cacheTime: CACHE_TIME,
 	});
 
 	return (
