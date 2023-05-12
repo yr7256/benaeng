@@ -54,16 +54,15 @@ function Home() {
 			<AnalysisButton />
 
 			{/* 냉장고 소비기한 임박 식품 목록 */}
-			<section className="mt-8">
-				<WarningFoodList data={data} />
+			<section className="mt-8 flex flex-col gap-4">
 				<ExpiredFoodList data={data} />
+				<WarningFoodList data={data} />
+				<hr className={`stroke ${data ? '' : 'hidden'}`} />
 			</section>
-
-			<hr className="stroke" />
 
 			{/* 냉장고 식품 전체 목록 */}
 			<section className="flex flex-col gap-4">
-				<SearchBar value={search} setValue={setSearch} />
+				<SearchBar value={search} setValue={setSearch} className={data ? '' : 'hidden'} />
 				<FoodList data={data} isFetching={isFetching} search={search} />
 			</section>
 

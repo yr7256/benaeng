@@ -5,6 +5,7 @@ import { matchKo } from '../../../utils/string';
 import Accordion from '../../common/accordion/Accordion';
 import FoodIcon from '../button/FoodIcon';
 import Category from '../../../constants/category.json';
+import Loading from '../../common/loading/Loading';
 
 interface Props {
 	data: FoodData[] | undefined;
@@ -53,7 +54,7 @@ function FoodList({ data, isFetching, search }: Props) {
 		return result;
 	}, [data, search]);
 
-	if (isFetching) return <div>loading</div>;
+	if (isFetching) return <Loading />;
 	if (!data || Object.keys(data).length === 0)
 		return (
 			<div className="text-light/boldStroke dark:text-dark/boldStroke center flex-col gap-3 pt-[10%]">
@@ -65,7 +66,7 @@ function FoodList({ data, isFetching, search }: Props) {
 	return (
 		<>
 			{Object.keys(refrigerator).map(categoryKey => (
-				<Accordion key={categoryKey} primary={undefined} label={categoryKey} open>
+				<Accordion key={categoryKey} primary={undefined} label={categoryKey} open className={undefined}>
 					<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 						{refrigerator[categoryKey].map(({ foodId, subCategory, foodName, dDay }) => (
 							<FoodIcon key={`${foodName}-${foodId}`} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />

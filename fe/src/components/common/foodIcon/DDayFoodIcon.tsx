@@ -23,7 +23,7 @@ function DDayFoodIcon({ dDay, icon }: Props) {
 		<div className="w-full aspect-square bg-skyBlue rounded-xl box-border center relative">
 			<div className={`absolute -top-1 -left-1 text-white ${DayColor} text-[11px] rounded-full center w-11 h-5`}>
 				{/* 표시는 최대 절댓값 99까지로 제한합니다 */}
-				<span className="font-bold">D{dDay > 0 ? `${-Math.min(dDay, 99)}` : `+${Math.max(dDay, 99)}`}</span>
+				<span className="font-bold">D{dDay > 0 ? `${-Math.min(dDay, 99)}` : `+${-Math.max(dDay, -99)}`}</span>
 				{/* 99가 넘는 경우 +표시로 그 이상임을 표현합니다 */}
 				<sup className="font-thin">{Math.abs(dDay) > 99 ? `+` : ``}</sup>
 			</div>
