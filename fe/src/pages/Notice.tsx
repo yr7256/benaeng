@@ -2,10 +2,14 @@ import React from 'react';
 import Topbar from '../components/common/topbar/Topbar';
 import { AlarmData } from '../types/FoodTypes';
 import Alarm from '../components/notice/alarm/Alarm';
+import { useAppSelector } from '../hooks/useStore';
+import { selectUser } from '../store/modules/user';
 
 // 알림 화면
 
 function Notice() {
+	const user = useAppSelector(selectUser);
+	const emptyNotice = `/assets/${user.isDark ? 'dark' : 'light'}/empty-notice.svg`;
 	// 날짜 별로 알림 메시지 분류
 	const day: AlarmData[][] = Array.from(Array(8), item => new Array(item));
 	const alarmMsg: AlarmData[] = [
@@ -90,6 +94,14 @@ function Notice() {
 				}
 				return null; // 요소가 없을 때는 null 반환
 			})}
+			{!alarmMsg && (
+				<div className="mt-40">
+					<img className="block m-auto mb-4" src={emptyNotice} alt="empty" />
+					<div className="text-xl text-center text-light/boldStroke dark:text-dark/boldStroke">
+						메시지가 존재하지 않습니다.
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

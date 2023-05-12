@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import FoodIcon from '../../common/foodIcon/FoodIcon';
 import Slider from '../slider/Slider';
 import { FoodDetailData } from '../../../types';
@@ -22,9 +22,9 @@ function FoodContent({ foodData }: Props) {
 	const [alertError, setAlertError] = useState(false);
 
 	// api 요청
-	const url: string[] = window.location.href.split('/');
-	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(url[url.length - 1])));
-	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(url[url.length - 1])));
+	const { id } = useParams();
+	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(id)));
+	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(id)));
 
 	// D-day 계산
 	const start = foodData.startDate.split('-');

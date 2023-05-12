@@ -24,7 +24,9 @@ function MonthlyReport() {
 		query.refetch();
 	}, [year, month]);
 	const user = useAppSelector(selectUser);
-	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-box.svg`;
+	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-analysis.svg`;
+
+	const isEmpty = query.data?.countConsumer || query.data?.countPurchase || query.data?.countWaste;
 
 	return (
 		<div>
@@ -59,7 +61,7 @@ function MonthlyReport() {
 							<img className="block m-auto" src={emptyReport} alt="empty" />
 						</div>
 					)}
-					{(query.data.countConsumer || query.data.countPurchase || query.data.countWaste) && (
+					{!isEmpty && (
 						<>
 							<div className="mb-6">
 								<QuarterTag reportData={query.data} />
