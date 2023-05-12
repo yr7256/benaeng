@@ -207,7 +207,7 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        if(usedFoodList.size() != 0) foodMoreInfoDto.setCycle(total / usedFoodList.size());
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         return foodMoreInfoDto;
     }
