@@ -54,9 +54,9 @@ function Home() {
 			<AnalysisButton />
 
 			{/* 냉장고 소비기한 임박 식품 목록 */}
-			<section className="mt-8">
-				<WarningFoodList data={data} />
+			<section className="mt-8 flex flex-col gap-4">
 				<ExpiredFoodList data={data} />
+				<WarningFoodList data={data} />
 			</section>
 
 			<hr className="stroke" />
