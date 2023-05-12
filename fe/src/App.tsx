@@ -13,33 +13,33 @@ function App() {
 	const userInfo = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
-	// const userQuery = useQuery(['login', user.isValid], getUserData, {
-	// 	select: ({ data }) => {
-	// 		setCookie('accessToken', data.data.accessToken);
-	// 		dispatch(setUser(data.data));
-	// 	},
-	// 	enabled: !user.isValid,
-	// });
+	const userQuery = useQuery(['login', user.isValid], getUserData, {
+		select: ({ data }) => {
+			setCookie('accessToken', data.data.accessToken);
+			dispatch(setUser(data.data));
+		},
+		enabled: !user.isValid,
+	});
 
-	// if (userQuery.isLoading) {
-	// 	return (
-	// 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-	// 			<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
-	// 				<Loading />
-	// 			</div>
-	// 		</div>
-	// 	);
-	// }
+	if (userQuery.isLoading) {
+		return (
+			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
+				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+					<Loading />
+				</div>
+			</div>
+		);
+	}
 
-	// if (!user.isValid) {
-	// 	return (
-	// 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-	// 			<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
-	// 				<Login />
-	// 			</div>
-	// 		</div>
-	// 	);
-	// }
+	if (!user.isValid) {
+		return (
+			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
+				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+					<Login />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
