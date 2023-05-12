@@ -1,0 +1,13 @@
+{
+  "calendar": [
+  { "categoryId": 1, "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
+  { "categoryId": 2, "purchaseRecords": ["2023-04-20", "2023-04-21", "2023-04-24"], "purchaseCycle": 2 }],
+  "alarm": [
+  { "categoryId": 1, "foodId": 1, "notificationType": 0, "dDay": 0 },
+  { "categoryId": 2, "foodId": 2, "notificationType": 0, "dDay": 0 }],
+  "purchase": [
+  { "categoryId": 1, "foodId": 1, "dDay": 0 },
+  { "categoryId": 2, "foodId": 2, "dDay": 0 },
+  { "categoryId": 3, "foodId": 3, "dDay": 0 },
+  { "categoryId": 4, "foodId": 4, "dDay": 0 }]
+}

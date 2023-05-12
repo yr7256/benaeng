@@ -1,5 +1,4 @@
 .Calendar-Container {
-  /* width: 22.875rem; */
   height: 22.125rem;
   display: flex;
   flex-direction: column;
@@ -40,4 +39,20 @@
 
 .Check-Container > * {
   margin-right: 0.5rem;
+}
+
+.PurchaseAndCycleDay {
+  @apply bg-yellow rounded-lg shadow-day shadow-green
+}
+
+.PurchaseDay {
+  @apply bg-yellow rounded-lg
+}
+
+.CycleDay {
+  @apply bg-green rounded-lg
+}
+
+.AlldayDayContainer > * {
+  @apply flex w-7 h-7 items-center justify-center
 }

@@ -4,6 +4,7 @@ import { CategoryData, FoodData, HomeFoodData } from '../../../types';
 import Accordion from '../../common/accordion/Accordion';
 import Category from '../../../constants/category.json';
 import FoodIcon from '../button/FoodIcon';
+import './ExpiredFoodList.css';
 
 interface Props {
 	data: FoodData[] | undefined;
@@ -46,7 +47,7 @@ function ExpiredFoodList({ data }: Props) {
 	if (!data || refrigerator.length === 0) return null;
 
 	return (
-		<Accordion primary label="소비기한 마감 식품" open>
+		<Accordion primary label="소비기한 마감 식품" open className="expired">
 			<div className={`p-6 pt-7 grid ${columSize} gap-4`}>
 				{refrigerator.map(({ foodId, subCategory, foodName, dDay }) => (
 					<FoodIcon key={`${foodName}-${foodId}`} id={foodId} icon={subCategory} dDay={dDay} name={foodName} />
