@@ -10,7 +10,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @CrossOrigin
 @Slf4j
@@ -20,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     private final UserService userService;
     @GetMapping("/social/{code}")
-    public CommonDto<Object> code(@PathVariable("code") String code) throws Exception{
+    public CommonDto<Object> login(@PathVariable("code") String code) throws Exception{
         try {
             UserDto user = userService.login(code);
             return CommonDto.of("200", "login 성공", user);
