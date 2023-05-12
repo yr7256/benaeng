@@ -3,7 +3,6 @@ package com.ssafy.benaeng.domain.user.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Builder
 @Getter

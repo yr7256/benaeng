@@ -1,9 +1,6 @@
 package com.ssafy.benaeng.domain.user.responseDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -17,4 +14,5 @@ public class UserDto {
     private  Boolean isPurchase;
 
     private  Boolean isCycle;
+    private String accessToken;
 }

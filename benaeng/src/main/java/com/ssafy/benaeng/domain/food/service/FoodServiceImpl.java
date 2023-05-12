@@ -5,9 +5,8 @@ import com.ssafy.benaeng.domain.food.repository.*;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
-import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
+import com.ssafy.benaeng.domain.food.requestDto.YearMonthDto;
+import com.ssafy.benaeng.domain.food.responseDto.*;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -129,7 +128,11 @@ public class FoodServiceImpl implements FoodService{
     public FoodMoreInfoDto getFoodMoreInfo(Long foodId) {
         FoodMoreInfoDto foodMoreInfoDto = new FoodMoreInfoDto();
         MyFood myFood = myfoodRepository.findById(foodId).orElseThrow();
+<<<<<<< HEAD
         List<NutrientInfo> nutrientInfos = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName());
+=======
+        NutrientInfo nutrientInfo = nutrientInfoRepository.findAllByFoodName(myFood.getFoodName()).get(0);
+>>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
         Long cateId = myFood.getFoodCategory().getId();
         Long userId = myFood.getUser().getId();
         Long usedCount = usedFoodRepository.countByFoodCategoryIdAndUserId(cateId , userId);
@@ -188,9 +191,10 @@ public class FoodServiceImpl implements FoodService{
         List<Map.Entry<String, Long>> entryList = new LinkedList<>(topthree.entrySet());
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList);
-        System.out.println(topthree);
         int index = 0;
+
         while(true){
+            if(entryList.size() ==0) break;
             if(index >= 3 || index >= entryList.size()) break;
             foodMoreInfoDto.getPreferProducts().add(entryList.get(index).getKey());
             index +=1;
@@ -208,13 +212,21 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        System.out.println(total);
         foodMoreInfoDto.setCycle(total / usedFoodList.size());
-        System.out.println(foodMoreInfoDto.getPreferProducts());
-        System.out.println(foodMoreInfoDto.getPurchase());
-        System.out.println(foodMoreInfoDto.getCycle());
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         return foodMoreInfoDto;
+    }
+
+    @Override
+    public FoodDataDto getFoodData(String codeNumber) {
+        List<FoodData> foodDatas = foodDataRepository.findAllByBarcode(codeNumber);
+        FoodData foodData = foodDatas.get(0);
+        FoodDataDto foodDataDto = new FoodDataDto();
+        foodDataDto.setFoodName(foodData.getFoodName());
+        foodDataDto.setFoodCategoryId(foodData.getFoodCategory().getId());
+        foodDataDto.setPogDaycnt(foodData.getPogDaycnt());
+        foodDataDto.setFoodId(foodData.getId());
+        return foodDataDto;
     }
 
     @Override
@@ -312,10 +324,6 @@ public class FoodServiceImpl implements FoodService{
         wastedList.sort(Map.Entry.comparingByValue());
         Collections.reverse(wastedList);
 
-        System.out.println(myFoodCount);
-        System.out.println(usedCount);
-        System.out.println(wastedCount);
-
         reportDto.setConsume(usedCount);
         reportDto.setDiscard(wastedCount);
         reportDto.setPurchase(myFoodCount + usedCount + wastedCount);
@@ -326,12 +334,11 @@ public class FoodServiceImpl implements FoodService{
         for(Map.Entry<String , Long> s : usedList){
             reportDto.getFavoriteTopThreeCategory().add(s);
         }
-        System.out.println(reportDto.getDiscardTopThreeCategory());
-        System.out.println(reportDto.getFavoriteTopThreeCategory());
         return reportDto;
     }
 
     @Override
+<<<<<<< HEAD
     public Alarm makeAlarm(Long userId) {
         long myFoodCount = 0L;
         long usedCount = 0L;
@@ -366,5 +373,113 @@ public class FoodServiceImpl implements FoodService{
 
 
         return null;
+=======
+    public MonthReportDto getMonthReport(YearMonthDto yearMonthDto , Long userId) {
+        MonthReportDto monthReportDto = new MonthReportDto();
+
+        int nowYear = yearMonthDto.getYear();
+        int nowMonth = yearMonthDto.getMonth();
+        int myFoodCount = 0;
+        int usedCount = 0;
+        int wastedCount = 0;
+        List<MyFood> myFoodList  = myfoodRepository.findAllByUserId(userId);
+        List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
+        List<WastedFood> wastedFoodList  = wastedFoodRepository.findAllByUserId(userId);
+
+        monthReportDto.setCountPurchase(myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        monthReportDto.setCountConsumer(usedFoodList.size());
+        monthReportDto.setCountWaste(wastedFoodList.size());
+
+        for(MyFood myFood : myFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(myFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR) + 1;
+            if(month == nowMonth && year == nowYear){
+                myFoodCount +=1;
+            }
+        }
+        for(UsedFood usedFood : usedFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(usedFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR) + 1;
+            if(month == nowMonth && year == nowYear){
+                usedCount +=1;
+            }
+        }
+        for(WastedFood wastedFood : wastedFoodList){
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(wastedFood.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR) + 1;
+            if(month == nowMonth && year == nowYear){
+                wastedCount +=1;
+            }
+        }
+
+        Map<Long , Long> usedTopThree  = new HashMap<>();
+        for(UsedFood uf: usedFoodList){
+            FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
+            if(usedTopThree.containsKey(cate.getId())) usedTopThree.replace(cate.getId(),usedTopThree.get(cate.getId()) + 1) ;
+            else {
+                usedTopThree.put(cate.getId() , 1L);
+            }
+        }
+
+        List<Map.Entry<Long, Long>> usedList = new LinkedList<>(usedTopThree.entrySet());
+        usedList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(usedList);
+
+
+        Map<Long , Long> wastedTopThree  = new HashMap<>();
+        for(WastedFood wf: wastedFoodList){
+            FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
+            if(wastedTopThree.containsKey(cate.getId())) wastedTopThree.replace (cate.getId(),wastedTopThree.get(cate.getId()) + 1) ;
+            else {
+                wastedTopThree.put(cate.getId() , 1L);
+            }
+        }
+
+        List<Map.Entry<Long, Long>> wastedList = new LinkedList<>(wastedTopThree.entrySet());
+        wastedList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(wastedList);
+
+        System.out.println(wastedList);
+        System.out.println(usedList);
+
+
+
+
+        int index = 0;
+        while(true){
+            MonthReportDto.MostUsed mostUsed = new MonthReportDto.MostUsed();
+            if(index >= 3 || index >= usedList.size()) break;
+            mostUsed.foodCategoryId  = usedList.get(index).getKey();
+            mostUsed.consumer  = usedList.get(index).getValue();
+            mostUsed.waste = wastedFoodRepository.countByFoodCategoryIdAndUserId(mostUsed.foodCategoryId , userId);
+            index +=1;
+            monthReportDto.getMostConsumer().add(mostUsed);
+            System.out.println(mostUsed.consumer);
+            System.out.println(mostUsed.waste);
+            System.out.println(mostUsed.foodCategoryId);
+        }
+
+        index = 0;
+        while(true){
+            MonthReportDto.MostUsed mostUsed = new MonthReportDto.MostUsed();
+            if(index >= 3 || index >= wastedList.size()) break;
+            mostUsed.foodCategoryId  = wastedList.get(index).getKey();
+            mostUsed.consumer  = usedFoodRepository.countByFoodCategoryIdAndUserId(mostUsed.foodCategoryId , userId);
+            mostUsed.waste =  wastedList.get(index).getValue();
+            index +=1;
+            monthReportDto.getMostWaste().add(mostUsed);
+            System.out.println(mostUsed.consumer);
+            System.out.println(mostUsed.waste);
+            System.out.println(mostUsed.foodCategoryId);
+        }
+        System.out.println(monthReportDto);
+        return monthReportDto;
+>>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
     }
 }

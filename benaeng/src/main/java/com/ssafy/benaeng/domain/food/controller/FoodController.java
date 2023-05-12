@@ -8,9 +8,8 @@ import com.ssafy.benaeng.domain.food.entity.MyFood;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodMoreInfoDto;
-import com.ssafy.benaeng.domain.food.responseDto.FoodsDto;
-import com.ssafy.benaeng.domain.food.responseDto.ReportDto;
+import com.ssafy.benaeng.domain.food.requestDto.YearMonthDto;
+import com.ssafy.benaeng.domain.food.responseDto.*;
 import com.ssafy.benaeng.domain.food.service.FoodService;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
 import com.ssafy.benaeng.global.responseDto.CommonDto;
@@ -47,7 +46,6 @@ public class FoodController {
             Long userId = Long.parseLong(id);
             FoodsDto foodsDto = new FoodsDto();
             List<FoodsDto> myFoodList = foodService.findMyFoodList(userId);
-            System.out.println(Arrays.toString(myFoodList.toArray()));
             return CommonDto.of("200", "내 음식 리스트 입니다.", myFoodList);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
@@ -83,7 +81,6 @@ public class FoodController {
     public CommonDto<FoodData> uploadImage(@RequestPart MultipartFile multipartFile) throws JsonProcessingException {
         List<String> fileName = awsS3Service.uploadImage(multipartFile);
         String path = awsS3Service.getThumbnailPath(fileName.get(0));
-        System.out.println(path);
         FoodData foodData = awsS3Service.getBarcode(path);
         if(foodData != null)return CommonDto.of("200" , "요청한 바코드의 식품정보입니다." , foodData);
         else return CommonDto.of("400" , "요청한 바코드의 식품정보가 존재하지 않습니다." , null);
@@ -119,6 +116,7 @@ public class FoodController {
         }
     }
 
+<<<<<<< HEAD
     @GetMapping("/alarm")
     public CommonDto<Object> getAlarm(@AuthenticationPrincipal String id){
         try{
@@ -127,6 +125,30 @@ public class FoodController {
             return null;
         }catch (Exception e){
             return CommonDto.of("400" , "내용 : " + e.getMessage(), null );
+=======
+    @GetMapping("/foodData/{codeNumber}")
+    public CommonDto<Object> getFoodDate(@PathVariable String codeNumber){
+        try {
+            FoodDataDto foodDataDto = foodService.getFoodData(codeNumber);
+            System.out.println(foodDataDto);
+            return CommonDto.of("200", "바코드로 검색된 식품의 정보입니다.", foodDataDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+        }
+    }
+
+    @GetMapping("/foodData/month/{year}/{month}")
+    public CommonDto<Object> getFoodMonthData(@AuthenticationPrincipal String id  ,@PathVariable int year , @PathVariable int month){
+        try {
+            YearMonthDto yearMonthDto = new YearMonthDto();
+            yearMonthDto.setMonth(month);
+            yearMonthDto.setYear(year);
+            Long userId = Long.parseLong(id);
+            MonthReportDto monthReportDto = foodService.getMonthReport(yearMonthDto , userId);
+            return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
+        } catch (Exception e) {
+            return CommonDto.of("400", "내용 : " + e.getMessage(), null);
+>>>>>>> 48c200ddce2e91a617a4f83b145c61420f2773cd
         }
     }
 }
