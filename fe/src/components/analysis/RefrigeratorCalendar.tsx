@@ -63,21 +63,37 @@ function RefrigeratorCalendar() {
 		}
 		totalCycles[nextPurchaseDate].push(item.categoryId);
 	});
+	const getSubCategory = (categoryId: number) => {
+		const categoryData = Category.data.find(category => category.foodCategoryId === categoryId);
+		return categoryData ? categoryData.subCategory : '';
+	};
 
 	return (
 		<div className="mt-6">
 			<Calendar purchase={totalRecords} cycle={totalCycles} />
 			<div className="flex text-sm font-bold text-green mb-3 min-w-75.5 max-w-88">슬슬 구매해야 할 항목</div>
-			<Alarm name="연세우유" food="우유" type={0} day={1} foodId={1} />
+			{CalendarDataQuery.alarm.map(data => (
+				<div className="mb-3">
+					<Alarm
+						name={getSubCategory(data.categoryId)}
+						food={getSubCategory(data.categoryId)}
+						type={data.notificationType}
+						day={data.dDay}
+						foodId={data.foodId}
+					/>
+				</div>
+			))}
 			{/* // 음식명, 소분류, 알림 타입, d-day, 음식 id */}
 			<div className="flex text-sm font-bold text-yellow mt-3 mb-3 min-w-75.5 max-w-88">이번달 구매한 항목</div>
 			<div className="flex component px-5 py-6 flex-wrap stroke border">
-				<div className="flex w-1/4">
-					<div className="flex mx-auto my-2 flex-col text-xs font-bold">
-						<FoodIcon food="우유" size="lg" />
-						<p className="mt-2 text-left">우유</p>
+				{CalendarDataQuery.purchase.map(data => (
+					<div className="flex w-1/4">
+						<div className="flex mx-auto my-2 flex-col text-xs font-bold">
+							<FoodIcon food={getSubCategory(data.categoryId)} size="lg" />
+							<p className="mt-2 text-left">{getSubCategory(data.categoryId)}</p>
+						</div>
 					</div>
-				</div>
+				))}
 			</div>
 		</div>
 	);
