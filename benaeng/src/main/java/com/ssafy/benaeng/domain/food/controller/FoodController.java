@@ -146,7 +146,7 @@ public class FoodController {
         try {
             Long userId = Long.parseLong(id);
             ReportDetailDto reportDetailDto = foodService.getReportDetail(userId , foodCategoryId);
-            return CommonDto.of("200", "월간 리포트 입니다.", reportDetailDto);
+            return CommonDto.of("200", "식품.", reportDetailDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
