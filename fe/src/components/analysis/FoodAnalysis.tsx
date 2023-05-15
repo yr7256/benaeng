@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { CategoryData, FoodData, FoodReportData } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
@@ -69,7 +69,7 @@ function FoodAnalysis(): JSX.Element {
 	};
 
 	/** 카테고리 변경 시 분석 데이터 요청 */
-	useCallback(() => {
+	useMemo(() => {
 		query.refetch();
 	}, [form.foodCategoryId]);
 	return (
