@@ -23,6 +23,6 @@ public interface FoodService {
     void savePurchase(MyFood myFood);
     ReportDto getReportInfo(Long userId);
     MonthReportDto getMonthReport(YearMonthDto yearMonthDto , Long userId);
-
+    CalendarDetailDto getCalendarDetail(Long userId, int year, int month);
     ReportDetailDto getReportDetail(Long userId, Long foodCategoryId);
 }
