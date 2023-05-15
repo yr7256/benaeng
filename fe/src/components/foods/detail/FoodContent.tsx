@@ -119,8 +119,8 @@ function FoodContent({ foodData }: Props) {
 									className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xs flex justify-center font-bold text-white items-center`}
 								>
 									D{dayCnt < 0 ? '+' : '-'}
-									{dayCnt === 0 ? 'day' : dayCnt}
-									{Math.abs(dayCnt) > 99 && <sup>+</sup>}
+									{dayCnt === 0 ? 'day' : Math.abs(dayCnt)}
+									{Math.abs(dDay) > 99 && <sup>+</sup>}
 								</div>
 								<FoodIcon food={foodData.subCategory} size="lg" />
 							</div>
