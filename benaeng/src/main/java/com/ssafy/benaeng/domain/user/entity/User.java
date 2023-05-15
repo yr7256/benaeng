@@ -38,6 +38,12 @@ public class User implements UserDetails {
     @Builder.Default
     private String role = "USER";
 
+    private String deviceToken;
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
     public User updateUser(Boolean isDark, Boolean isAlarm, Boolean isPurchase, Boolean isCycle){
         this.isDark = isDark;
         this.isAlarm = isAlarm;
