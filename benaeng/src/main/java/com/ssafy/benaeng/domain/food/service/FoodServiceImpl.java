@@ -377,7 +377,7 @@ public class FoodServiceImpl implements FoodService{
         for(MyFood myFood : myFoodList){
             cal.setTime(myFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR) + 1;
+            int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear){
                 myFoodCount +=1;
             }
@@ -385,7 +385,7 @@ public class FoodServiceImpl implements FoodService{
         for(UsedFood usedFood : usedFoodList){
             cal.setTime(usedFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR) + 1;
+            int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear){
                 usedCount +=1;
             }
@@ -393,7 +393,7 @@ public class FoodServiceImpl implements FoodService{
         for(WastedFood wastedFood : wastedFoodList){
             cal.setTime(wastedFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR) + 1;
+            int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear){
                 wastedCount +=1;
             }
@@ -407,8 +407,7 @@ public class FoodServiceImpl implements FoodService{
         for(UsedFood uf: usedFoodList){
             cal.setTime(uf.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR) + 1;
-            System.out.println(month + " " + year);
+            int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear) {
                 FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
                 if (usedTopThree.containsKey(cate.getId()))
@@ -428,8 +427,7 @@ public class FoodServiceImpl implements FoodService{
         for(WastedFood wf: wastedFoodList){
             cal.setTime(wf.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
-            int year = cal.get(Calendar.YEAR) + 1;
-            System.out.println(month + " " + year);
+            int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear) {
                 FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
                 if (wastedTopThree.containsKey(cate.getId()))
