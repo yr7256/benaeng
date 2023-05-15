@@ -4,7 +4,6 @@ import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
 import AddButton from '../components/home/button/AddButton';
 import AnalysisButton from '../components/home/button/AnalysisButton';
-import AddModal from '../components/home/modal/AddModal';
 import SettingButton from '../components/home/button/SettingButton';
 import SearchBar from '../components/home/search/SearchBar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
@@ -13,6 +12,7 @@ import useRefrigerator from '../hooks/useRefrigerator';
 import FoodList from '../components/home/foodList/FoodList';
 import WarningFoodList from '../components/home/foodList/WarningFoodList';
 import ExpiredFoodList from '../components/home/foodList/ExpiredFoodList';
+import AddModal from '../components/home/modal/addModal/AddModal';
 
 declare global {
 	interface Window {

@@ -1,5 +1,6 @@
+import moment from 'moment';
 import getInstance from '.';
-import { AddFrom } from '../components/home/modal/AddModal';
+import { AddFrom } from '../hooks/useAddForm';
 import { CategoryData, FoodDetailData, FoodReportData, Response } from '../types';
 import { MonthlyReportData, CalendarData } from '../types/AnalysisTypes';
 import { FoodData, BarcodeData } from '../types/index';
@@ -13,7 +14,10 @@ export function getFoodBarcode(barcode: string) {
 
 /** [POST] 식품 등록 */
 export function postFood(food: AddFrom) {
-	const { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate } = food;
+	const { foodName, foodCategoryId, isRecommend, isConsume, endDate } = food;
+	let { totalCount, startDate } = food;
+	if (totalCount === 1) totalCount = -1;
+	if (!startDate) startDate = moment().format('YYYY-MM-DD');
 	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate };
 	return getInstance().post<Response<null>>(`${FOOD_API}/regist`, data);
 }

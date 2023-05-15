@@ -34,6 +34,7 @@ function WarningFoodList({ data }: Props) {
 				// 음식의 남은 날짜를 연산
 				const dDay = moment(food.endDate, 'YYYY-MM-DD').diff(moment(), 'days');
 				if (dDay > 7) return;
+				if (dDay < 0) return;
 				const homeFood: HomeFoodData = { ...food, ...categoryData, dDay };
 
 				result.push(homeFood);
