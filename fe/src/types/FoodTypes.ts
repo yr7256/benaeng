@@ -89,11 +89,11 @@ export interface UtrientInfoData {
 
 /** 알림메시지 */
 export interface AlarmData {
-	id: number;
-	name: string;
+	foodId: number;
+	foodName: string;
 	type: number;
-	subCategory: string;
+	foodCategoryId: string;
 	status: number;
-	date: string;
-	dDay: number;
+	createDate: string;
+	dday: number;
 }
