@@ -151,4 +151,14 @@ public class FoodController {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
+    @DeleteMapping("/init")
+    public CommonDto<Object> deleteByUserId(@AuthenticationPrincipal String userId){
+        try{
+            Long id = Long.parseLong(userId);
+            foodService.deleteByUserId(id);
+            return CommonDto.of("200", "냉장고 초기화 성공", userId);
+        }catch (Exception e){
+            return CommonDto.of("400", "냉장고 초기화 실패", e.getMessage());
+        }
+    }
 }
