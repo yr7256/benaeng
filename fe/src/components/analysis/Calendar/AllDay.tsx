@@ -11,12 +11,6 @@ interface Props {
 	isCycle: boolean;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
-	modalIsOpen: boolean;
-	setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	purchaseItems: number[];
-	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
-	cycleItems: number[];
-	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
 	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
@@ -38,12 +32,6 @@ function allDay({
 	isCycle,
 	purchase,
 	cycle,
-	modalIsOpen,
-	setModalIsOpen,
-	purchaseItems,
-	setPurchaseItems,
-	cycleItems,
-	setCycleItems,
 	setSelectedDatePurchases,
 }: Props) {
 	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
@@ -60,27 +48,6 @@ function allDay({
 		setClickedDate(day);
 		setSelectedDatePurchases(day);
 		const dateStr = dateToyyyymmdd(day);
-		let isPurchaseItems = false;
-		let isCycleItems = false;
-		if (purchase[dateStr]) {
-			setPurchaseItems(purchase[dateStr]);
-			isPurchaseItems = purchase[dateStr].length > 0;
-		}
-		if (cycle[dateStr]) {
-			setCycleItems(cycle[dateStr]);
-			isCycleItems = cycle[dateStr].length > 0;
-		}
-		if (!purchase[dateStr]) {
-			setPurchaseItems([]);
-			isPurchaseItems = false;
-		}
-		if (!cycle[dateStr]) {
-			setCycleItems([]);
-			isCycleItems = false;
-		}
-		if (isPurchaseItems || isCycleItems) {
-			setModalIsOpen(true);
-		}
 	};
 	return (
 		<div onClick={() => clickDate()} className={`${dateClassName} AlldayDayContainer mx-auto`}>

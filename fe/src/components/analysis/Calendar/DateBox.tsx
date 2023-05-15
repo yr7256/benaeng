@@ -10,12 +10,6 @@ interface Props {
 	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
-	modalIsOpen: boolean;
-	setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	purchaseItems: number[];
-	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
-	cycleItems: number[];
-	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
 	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
@@ -60,12 +54,6 @@ function DateBox({
 	setClickedDate,
 	purchase,
 	cycle,
-	modalIsOpen,
-	setModalIsOpen,
-	purchaseItems,
-	setPurchaseItems,
-	cycleItems,
-	setCycleItems,
 	setSelectedDatePurchases,
 }: Props) {
 	const allDay: Date[] = monthList(nowDate);
@@ -95,12 +83,6 @@ function DateBox({
 						isCycle={isCycle}
 						purchase={purchase}
 						cycle={cycle}
-						modalIsOpen={modalIsOpen}
-						setModalIsOpen={setModalIsOpen}
-						purchaseItems={purchaseItems}
-						setPurchaseItems={setPurchaseItems}
-						cycleItems={cycleItems}
-						setCycleItems={setCycleItems}
 						setSelectedDatePurchases={setSelectedDatePurchases}
 					/>
 				);
