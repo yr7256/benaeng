@@ -27,14 +27,11 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
     @Override
     public List<AlarmDto> getAlarmList(Long userId) {
         Date date = new Date();
-        log.info("오늘 날짜 : " + date);
         LocalDate curDate = LocalDate.now();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.DATE, -7);
         date = cal.getTime();
-        log.info("7일전 날짜 : " + date);
-        LocalDate ago7 = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<AlarmDto> alarmDtoList =
                 queryFactory.select(Projections.fields(AlarmDto.class,
                         alarm.type,
@@ -51,7 +48,6 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .where(alarm.createDate.between(date, new Date()))
                         .orderBy(alarm.createDate.asc(), alarm.status.desc())
                         .fetch();
-        log.info("alarm list size : " + alarmDtoList.size());
         return alarmDtoList;
     }
 }
