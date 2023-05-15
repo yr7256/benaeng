@@ -3,6 +3,7 @@ package com.ssafy.benaeng.domain.food.repository.alarm;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
+import com.ssafy.benaeng.domain.food.responseDto.FcmAlamDto;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
@@ -49,5 +50,10 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .orderBy(alarm.createDate.asc(), alarm.status.desc())
                         .fetch();
         return alarmDtoList;
+    }
+
+    @Override
+    public List<FcmAlamDto> getFcmAlarmList() {
+        return null;
     }
 }
