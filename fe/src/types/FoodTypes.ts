@@ -92,7 +92,7 @@ export interface AlarmData {
 	foodId: number;
 	foodName: string;
 	type: number;
-	foodCategoryId: string;
+	foodCategoryId: number;
 	status: number;
 	createDate: string;
 	dday: number;
