@@ -540,4 +540,9 @@ public class FoodServiceImpl implements FoodService{
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
         return reportDetailDto;
     }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        myfoodRepository.deleteByUserId(id);
+    }
 }

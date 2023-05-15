@@ -18,4 +18,9 @@ public class AlarmServiceImpl implements AlarmService{
     public List<AlarmDto> getAlarmList(Long userId) {
         return alarmRepository.getAlarmList(userId);
     }
+
+    @Override
+    public void deleteByUserId(Long userId) {
+        alarmRepository.deleteByUserId(userId);
+    }
 }
