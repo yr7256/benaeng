@@ -31,6 +31,7 @@ public class User implements UserDetails {
 
     private  Boolean isCycle;
     @OneToMany(mappedBy = "user")
+    @Builder.Default
     private List<Alarm> alarmList = new ArrayList<>();
 
 
