@@ -44,7 +44,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         alarm.dDay,
                         alarm.foodName,
                         myFood.id.as("foodId"),
-                        foodCategory.id.as("foodCategoryId"),
+                        myFood.foodCategory.id.as("foodCategoryId"),
                         alarm.msg)).from(alarm)
                         .join(alarm.user, user)
                         .join(alarm.food, myFood)
