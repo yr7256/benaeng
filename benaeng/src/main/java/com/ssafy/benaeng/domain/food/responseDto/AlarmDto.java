@@ -16,5 +16,4 @@ public class AlarmDto {
     private String foodName;
     private Long foodId;
     private Long foodCategoryId;
-    private String msg;
 }

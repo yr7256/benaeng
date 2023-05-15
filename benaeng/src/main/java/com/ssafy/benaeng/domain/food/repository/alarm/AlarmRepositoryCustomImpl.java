@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.ssafy.benaeng.domain.food.entity.QAlarm.alarm;
-import static com.ssafy.benaeng.domain.food.entity.QFoodCategory.*;
 import static com.ssafy.benaeng.domain.food.entity.QMyFood.*;
 import static com.ssafy.benaeng.domain.user.entity.QUser.user;
 
@@ -44,8 +43,8 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         alarm.dDay,
                         alarm.foodName,
                         myFood.id.as("foodId"),
-                        foodCategory.id.as("foodCategoryId"),
-                        alarm.msg)).from(alarm)
+                        myFood.foodCategory.id.as("foodCategoryId")
+                        )).from(alarm)
                         .join(alarm.user, user)
                         .join(alarm.food, myFood)
                         .where(user.id.eq(userId))
