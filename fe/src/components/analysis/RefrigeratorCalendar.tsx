@@ -9,16 +9,16 @@ import Category from '../../constants/category.json';
 
 // 오늘 구매한 항목 데이터 받아야함
 
-// function RefrigeratorCalendar() {
-// 	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
-// 		keepPreviousData: true,
-// 		select: res => {
-// 			const calendarData = {};
-// 			// 요청 실패 시 종료합니다
+function RefrigeratorCalendar() {
+	// const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
+	// 	keepPreviousData: true,
+	// 	select: res => {
+	// 		const calendarData = {};
+	// 		// 요청 실패 시 종료합니다
 
-// 			return calendarData;
-// 		},
-// 	});
+	// 		return calendarData;
+	// 	},
+	// });
 
 	const today = new Date();
 	const [selectedDatePurchases, setSelectedDatePurchases] = useState<Date>(today);
