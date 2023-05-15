@@ -383,7 +383,7 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for(UsedFood usedFood : usedFoodList){
-            cal.setTime(usedFood.getStartDate());
+            cal.setTime(usedFood.getEndDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear){
@@ -391,7 +391,7 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for(WastedFood wastedFood : wastedFoodList){
-            cal.setTime(wastedFood.getStartDate());
+            cal.setTime(wastedFood.getEndDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear){
@@ -405,7 +405,7 @@ public class FoodServiceImpl implements FoodService{
 
         Map<Long , Long> usedTopThree  = new HashMap<>();
         for(UsedFood uf: usedFoodList){
-            cal.setTime(uf.getStartDate());
+            cal.setTime(uf.getEndDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear) {
@@ -425,7 +425,7 @@ public class FoodServiceImpl implements FoodService{
 
         Map<Long , Long> wastedTopThree  = new HashMap<>();
         for(WastedFood wf: wastedFoodList){
-            cal.setTime(wf.getStartDate());
+            cal.setTime(wf.getEndDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR);
             if(month == nowMonth && year == nowYear) {
