@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.ssafy.benaeng.domain.food.entity.QAlarm.alarm;
-import static com.ssafy.benaeng.domain.food.entity.QFoodCategory.*;
 import static com.ssafy.benaeng.domain.food.entity.QMyFood.*;
 import static com.ssafy.benaeng.domain.user.entity.QUser.user;
 
