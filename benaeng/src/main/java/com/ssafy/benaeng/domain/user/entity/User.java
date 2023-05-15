@@ -1,5 +1,6 @@
 package com.ssafy.benaeng.domain.user.entity;
 
+import com.ssafy.benaeng.domain.food.entity.Alarm;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,6 +30,9 @@ public class User implements UserDetails {
     private  Boolean isPurchase;
 
     private  Boolean isCycle;
+    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    private List<Alarm> alarmList = new ArrayList<>();
 
 
     @Builder.Default
