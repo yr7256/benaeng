@@ -18,13 +18,13 @@ function Alarm({ name, food, type, day, foodId }: Props) {
 	return (
 		<div className="flex items-center w-full h-24 px-4 border rounded-lg text component stroke">
 			<div>
-				<FoodIcon food={Category.data[food - 1].category} size="lg" />
+				<FoodIcon food={Category.data[food - 1].subCategory} size="lg" />
 			</div>
 			{/* 구매주기 알림 */}
 			{type === 0 && (
 				<div className="ml-4">
 					<div className="w-full mb-1 text-sm font-bold text-left">
-						슬슬 <span className="text-green">{food}</span>을(를) 구매해야 할 시기에요
+						슬슬 <span className="text-green">{name}</span>을(를) 구매해야 할 시기에요
 					</div>
 					<a
 						className="flex items-center text-xs text-green"
