@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
 import com.ssafy.benaeng.domain.fcm.dto.FCMMessage;
+import com.ssafy.benaeng.domain.user.entity.User;
+import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,8 @@ import java.util.List;
 @Service
 public class FCMService {
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
+
     @Value("${fcm.api-url}")
     private String url;
 
@@ -58,5 +62,11 @@ public class FCMService {
                 .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
         googleCredentials.refreshIfExpired();
         return googleCredentials.getAccessToken().getTokenValue();
+    }
+
+    public void setUserDeviceToken(Long userId, String deviceToken) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setDeviceToken(deviceToken);
+        userRepository.save(user);
     }
 }
