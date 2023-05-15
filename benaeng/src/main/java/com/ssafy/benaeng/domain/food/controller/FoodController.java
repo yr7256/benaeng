@@ -132,6 +132,7 @@ public class FoodController {
             YearMonthDto yearMonthDto = new YearMonthDto();
             yearMonthDto.setMonth(month);
             yearMonthDto.setYear(year);
+            System.out.println(month + " " + year);
             Long userId = Long.parseLong(id);
             MonthReportDto monthReportDto = foodService.getMonthReport(yearMonthDto , userId);
             return CommonDto.of("200", "월간 리포트 입니다.", monthReportDto);
