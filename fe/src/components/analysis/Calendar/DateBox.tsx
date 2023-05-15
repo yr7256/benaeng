@@ -10,6 +10,12 @@ interface Props {
 	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
+	modalIsOpen: boolean;
+	setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	purchaseItems: number[];
+	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
+	cycleItems: number[];
+	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const dateToyyyymmdd = (date: Date): string => {
@@ -46,7 +52,20 @@ const monthList = (nowDate: Date) => {
 	return result;
 };
 
-function DateBox({ nowDate, setNowDate, clickedDate, setClickedDate, purchase, cycle }: Props) {
+function DateBox({
+	nowDate,
+	setNowDate,
+	clickedDate,
+	setClickedDate,
+	purchase,
+	cycle,
+	modalIsOpen,
+	setModalIsOpen,
+	purchaseItems,
+	setPurchaseItems,
+	cycleItems,
+	setCycleItems,
+}: Props) {
 	const allDay: Date[] = monthList(nowDate);
 
 	const weeks = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Ft', 'Sa'];
@@ -74,6 +93,12 @@ function DateBox({ nowDate, setNowDate, clickedDate, setClickedDate, purchase, c
 						isCycle={isCycle}
 						purchase={purchase}
 						cycle={cycle}
+						modalIsOpen={modalIsOpen}
+						setModalIsOpen={setModalIsOpen}
+						purchaseItems={purchaseItems}
+						setPurchaseItems={setPurchaseItems}
+						cycleItems={cycleItems}
+						setCycleItems={setCycleItems}
 					/>
 				);
 			})}

@@ -9,20 +9,23 @@ interface ModalProps {
 
 function CalendarModal({ isOpen, onClose, purchaseItems, cycleItems }: ModalProps) {
 	if (!isOpen) return null;
-
 	return (
-		<div onClick={onClose}>
+		<div className="min-h-24 absolute component stroke border" onClick={onClose}>
 			<div onClick={e => e.stopPropagation()}>
-				<h3>구매기록</h3>
+				{purchaseItems.length !== 0 ? <h3 className="p-2">구매기록</h3> : ''}
 				{purchaseItems.map(id => (
-					<p key={id}>{id}</p>
+					<p key={id} className="pl-2 mb-2">
+						{id}
+					</p>
 				))}
-				<h3>구매 주기일</h3>
+				{cycleItems.length !== 0 ? <h3 className="p-2">구매 주기일</h3> : ''}
 				{cycleItems.map(id => (
-					<p key={id}>{id}</p>
+					<p key={id} className="pl-2 mb-4">
+						{id}
+					</p>
 				))}
-				<button type="button" onClick={onClose}>
-					Close
+				<button type="button" onClick={onClose} className="absolute top-2 right-2">
+					X
 				</button>
 			</div>
 		</div>

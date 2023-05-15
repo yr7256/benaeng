@@ -42,6 +42,7 @@ export default {
 				'2.5xl': '1.25rem',
 			},
 			minWidth: {
+				'24': '6rem',
 				'36': '9rem',
 				'75.5': '18.875rem',
 			},
@@ -55,6 +56,9 @@ export default {
 				'38': '9.5rem',
 				'76': '19rem',
 				'88': '22.875rem',
+			},
+			minHeight: {
+				'24': '6rem',
 			},
 			height: {
 				'22': '5.5rem',

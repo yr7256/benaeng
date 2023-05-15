@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './calendar.css';
-import CalendarModal from './CalendarModal';
 
 interface Props {
 	day: Date;
@@ -12,6 +11,12 @@ interface Props {
 	isCycle: boolean;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
+	modalIsOpen: boolean;
+	setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	purchaseItems: number[];
+	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
+	cycleItems: number[];
+	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const dateToyyyymmdd = (date: Date): string => {
@@ -32,10 +37,16 @@ function allDay({
 	isCycle,
 	purchase,
 	cycle,
+	modalIsOpen,
+	setModalIsOpen,
+	purchaseItems,
+	setPurchaseItems,
+	cycleItems,
+	setCycleItems,
 }: Props) {
-	const [modalIsOpen, setModalIsOpen] = useState(false);
-	const [purchaseItems, setPurchaseItems] = useState<number[]>([]);
-	const [cycleItems, setCycleItems] = useState<number[]>([]);
+	// const [modalIsOpen, setModalIsOpen] = useState(false);
+	// const [purchaseItems, setPurchaseItems] = useState<number[]>([]);
+	// const [cycleItems, setCycleItems] = useState<number[]>([]);
 	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
 	const dateClassName = sameMonth ? '' : 'otherMonth';
 	let conditionClassName = '';
@@ -49,19 +60,23 @@ function allDay({
 	const clickDate = () => {
 		setClickedDate(day);
 		const dateStr = dateToyyyymmdd(day);
-		if (purchase[dateStr]) setPurchaseItems(purchase[dateStr]);
-		if (cycle[dateStr]) setCycleItems(cycle[dateStr]);
-		setModalIsOpen(true);
+		let isPurchaseItems = false;
+		let isCycleItems = false;
+		if (purchase[dateStr]) {
+			setPurchaseItems(purchase[dateStr]);
+			isPurchaseItems = purchase[dateStr].length > 0;
+		}
+		if (cycle[dateStr]) {
+			setCycleItems(cycle[dateStr]);
+			isCycleItems = cycle[dateStr].length > 0;
+		}
+		if (isPurchaseItems || isCycleItems) {
+			setModalIsOpen(true);
+		}
 	};
 	return (
 		<div onClick={() => clickDate()} className={`${dateClassName} AlldayDayContainer mx-auto`}>
 			<p className={`text-center items-center ${conditionClassName}`}>{day.getDate()}</p>
-			<CalendarModal
-				isOpen={modalIsOpen}
-				onClose={() => setModalIsOpen(false)}
-				purchaseItems={purchaseItems}
-				cycleItems={cycleItems}
-			/>
 		</div>
 	);
 }

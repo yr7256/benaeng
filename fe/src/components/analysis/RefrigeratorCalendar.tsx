@@ -77,14 +77,14 @@ function RefrigeratorCalendar() {
 					<Alarm
 						name={getSubCategory(data.categoryId)}
 						food={getSubCategory(data.categoryId)}
-						type={data.notificationType}
+						type={data.status}
 						day={data.dDay}
 						foodId={data.foodId}
 					/>
 				</div>
 			))}
 			{/* // 음식명, 소분류, 알림 타입, d-day, 음식 id */}
-			<div className="flex text-sm font-bold text-yellow mt-3 mb-3 min-w-75.5 max-w-88">이번달 구매한 항목</div>
+			<div className="flex text-sm font-bold text-yellow mt-3 mb-3 min-w-75.5 max-w-88">오늘 구매한 항목</div>
 			<div className="flex component px-5 py-6 flex-wrap stroke border">
 				{CalendarDataQuery.purchase.map(data => (
 					<div className="flex w-1/4">

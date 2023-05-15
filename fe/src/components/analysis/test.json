@@ -3,11 +3,11 @@
   { "categoryId": 1, "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
   { "categoryId": 2, "purchaseRecords": ["2023-04-20", "2023-04-21", "2023-04-24"], "purchaseCycle": 2 }],
   "alarm": [
-  { "categoryId": 1, "foodId": 1, "notificationType": 0, "dDay": 0 },
-  { "categoryId": 2, "foodId": 2, "notificationType": 0, "dDay": 0 }],
+  { "categoryId": 1, "foodId": 1, "status": 0, "dDay": 0 },
+  { "categoryId": 2, "foodId": 2, "status": 0, "dDay": 0 }],
   "purchase": [
-  { "categoryId": 1, "foodId": 1, "dDay": 0 },
-  { "categoryId": 2, "foodId": 2, "dDay": 0 },
-  { "categoryId": 3, "foodId": 3, "dDay": 0 },
-  { "categoryId": 4, "foodId": 4, "dDay": 0 }]
+  { "categoryId": 2, "foodName": "신라면", "purchaseRecords": ["2023-04-20", "2023-04-22"] },
+  { "categoryId": 2, "foodName": "진라면", "purchaseRecords": ["2023-04-20", "2023-04-22"] },
+  { "categoryId": 3, "foodName": "딸기", "purchaseRecords": ["2023-04-17", "2023-04-22"] },
+  { "categoryId": 3, "foodName": "수박", "purchaseRecords": ["2023-04-16", "2023-04-23"] }]
 }
