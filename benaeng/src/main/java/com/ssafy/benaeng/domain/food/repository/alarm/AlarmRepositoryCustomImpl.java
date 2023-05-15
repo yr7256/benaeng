@@ -49,6 +49,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .join(alarm.food, myFood)
                         .where(user.id.eq(userId))
                         .where(alarm.createDate.between(date, new Date()))
+                        .orderBy(alarm.createDate.asc(), alarm.status.desc())
                         .fetch();
         log.info("alarm list size : " + alarmDtoList.size());
         return alarmDtoList;
