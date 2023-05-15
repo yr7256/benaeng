@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import Input from '../../../common/input/Input';
 import Modal from '../../../common/modal/Modal';
 import SearchCategoryModal from '../SearchCategoryModal';
@@ -90,6 +91,11 @@ function AddModal({ open, setClose }: Props) {
 					type={alertModal.type}
 					isConsume={form.isConsume}
 					onClose={() => setAlertModal({ ...alertModal, open: false })}
+					onSubmit={() => {
+						setForm('date')(moment().add(1, 'years').format('YYYY-MM-DD'), 'endDate');
+						setAlertModal({ ...alertModal, open: false });
+						onSubmit();
+					}}
 				/>
 			</Modal>
 		</>

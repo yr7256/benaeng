@@ -45,10 +45,14 @@ function useAddForm(
 	});
 
 	const onSubmit = async () => {
-		// TODO: 빈 데이터가 있는지 확인
-
-		const { data } = await postFood(form);
-		if (data.resultCode === '200') onCloseAddModal();
+		if (!form.foodName || !form.totalCount || !form.foodCategoryId) {
+			setAlertModal({ type: 2, open: true });
+		} else if (!form.endDate) {
+			setAlertModal({ type: 3, open: true });
+		} else {
+			const { data } = await postFood(form);
+			if (data.resultCode === '200') onCloseAddModal();
+		}
 	};
 
 	/** form data 변경 이벤트 */
