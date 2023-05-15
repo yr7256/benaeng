@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { VscQuestion } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
@@ -16,13 +17,34 @@ interface Props {
 function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 	const barcode = useSelector(selectBarcode);
 
+	const onToggleRecommendDate = () => {
+		// CASE 0: 추천 소비기한 사용 불가인 경우
+		if (!barcode.barcode) return;
+
+		// CASE 1: 추천 소비기한 사용하는 경우
+		if (!form.isRecommend) {
+			const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : Math.round((barcode.pogDaycnt / 10) * 8);
+			const startDate = moment();
+			const endDate = startDate.add(pogDayCnt, 'days');
+			const dateFormat = 'YYYY-MM-DD';
+
+			setDate(startDate.format(dateFormat), 'startDate');
+			setDate(endDate.format(dateFormat), 'endDate');
+			setData(true, 'isRecommend');
+		}
+		// CASE 2: 추천 소비기한 사용을 취소하는 경우
+		else {
+			setData(false, 'isRecommend');
+		}
+	};
+
 	return (
 		<>
 			<div className={`flex items-end ${!barcode.barcode ? 'opacity-60' : ''}`}>
 				<CheckInput
 					value={form.isRecommend}
-					onToggle={() => setData(!form.isRecommend && Boolean(barcode.barcode), 'isRecommend')}
-					disabled={undefined}
+					onToggle={onToggleRecommendDate}
+					disabled={Boolean(barcode.barcode)}
 					className="text-green font-bold mt-4"
 				>
 					예측 소비기한 사용
