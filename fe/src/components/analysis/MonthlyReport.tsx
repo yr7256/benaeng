@@ -63,7 +63,7 @@ function MonthlyReport() {
 	const user = useAppSelector(selectUser);
 	const emptyReport = `/assets/${user.isDark ? 'dark' : 'light'}/empty-analysis.svg`;
 
-	const isEmpty = query.data?.countConsumer || query.data?.countPurchase || query.data?.countWaste;
+	const isEmpty = query.data?.countConsumer || query.data?.countWaste;
 
 	return (
 		<div>
@@ -91,7 +91,7 @@ function MonthlyReport() {
 						/>
 					</div>
 					{/* 테스트 */}
-					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
+					{!query.data.countConsumer && !query.data.countWaste && (
 						<>
 							<div className="absolute z-20 w-full px-4 py-10 top-20">
 								<div className="mb-4 text-center text">
@@ -102,7 +102,7 @@ function MonthlyReport() {
 							<div className="absolute z-10 w-full h-[450px] bg-white dark:bg-dark/component opacity-50 top-20" />
 						</>
 					)}
-					{!query.data.countConsumer && !query.data.countPurchase && !query.data.countWaste && (
+					{!query.data.countConsumer && !query.data.countWaste && (
 						<>
 							<div className="mb-6 blur-sm">
 								<QuarterTag reportData={dummy} />

@@ -13,6 +13,7 @@ interface Props {
 
 function Alarm({ name, food, type, day, foodId }: Props) {
 	// 음식명, 소분류, 알림 타입, d-day, 음식 id
+	const msg = day === 0 ? '오늘까지예요' : `${day}일 남았어요`;
 	return (
 		<div className="flex items-center w-full h-24 px-4 border rounded-lg text component stroke">
 			<div>
@@ -36,7 +37,7 @@ function Alarm({ name, food, type, day, foodId }: Props) {
 			{type === 1 && (
 				<div className="ml-4">
 					<div className="w-full mb-1 text-sm font-bold text-left">
-						<span className="text-green">{name}</span>의 소비기한이 <span className="text-green">{day}</span>일 남았어요
+						<span className="text-green">{name}</span>의 소비기한이 {msg}
 					</div>
 					<Link className="flex items-center text-xs text-green" to={`/foods/${foodId}`}>
 						상세 페이지로 이동하기 <BsArrowRight className="ml-2" />

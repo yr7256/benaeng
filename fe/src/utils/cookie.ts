@@ -11,3 +11,8 @@ export const setCookie = (name: string, value: string, option?: any) => {
 export const getCookie = (name: string) => {
 	return cookies.get(name);
 };
+
+/** 쿠키 삭제하기 */
+export const removeCookie = (name: string) => {
+	return cookies.remove(name);
+};

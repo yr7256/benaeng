@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { CategoryData, FoodData, FoodReportData } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
@@ -47,7 +47,7 @@ function FoodAnalysis(): JSX.Element {
 	});
 
 	/** 상품 상세정보 조회 쿼리 */
-	const query = useQuery([FOOD_API], () => getFoodFoodDataDetail(form.foodCategoryId), {
+	const query = useQuery([FOOD_API, form.foodCategoryId], () => getFoodFoodDataDetail(form.foodCategoryId), {
 		keepPreviousData: true,
 		enabled: form.foodCategoryId > 0,
 		select: res => res.data.data,
@@ -67,11 +67,6 @@ function FoodAnalysis(): JSX.Element {
 			setForm({ ...form, [target]: value });
 		}
 	};
-
-	/** 카테고리 변경 시 분석 데이터 요청 */
-	useCallback(() => {
-		query.refetch();
-	}, [form.foodCategoryId]);
 	return (
 		<div className="stroke component min-w-75.5 max-w-88 p-4 mt-6">
 			<div className="flex w-full gap-2 mt-2" onClick={() => setOpenSearchCategoryModal(true)}>
