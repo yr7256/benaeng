@@ -74,7 +74,7 @@ function RefrigeratorCalendar() {
 				<div className="mb-3">
 					<Alarm
 						name={getSubCategory(data.categoryId)}
-						food={getSubCategory(data.categoryId)}
+						food={data.categoryId}
 						type={data.status}
 						day={data.dDay}
 						foodId={data.foodId}
@@ -86,11 +86,11 @@ function RefrigeratorCalendar() {
 				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 구매한
 				항목
 			</div>
-			<div className="flex component px-5 py-6 flex-wrap stroke border">
+			<div className="flex flex-wrap px-5 py-6 border component stroke">
 				{filteredPurchases.length > 0 ? (
 					filteredPurchases.map(data => (
 						<div className="flex w-1/4">
-							<div className="flex mx-auto my-2 flex-col text-xs font-bold">
+							<div className="flex flex-col mx-auto my-2 text-xs font-bold">
 								<FoodIcon food={getSubCategory(data.categoryId)} size="lg" />
 								<p className="mt-2 text-left">{data.foodName}</p>
 							</div>

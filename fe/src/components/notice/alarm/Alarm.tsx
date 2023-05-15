@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';
 import FoodIcon from '../../common/foodIcon/FoodIcon';
+import Category from '../../../constants/category.json';
 
 /** alarm props 타입 */
 interface Props {
 	name: string;
-	food: string;
+	food: number;
 	type: number;
 	day: number;
 	foodId: number;
@@ -17,7 +18,7 @@ function Alarm({ name, food, type, day, foodId }: Props) {
 	return (
 		<div className="flex items-center w-full h-24 px-4 border rounded-lg text component stroke">
 			<div>
-				<FoodIcon food={food} size="lg" />
+				<FoodIcon food={Category.data[food - 1].category} size="lg" />
 			</div>
 			{/* 구매주기 알림 */}
 			{type === 0 && (
