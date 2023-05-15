@@ -31,5 +31,4 @@ public class Alarm {
     @OneToOne
     @JoinColumn(name = "food_category_id")
     private FoodCategory foodCategory;
-    private String msg;
 }
