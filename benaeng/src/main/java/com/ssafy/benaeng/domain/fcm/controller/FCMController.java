@@ -18,8 +18,8 @@ public class FCMController {
     private final FCMService fcmService;
 
     @PostMapping
-    public ResponseEntity<?> setUserDeviceToken(@AuthenticationPrincipal Long userId, @RequestBody Map<String, String> request) {
-        fcmService.setUserDeviceToken(userId, request.get("deviceToken"));
+    public ResponseEntity<?> setUserDeviceToken(@AuthenticationPrincipal String userId, @RequestBody Map<String, String> request) {
+        fcmService.setUserDeviceToken(Long.valueOf(userId), request.get("deviceToken"));
         return ResponseEntity.ok().body("사용자 디바이스 토큰 저장 성공");
     }
 }
