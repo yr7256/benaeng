@@ -35,9 +35,10 @@ function FoodContent({ foodData }: Props) {
 	const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
 
 	const dDay = Math.floor((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
+	const dayCnt = dDay > 99 ? 99 : dDay;
 	let color = 'green';
-	if (dDay <= 7) color = 'yellow';
-	if (dDay <= 1) color = 'red';
+	if (dayCnt <= 7) color = 'yellow';
+	if (dayCnt <= 1) color = 'red';
 
 	// 이벤트 핸들러
 	const handleUsed = () => {
@@ -117,9 +118,9 @@ function FoodContent({ foodData }: Props) {
 								<div
 									className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xs flex justify-center font-bold text-white items-center`}
 								>
-									D{dDay < 0 ? '+' : '-'}
-									{dDay > 99 ? 99 : dDay}
-									{Math.abs(dDay) > 99 && <sup>+</sup>}
+									D{dayCnt < 0 ? '+' : '-'}
+									{dayCnt === 0 ? 'day' : dayCnt}
+									{Math.abs(dayCnt) > 99 && <sup>+</sup>}
 								</div>
 								<FoodIcon food={foodData.subCategory} size="lg" />
 							</div>
