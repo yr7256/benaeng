@@ -371,13 +371,10 @@ public class FoodServiceImpl implements FoodService{
         List<MyFood> myFoodList  = myfoodRepository.findAllByUserId(userId);
         List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
         List<WastedFood> wastedFoodList  = wastedFoodRepository.findAllByUserId(userId);
+        Calendar cal = Calendar.getInstance();
 
-        monthReportDto.setCountPurchase(myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
-        monthReportDto.setCountConsumer(usedFoodList.size());
-        monthReportDto.setCountWaste(wastedFoodList.size());
 
         for(MyFood myFood : myFoodList){
-            Calendar cal = Calendar.getInstance();
             cal.setTime(myFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR) + 1;
@@ -386,7 +383,6 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for(UsedFood usedFood : usedFoodList){
-            Calendar cal = Calendar.getInstance();
             cal.setTime(usedFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR) + 1;
@@ -395,7 +391,6 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for(WastedFood wastedFood : wastedFoodList){
-            Calendar cal = Calendar.getInstance();
             cal.setTime(wastedFood.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR) + 1;
@@ -404,12 +399,22 @@ public class FoodServiceImpl implements FoodService{
             }
         }
 
+        monthReportDto.setCountPurchase(myFoodCount + usedCount + wastedCount);
+        monthReportDto.setCountConsumer(usedCount);
+        monthReportDto.setCountWaste(wastedCount);
+
         Map<Long , Long> usedTopThree  = new HashMap<>();
         for(UsedFood uf: usedFoodList){
-            FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
-            if(usedTopThree.containsKey(cate.getId())) usedTopThree.replace(cate.getId(),usedTopThree.get(cate.getId()) + 1) ;
-            else {
-                usedTopThree.put(cate.getId() , 1L);
+            cal.setTime(uf.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR) + 1;
+            if(month == nowMonth && year == nowYear) {
+                FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
+                if (usedTopThree.containsKey(cate.getId()))
+                    usedTopThree.replace(cate.getId(), usedTopThree.get(cate.getId()) + 1);
+                else {
+                    usedTopThree.put(cate.getId(), 1L);
+                }
             }
         }
 
@@ -420,10 +425,16 @@ public class FoodServiceImpl implements FoodService{
 
         Map<Long , Long> wastedTopThree  = new HashMap<>();
         for(WastedFood wf: wastedFoodList){
-            FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
-            if(wastedTopThree.containsKey(cate.getId())) wastedTopThree.replace (cate.getId(),wastedTopThree.get(cate.getId()) + 1) ;
-            else {
-                wastedTopThree.put(cate.getId() , 1L);
+            cal.setTime(wf.getStartDate());
+            int month = cal.get(Calendar.MONTH) + 1;
+            int year = cal.get(Calendar.YEAR) + 1;
+            if(month == nowMonth && year == nowYear) {
+                FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
+                if (wastedTopThree.containsKey(cate.getId()))
+                    wastedTopThree.replace(cate.getId(), wastedTopThree.get(cate.getId()) + 1);
+                else {
+                    wastedTopThree.put(cate.getId(), 1L);
+                }
             }
         }
 
