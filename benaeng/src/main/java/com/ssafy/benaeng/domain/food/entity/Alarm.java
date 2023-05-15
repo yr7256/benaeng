@@ -26,7 +26,7 @@ public class Alarm {
     private Integer dDay;
     private String foodName;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "my_food_id")
     private MyFood food;
     @OneToOne
     @JoinColumn(name = "food_category_id")
