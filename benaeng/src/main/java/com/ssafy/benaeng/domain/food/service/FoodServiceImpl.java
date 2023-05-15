@@ -442,12 +442,6 @@ public class FoodServiceImpl implements FoodService{
         wastedList.sort(Map.Entry.comparingByValue());
         Collections.reverse(wastedList);
 
-        System.out.println(wastedList);
-        System.out.println(usedList);
-
-
-
-
         int index = 0;
         while(true){
             MonthReportDto.MostUsed mostUsed = new MonthReportDto.MostUsed();
@@ -457,9 +451,6 @@ public class FoodServiceImpl implements FoodService{
             mostUsed.waste = wastedFoodRepository.countByFoodCategoryIdAndUserId(mostUsed.foodCategoryId , userId);
             index +=1;
             monthReportDto.getMostConsumer().add(mostUsed);
-            System.out.println(mostUsed.consumer);
-            System.out.println(mostUsed.waste);
-            System.out.println(mostUsed.foodCategoryId);
         }
 
         index = 0;
@@ -471,11 +462,7 @@ public class FoodServiceImpl implements FoodService{
             mostUsed.waste =  wastedList.get(index).getValue();
             index +=1;
             monthReportDto.getMostWaste().add(mostUsed);
-            System.out.println(mostUsed.consumer);
-            System.out.println(mostUsed.waste);
-            System.out.println(mostUsed.foodCategoryId);
         }
-        System.out.println(monthReportDto);
         return monthReportDto;
     }
 
@@ -484,7 +471,6 @@ public class FoodServiceImpl implements FoodService{
         ReportDetailDto reportDetailDto = new ReportDetailDto();
         Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(foodCategoryId , userId);
         FoodCategory foodCategory = foodCategoryRepository.findById(foodCategoryId).orElseThrow();
-        System.out.println(purchaseInfo);
         reportDetailDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo == null) return null;
         if(purchaseInfo != null) {
