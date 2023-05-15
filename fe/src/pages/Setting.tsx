@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
-import { useAppSelector } from '../hooks/useStore';
-import { selectUser } from '../store/modules/user';
+import { useAppDispatch, useAppSelector } from '../hooks/useStore';
+import { logout, selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
+import { removeCookie } from '../utils/cookie';
+import Modal from '../components/common/modal/Modal';
 
 // 설정 화면
 
 function Setting() {
+	const [alartModal, setAlartModal] = useState(false);
 	const userInfo = useAppSelector(selectUser);
+	const dispatch = useAppDispatch();
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useEffect(() => {
@@ -31,8 +35,27 @@ function Setting() {
 		sendDeviceToken();
 	}, []);
 
+	const handleLogout = () => {
+		removeCookie('accessToken');
+		dispatch(logout());
+		setAlartModal(false);
+	};
+
 	return (
 		<div className="px-6 pt-10">
+			{alartModal && (
+				<Modal
+					mode="confirm"
+					size="sm"
+					label="로그아웃"
+					open={alartModal}
+					onClose={() => setAlartModal(false)}
+					submitText="확인"
+					onSubmit={handleLogout}
+				>
+					<div className="my-4 text-center">로그아웃 하시겠습니까 ?</div>
+				</Modal>
+			)}
 			<Topbar />
 			<div className="flex items-center justify-between px-6 py-3 mb-4 border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">
 				<div>다크모드</div>
@@ -63,7 +86,10 @@ function Setting() {
 			<div className="px-6 py-3 mb-4 text-left border-2 rounded-2xl text-red stroke bg-light/component dark:bg-dark/component">
 				냉장고 초기화하기
 			</div>
-			<div className="px-6 py-3 text-left border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">
+			<div
+				className="px-6 py-3 text-left border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text"
+				onClick={() => setAlartModal(true)}
+			>
 				로그아웃
 			</div>
 		</div>
