@@ -37,7 +37,7 @@ type Story = StoryObj<typeof meta>;
 export const Buy: Story = {
 	args: {
 		name: '보석바',
-		food: '아이스크림',
+		food: 10,
 		type: 0,
 		day: 0,
 		foodId: 0,
@@ -47,7 +47,7 @@ export const Buy: Story = {
 export const Warning: Story = {
 	args: {
 		name: '꼬깔콘',
-		food: '과자',
+		food: 5,
 		type: 1,
 		day: 3,
 		foodId: 0,
@@ -57,7 +57,7 @@ export const Warning: Story = {
 export const Danger: Story = {
 	args: {
 		name: '식빵',
-		food: '빵류',
+		food: 2,
 		type: 2,
 		day: 0,
 		foodId: 0,
