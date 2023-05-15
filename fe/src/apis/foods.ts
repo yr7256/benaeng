@@ -13,8 +13,10 @@ export function getFoodBarcode(barcode: string) {
 
 /** [POST] 식품 등록 */
 export function postFood(food: AddFrom) {
-	const { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate } = food;
-	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate };
+	const { foodName, foodCategoryId, isRecommend, isConsume, startDate, endDate, barcode } = food;
+	let { totalCount } = food;
+	if (totalCount === 1) totalCount = -1;
+	const data = { foodName, foodCategoryId, totalCount, isRecommend, isConsume, startDate, endDate, barcode };
 	return getInstance().post<Response<null>>(`${FOOD_API}/regist`, data);
 }
 
