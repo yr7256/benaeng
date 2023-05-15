@@ -14,8 +14,8 @@ import java.util.List;
 public class MonthReportDto {
     public static class MostUsed {
         public Long foodCategoryId;
-        public Long consumer;
-        public Long waste;
+        public Long consumer =0L;
+        public Long waste = 0L ;
     }
 
     private int  countPurchase  = 0; // 월간 구매 식품

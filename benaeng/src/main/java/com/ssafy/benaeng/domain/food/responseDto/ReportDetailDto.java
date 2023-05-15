@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReportDetailDto {
     private String subCategory;
-    private Long purchase;
-    private int percent;
+    private Long purchase =0L;
+    private int percent =0;
     private String msg;
-    private Long cycle;
+    private Long cycle =0L;
     List<String> preferProducts = new ArrayList<>();
 }
