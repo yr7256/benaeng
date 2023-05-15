@@ -408,6 +408,7 @@ public class FoodServiceImpl implements FoodService{
             cal.setTime(uf.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR) + 1;
+            System.out.println(month + " " + year);
             if(month == nowMonth && year == nowYear) {
                 FoodCategory cate = foodCategoryRepository.findById(uf.getFoodCategory().getId()).orElseThrow();
                 if (usedTopThree.containsKey(cate.getId()))
@@ -428,6 +429,7 @@ public class FoodServiceImpl implements FoodService{
             cal.setTime(wf.getStartDate());
             int month = cal.get(Calendar.MONTH) + 1;
             int year = cal.get(Calendar.YEAR) + 1;
+            System.out.println(month + " " + year);
             if(month == nowMonth && year == nowYear) {
                 FoodCategory cate = foodCategoryRepository.findById(wf.getFoodCategory().getId()).orElseThrow();
                 if (wastedTopThree.containsKey(cate.getId()))
