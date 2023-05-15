@@ -34,7 +34,6 @@ const userSlice = createSlice({
 		logout(state) {
 			const temp = state;
 			temp.isValid = false;
-			temp.isDark = false;
 			temp.isAlarm = false;
 			temp.isCycle = true;
 			temp.isPurchase = true;
@@ -59,7 +58,7 @@ const userSlice = createSlice({
 });
 
 // 액션 생성함수
-export const { setUser, setIsDark, setIsAlarm, setIsCycle, setIsPurchase } = userSlice.actions;
+export const { setUser, logout, setIsDark, setIsAlarm, setIsCycle, setIsPurchase } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 // 리듀서
 export default userSlice.reducer;
