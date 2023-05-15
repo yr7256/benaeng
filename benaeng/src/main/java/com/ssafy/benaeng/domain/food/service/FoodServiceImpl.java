@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 
 @Service
@@ -39,11 +40,35 @@ public class FoodServiceImpl implements FoodService{
         myFood.setCount(registDto.getTotalCount());
         myFood.setUser(userRepository.findById(registDto.getUserId()).orElseThrow());
         if(registDto.getIsRecommend()){
+            String barcode = registDto.getBarcode();
+            List<FoodData> foodDataList  = foodDataRepository.findAllByBarcode(barcode);
+            FoodData foodData = foodDataList.get(0);
+            String day = foodData.getPogDaycnt();
+            int dayCnt = Integer.parseInt(day);
+            LocalDate currentDate = LocalDate.now();
+            Date startDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            LocalDate endDateLocal = currentDate.plusDays(dayCnt);
+            Date endDate = Date.from(endDateLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+            myFood.setStartDate(startDate);
+            myFood.setEndDate(endDate);
             log.info("소비기한 계산로직이 들어갈예정입니다.");
-            return null;
+            return myFood;
         }
         else{
             if(!registDto.getIsConsume()) {
+                String barcode = registDto.getBarcode();
+                List<FoodData> foodDataList  = foodDataRepository.findAllByBarcode(barcode);
+                FoodData foodData = foodDataList.get(0);
+                String day = foodData.getPogDaycnt();
+                int dayCnt = Integer.parseInt(day);
+                LocalDate currentDate = LocalDate.now();
+                Date startDate = Date.from(currentDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                LocalDate endDateLocal = currentDate.plusDays(dayCnt);
+                Date endDate = Date.from(endDateLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                myFood.setStartDate(startDate);
+                myFood.setEndDate(endDate);
                 log.info("유통기한 기반 계산로직이 들어갈예정입니다.");
                 return null;
             }
@@ -452,7 +477,7 @@ public class FoodServiceImpl implements FoodService{
         reportDetailDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo == null) return null;
         if(purchaseInfo != null) {
-            if (purchaseInfo.getCnt() == 1) {
+            if (purchaseInfo.getCnt() <= 1) {
                 reportDetailDto.setPurchase(-1L);
             } else {
                 Long cnt = purchaseInfo.getCnt();
@@ -514,7 +539,7 @@ public class FoodServiceImpl implements FoodService{
             total += differenceInDays;
         }
         if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
-        else if(usedFoodList.size() == 1) reportDetailDto.setCycle(-1L);
+        else reportDetailDto.setCycle(-1L);
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
         return reportDetailDto;
     }
