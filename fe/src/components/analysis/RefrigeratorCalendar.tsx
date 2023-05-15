@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { throttle } from 'lodash';
 import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
 import FoodIcon from '../common/foodIcon/FoodIcon';
@@ -10,10 +9,8 @@ import Category from '../../constants/category.json';
 
 // 오늘 구매한 항목 데이터 받아야함
 
-// const debounceCalendarData = throttle(getCalendarData, 3000);
-
 function RefrigeratorCalendar() {
-	// const CalendarDataQuery = useQuery(['/calendar'], debounceCalendarData, {
+	// const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
 	// 	keepPreviousData: true,
 	// 	select: res => {
 	// 		const calendarData = {};
@@ -22,25 +19,6 @@ function RefrigeratorCalendar() {
 	// 		return calendarData;
 	// 	},
 	// });
-	// const recordSet: Set<string> = new Set();
-	// const cycleSet: Set<string> = new Set();
-
-	// CalendarDataQuery.calendar.forEach(item => {
-	// 	item.purchaseRecords.forEach(record => {
-	// 		recordSet.add(record);
-	// 	});
-
-	// 	const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
-	// 	const date = new Date(lastRecord);
-
-	// 	date.setDate(date.getDate() + item.purchaseCycle);
-
-	// 	const nextPurchaseDate = date.toISOString().split('T')[0];
-	// 	cycleSet.add(nextPurchaseDate);
-	// });
-
-	// const totalRecords: string[] = Array.from(recordSet);
-	// const totalCycles: string[] = Array.from(cycleSet);
 
 	const today = new Date();
 	const [selectedDatePurchases, setSelectedDatePurchases] = useState<Date>(today);
