@@ -24,7 +24,7 @@ function Notice() {
 	if (!query.isFetching && query.data) {
 		query.data.forEach(item => {
 			const start = new Date();
-			const end = item.date.split('-');
+			const end = item.createDate.split('-');
 
 			const sDate = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
 			const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
@@ -40,7 +40,7 @@ function Notice() {
 			{day.map((array, index) => {
 				if (array.length > 1) {
 					return (
-						<div key={array[1].id + array[1].type} className="w-full">
+						<div key={array[1].foodId + array[1].type} className="w-full">
 							<div className="flex items-center justify-between w-full m-auto">
 								<hr className="w-1/3 border rounded-lg stroke" />
 								<div className="mx-4 text-light/boldStroke dark:text-dark/boldStroke">{title[index]}</div>
@@ -49,13 +49,13 @@ function Notice() {
 							{array.map(item => {
 								if (item) {
 									return (
-										<div key={item.id} className="flex justify-center w-full my-4">
+										<div key={item.foodId} className="flex justify-center w-full my-4">
 											<Alarm
-												name={item.name}
-												food={item.subCategory}
+												name={item.foodName}
+												food={item.foodCategoryId}
 												type={item.type}
-												day={item.dDay}
-												foodId={item.id}
+												day={item.dday}
+												foodId={item.foodId}
 											/>
 										</div>
 									);
