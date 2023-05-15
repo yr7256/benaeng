@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { CategoryData, FoodDetailData, FoodData } from '../../types/FoodTypes';
+import { useQuery } from '@tanstack/react-query';
+import { CategoryData, FoodData, FoodReportData } from '../../types/FoodTypes';
 import FoodDetailAnalysis from '../foods/analysis/FoodDetailAnalysis';
 import Input from '../common/input/Input';
 import SearchCategoryModal from '../home/modal/SearchCategoryModal';
 import Category from '../../constants/category.json';
-// import { FoodData } from '../../pages/FoodDetail';
+import { FOOD_API, getFoodFoodDataDetail } from '../../apis/foods';
 
 interface AddFrom extends FoodData {
 	/**
@@ -20,30 +21,8 @@ interface AddFrom extends FoodData {
 const CategoryList: CategoryData[] = Category.data;
 
 function FoodAnalysis(): JSX.Element {
-	const foodData: FoodDetailData = {
-		foodId: 1,
-		foodCategoryId: 1,
-		middleCategory: '유제품',
-		subCategory: '우유',
-		foodName: '서울우유',
-		total: 15,
-		count: 5,
-		startDate: '2023-04-19',
-		endDate: '2023-04-30',
-		nutrientInfo: {
-			id: 20010,
-			totalContents: 200,
-			calories: 135.0,
-			carbohydrates: 0.0,
-			cholesterol: 0.0,
-			fat: 6.2,
-			protein: 0.0,
-			saturatedFattyAcids: 0.0,
-			sodium: 180.0,
-			sugars: 9.0,
-			transFat: 0.0,
-			foodName: '매일두유 순 플레인',
-		},
+	const dummy: FoodReportData = {
+		subCategory: '더미',
 		purchase: 20,
 		percent: 34,
 		msg: [
@@ -66,6 +45,14 @@ function FoodAnalysis(): JSX.Element {
 		isConsume: true,
 		isRecommend: true,
 	});
+
+	/** 상품 상세정보 조회 쿼리 */
+	const query = useQuery([FOOD_API, form.foodCategoryId], () => getFoodFoodDataDetail(form.foodCategoryId), {
+		keepPreviousData: true,
+		enabled: form.foodCategoryId > 0,
+		select: res => res.data.data,
+	});
+
 	const category = CategoryList.find(item => item.foodCategoryId === form.foodCategoryId) ?? {
 		category: '',
 		subCategory: '',
@@ -81,8 +68,8 @@ function FoodAnalysis(): JSX.Element {
 		}
 	};
 	return (
-		<div className="stroke component min-w-75.5 max-w-88 px-8 pt-8 pb-12 mt-6">
-			<div className="flex w-full gap-2" onClick={() => setOpenSearchCategoryModal(true)}>
+		<div className="stroke component min-w-75.5 max-w-88 p-4 mt-6">
+			<div className="flex w-full gap-2 mt-2" onClick={() => setOpenSearchCategoryModal(true)}>
 				<Input
 					icon="category"
 					label="식품분류"
@@ -102,9 +89,16 @@ function FoodAnalysis(): JSX.Element {
 					className="flex-1 min-w-0"
 				/>
 			</div>
-			<div className="mt-6">
-				<FoodDetailAnalysis foodData={foodData} />
-			</div>
+			{!query.isFetching && query.data && (
+				<div className="mt-6">
+					<FoodDetailAnalysis foodData={query.data} />
+				</div>
+			)}
+			{!query.isFetching && !query.data && (
+				<div className="mt-6">
+					<FoodDetailAnalysis foodData={dummy} />
+				</div>
+			)}
 			<SearchCategoryModal
 				open={openSearchCategoryModal}
 				onClose={() => {

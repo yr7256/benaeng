@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import './slider.css';
 import { useMutation } from '@tanstack/react-query';
 import { debounce } from 'lodash';
+import { useParams } from 'react-router';
 import { FOOD_API, putFoodCount } from '../../../apis/foods';
 
 /** slider props 타입 */
@@ -11,13 +12,11 @@ interface Props {
 }
 
 function Slider({ count, total }: Props) {
-	const url: string[] = window.location.href.split('/');
+	const { id } = useParams();
 	// props로 넘겨받은 총 수량, 남은 수량
 	const [nowTotal, setTotal] = useState(String(total));
 	const [nowCount, setCount] = useState(String(count));
-	const mutationFoods = useMutation([FOOD_API, Number(url[url.length - 1])], (cnt: number) =>
-		putFoodCount(Number(url[url.length - 1]), Number(cnt)),
-	);
+	const mutationFoods = useMutation([FOOD_API, Number(id)], (cnt: number) => putFoodCount(Number(id), Number(cnt)));
 	const rangeRef = useRef<HTMLInputElement>(null);
 	// 처음 렌더링 시, 배경 색 채워주기
 	useEffect(() => {

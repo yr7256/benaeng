@@ -23,7 +23,7 @@ function App() {
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-				<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 					{userQuery.isFetching ? <Loading /> : undefined}
 					<Login />
 				</div>
@@ -33,7 +33,7 @@ function App() {
 
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-			<div className="Page w-screen h-screen overflow-x-hidden overflow-y-auto background">
+			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 				{userQuery.isFetching ? <Loading /> : undefined}
 				<Routes>
 					<Route index path="/" element={<Home />} />

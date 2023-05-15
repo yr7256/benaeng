@@ -18,7 +18,7 @@ function Graph({ reportData }: Props) {
 	return (
 		<div className="container">
 			{/* 소비량 그래프 */}
-			<div className="w-full">
+			<div className="flex flex-col w-full h-full">
 				<div className="text-xs font-bold text-center">
 					<span className="text-green">소비량</span> 상위 3개 상품
 				</div>
@@ -33,7 +33,7 @@ function Graph({ reportData }: Props) {
 					</div>
 				</div>
 				{/* 그래프 */}
-				<div className="flex items-end justify-around w-full">
+				<div className="flex items-end justify-around w-full h-[204px]">
 					{reportData.mostConsumer.map(item => {
 						const consumerHeight = Math.floor((144 * (item.consumer / maxHeight)) / 16);
 						const wasteHeight = Math.floor((144 * (item.waste / maxHeight)) / 16);
@@ -62,7 +62,7 @@ function Graph({ reportData }: Props) {
 			</div>
 			<div id="bar" className="w-[1px] mx-4 h-auto my-[-16px] bg-light/stroke dark:bg-dark/stroke" />
 			{/* 폐기량 그래프 */}
-			<div className="w-full">
+			<div className="flex flex-col w-full h-full">
 				<div className="text-xs font-bold text-center">
 					<span className="text-red">폐기량</span> 상위 3개 상품
 				</div>
@@ -77,7 +77,7 @@ function Graph({ reportData }: Props) {
 					</div>
 				</div>
 				{/* 그래프 */}
-				<div className="flex items-end justify-around w-full">
+				<div className="flex items-end justify-around w-full h-[204px]">
 					{reportData.mostWaste.map(item => {
 						const consumerHeight = Math.floor((144 * (item.consumer / maxHeight)) / 16);
 						const wasteHeight = Math.floor((144 * (item.waste / maxHeight)) / 16);
