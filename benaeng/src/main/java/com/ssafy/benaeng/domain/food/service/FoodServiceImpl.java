@@ -477,7 +477,7 @@ public class FoodServiceImpl implements FoodService{
         reportDetailDto.setSubCategory(foodCategory.getSubCategory());
         if(purchaseInfo == null) return null;
         if(purchaseInfo != null) {
-            if (purchaseInfo.getCnt() <= 1) {
+            if (purchaseInfo.getCnt() == 1) {
                 reportDetailDto.setPurchase(-1L);
             } else {
                 Long cnt = purchaseInfo.getCnt();
