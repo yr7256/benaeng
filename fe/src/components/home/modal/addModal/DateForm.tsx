@@ -39,12 +39,12 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 	};
 
 	return (
-		<>
-			<div className={`flex items-end ${!barcode.barcode ? 'opacity-60' : ''}`}>
+		<div className="gap-2 flex flex-col">
+			<div className={`flex items-end ${barcode.barcode ? '' : 'opacity-60'}`}>
 				<CheckInput
 					value={form.isRecommend}
 					onToggle={onToggleRecommendDate}
-					disabled={Boolean(barcode.barcode)}
+					disabled={!barcode.barcode}
 					className="text-green font-bold mt-4"
 				>
 					예측 소비기한 사용
@@ -93,7 +93,7 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 					유통기한 입력
 				</CheckInput>
 			</div>
-		</>
+		</div>
 	);
 }
 
