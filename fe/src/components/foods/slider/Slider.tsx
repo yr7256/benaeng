@@ -22,21 +22,23 @@ function Slider({ count, total }: Props) {
 	useEffect(() => {
 		let initTotal = total;
 		let initCount = count;
-		if (Number(nowCount) < 0) {
+		let aver = 0;
+		if (initCount < 0) {
 			setTotal('100');
 			setCount('100');
 			initTotal = 100;
 			initCount = 100;
 		}
-		if (total < 0) {
+		if (initTotal < 0) {
 			setTotal('100');
 			initTotal = 100;
 		}
+		if (initTotal !== 0) aver = initCount / initTotal;
 		if (rangeRef.current) {
 			rangeRef.current.style.background = `
-            linear-gradient(to right, #00C981 0%, #00C981 ${Math.floor(
-							(initCount / initTotal) * 100,
-						)}%, rgb(236, 236, 236) ${Math.floor((initCount / initTotal) * 100)}%, rgb(236, 236, 236) 100%)
+            linear-gradient(to right, #00C981 0%, #00C981 ${Math.floor(aver * 100)}%, rgb(236, 236, 236) ${Math.floor(
+				aver * 100,
+			)}%, rgb(236, 236, 236) 100%)
                 `;
 		}
 	}, []);
