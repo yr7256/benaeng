@@ -10,7 +10,7 @@ interface ModalProps {
 function CalendarModal({ isOpen, onClose, purchaseItems, cycleItems }: ModalProps) {
 	if (!isOpen) return null;
 	return (
-		<div className="min-h-24 absolute component stroke border" onClick={onClose}>
+		<div className="component stroke border" onClick={onClose}>
 			<div onClick={e => e.stopPropagation()}>
 				{purchaseItems.length !== 0 ? <h3 className="p-2">구매기록</h3> : ''}
 				{purchaseItems.map(id => (
@@ -20,7 +20,7 @@ function CalendarModal({ isOpen, onClose, purchaseItems, cycleItems }: ModalProp
 				))}
 				{cycleItems.length !== 0 ? <h3 className="p-2">구매 주기일</h3> : ''}
 				{cycleItems.map(id => (
-					<p key={id} className="pl-2 mb-4">
+					<p key={id} className="pl-2 mb-2">
 						{id}
 					</p>
 				))}

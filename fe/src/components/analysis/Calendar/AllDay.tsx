@@ -17,6 +17,7 @@ interface Props {
 	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
 	cycleItems: number[];
 	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 const dateToyyyymmdd = (date: Date): string => {
@@ -43,10 +44,8 @@ function allDay({
 	setPurchaseItems,
 	cycleItems,
 	setCycleItems,
+	setSelectedDatePurchases,
 }: Props) {
-	// const [modalIsOpen, setModalIsOpen] = useState(false);
-	// const [purchaseItems, setPurchaseItems] = useState<number[]>([]);
-	// const [cycleItems, setCycleItems] = useState<number[]>([]);
 	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
 	const dateClassName = sameMonth ? '' : 'otherMonth';
 	let conditionClassName = '';
@@ -59,6 +58,7 @@ function allDay({
 	}
 	const clickDate = () => {
 		setClickedDate(day);
+		setSelectedDatePurchases(day);
 		const dateStr = dateToyyyymmdd(day);
 		let isPurchaseItems = false;
 		let isCycleItems = false;
@@ -69,6 +69,14 @@ function allDay({
 		if (cycle[dateStr]) {
 			setCycleItems(cycle[dateStr]);
 			isCycleItems = cycle[dateStr].length > 0;
+		}
+		if (!purchase[dateStr]) {
+			setPurchaseItems([]);
+			isPurchaseItems = false;
+		}
+		if (!cycle[dateStr]) {
+			setCycleItems([]);
+			isCycleItems = false;
 		}
 		if (isPurchaseItems || isCycleItems) {
 			setModalIsOpen(true);

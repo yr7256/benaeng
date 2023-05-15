@@ -16,6 +16,7 @@ interface Props {
 	setPurchaseItems: React.Dispatch<React.SetStateAction<number[]>>;
 	cycleItems: number[];
 	setCycleItems: React.Dispatch<React.SetStateAction<number[]>>;
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 const dateToyyyymmdd = (date: Date): string => {
@@ -65,6 +66,7 @@ function DateBox({
 	setPurchaseItems,
 	cycleItems,
 	setCycleItems,
+	setSelectedDatePurchases,
 }: Props) {
 	const allDay: Date[] = monthList(nowDate);
 
@@ -99,6 +101,7 @@ function DateBox({
 						setPurchaseItems={setPurchaseItems}
 						cycleItems={cycleItems}
 						setCycleItems={setCycleItems}
+						setSelectedDatePurchases={setSelectedDatePurchases}
 					/>
 				);
 			})}
