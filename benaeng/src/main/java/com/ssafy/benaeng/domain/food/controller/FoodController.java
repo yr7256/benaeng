@@ -9,6 +9,8 @@ import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
 import com.ssafy.benaeng.domain.food.requestDto.YearMonthDto;
 import com.ssafy.benaeng.domain.food.responseDto.*;
+import com.ssafy.benaeng.domain.food.service.AlarmService;
+import com.ssafy.benaeng.domain.food.service.AlarmServiceImpl;
 import com.ssafy.benaeng.domain.food.service.FoodService;
 import com.ssafy.benaeng.domain.image.service.AwsS3ServiceImpl;
 import com.ssafy.benaeng.global.responseDto.CommonDto;
@@ -26,6 +28,7 @@ import java.util.List;
 @RequestMapping("/api/foods")
 public class FoodController {
     private final FoodService foodService;
+    private final AlarmService alarmService;
     @PostMapping("/regist")
     public CommonDto<Object> registMyFood(@AuthenticationPrincipal String id , @RequestBody RegistDto registDto) {
         try {
@@ -156,6 +159,7 @@ public class FoodController {
         try{
             Long id = Long.parseLong(userId);
             foodService.deleteByUserId(id);
+            alarmService.deleteByUserId(id);
             return CommonDto.of("200", "냉장고 초기화 성공", userId);
         }catch (Exception e){
             return CommonDto.of("400", "냉장고 초기화 실패", e.getMessage());
