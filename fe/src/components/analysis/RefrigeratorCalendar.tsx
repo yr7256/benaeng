@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-// import { useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
 import FoodIcon from '../common/foodIcon/FoodIcon';
-// import { getCalendarData } from '../../apis/foods';
-import CalendarDataQuery from './test.json';
+import { getCalendarData } from '../../apis/foods';
+// import CalendarDataQuery from './test.json';
 import Category from '../../constants/category.json';
 
 // 오늘 구매한 항목 데이터 받아야함
@@ -18,15 +18,15 @@ interface CalData {
 }
 
 function RefrigeratorCalendar() {
-	// const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
-	// 	keepPreviousData: true,
-	// 	select: res => {
-	// 		const calendarData = {};
-	// 		// 요청 실패 시 종료합니다
+	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
+		keepPreviousData: true,
+		select: res => {
+			const calendarData = {};
+			// 요청 실패 시 종료합니다
 
-	// 		return calendarData;
-	// 	},
-	// });
+			return calendarData;
+		},
+	});
 
 	const today = new Date();
 	const [selectedDatePurchases, setSelectedDatePurchases] = useState<Date>(today);
