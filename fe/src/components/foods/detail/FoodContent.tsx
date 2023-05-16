@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
-import FoodIcon from '../../common/foodIcon/FoodIcon';
+// import FoodIcon from '../../common/foodIcon/FoodIcon';
 import Slider from '../slider/Slider';
 import { FoodDetailData } from '../../../types';
 import CategoryData from '../../../constants/category.json';
 import { FOOD_API, postFoodExpire, postFoodUsed } from '../../../apis/foods';
 import Modal from '../../common/modal/Modal';
+import DDayFoodIcon from '../../common/foodIcon/DDayFoodIcon';
 
 interface Props {
 	foodData: FoodDetailData;
@@ -115,14 +116,15 @@ function FoodContent({ foodData }: Props) {
 					<div className="flex items-center justify-between mb-4">
 						<div className="relative flex items-center">
 							<div className="relative mr-4">
-								<div
+								{/* <div
 									className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xs flex justify-center font-bold text-white items-center`}
 								>
 									D{dayCnt < 0 ? '+' : '-'}
 									{dayCnt === 0 ? 'day' : Math.abs(dayCnt)}
-									{Math.abs(dDay) > 99 && <sup>+</sup>}
+									{Math.abs(dDay) > 99 && <sup className="font-thin">+</sup>}
 								</div>
-								<FoodIcon food={foodData.subCategory} size="lg" />
+								<FoodIcon food={foodData.subCategory} size="lg" /> */}
+								<DDayFoodIcon dDay={dDay} icon={foodData.subCategory} />
 							</div>
 							<div>
 								<div className="text-xs text-left">
