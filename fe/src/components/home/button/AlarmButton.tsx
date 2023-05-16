@@ -1,13 +1,15 @@
 import { TbBellFilled } from 'react-icons/tb';
+import { useNavigate } from 'react-router';
 
 interface Props {
 	isAlarm: boolean;
 }
 
 function AlarmButton({ isAlarm }: Props) {
+	const navigator = useNavigate();
 	/** 알람 버튼 클릭 이벤트 */
 	const handleAlarm = () => {
-		window.location.href = '/notice';
+		navigator('/notice');
 	};
 	return (
 		<button type="button" className="relative w-12 h-12 cursor-pointer" onClick={handleAlarm}>
@@ -19,7 +21,7 @@ function AlarmButton({ isAlarm }: Props) {
 			)}
 			{/* {isAlarm && <div className="absolute w-2 h-2 rounded-lg right-1 top-1 bg-red" />} */}
 			<div className="flex items-center w-12 h-12 border rounded-8 bg-light/component dark:bg-dark/component stroke">
-				<TbBellFilled className="block text-2xl m-auto text-green" />
+				<TbBellFilled className="block m-auto text-2xl text-green" />
 			</div>
 		</button>
 	);
