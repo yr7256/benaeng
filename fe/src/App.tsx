@@ -20,12 +20,11 @@ function App() {
 		},
 		enabled: !!getCookie('accessToken') && !user.isValid,
 	});
-
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-					{/* {userQuery.isFetching ? <Loading /> : undefined} */}
+					{userQuery.isFetching ? <Loading /> : undefined}
 					<Login />
 				</div>
 			</div>
@@ -35,7 +34,7 @@ function App() {
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{userQuery.isFetching ? <Loading /> : undefined}
+				{/* {userQuery.isFetching ? <Loading /> : undefined} */}
 				<Routes>
 					<Route index path="/" element={<Home />} />
 					<Route path="/foods/:id" element={<FoodDetail />} />
