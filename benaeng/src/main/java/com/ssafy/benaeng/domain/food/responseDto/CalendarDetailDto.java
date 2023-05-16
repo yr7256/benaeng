@@ -19,7 +19,7 @@ public class CalendarDetailDto {
         public Long foodCategoryId;
         public String foodName;
         public List<String> purchaseRecords = new ArrayList<>();
-        public Long purchaseCycle;
+        public Long purchaseCycle = -1L;
     }
     List<CalInfo> calData = new ArrayList<>();
 

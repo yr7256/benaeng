@@ -259,8 +259,8 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        if(usedFoodList.size() >=2) foodMoreInfoDto.setCycle(total / usedFoodList.size());
-        else if(usedFoodList.size() <= 1) foodMoreInfoDto.setCycle(-1L);
+        if(usedFoodList.size() >=1) foodMoreInfoDto.setCycle(total / usedFoodList.size());
+        else foodMoreInfoDto.setCycle(-1L);
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
 
 
@@ -599,7 +599,7 @@ public class FoodServiceImpl implements FoodService{
             long differenceInDays = differenceInHours / 24;
             total += differenceInDays;
         }
-        if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
+        if(usedFoodList.size() >=1) reportDetailDto.setCycle(total / usedFoodList.size());
         else reportDetailDto.setCycle(-1L);
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
 
@@ -744,12 +744,14 @@ public class FoodServiceImpl implements FoodService{
                 dates.add(date);
             }
             long totalDifference = 0;
-            for (int j = 1; j < dates.size(); j++) {
-                long difference = ChronoUnit.DAYS.between(dates.get(j - 1), dates.get(j));
-                totalDifference += difference;
+            if(dates.size() >=2) {
+                for (int j = 1; j < dates.size(); j++) {
+                    long difference = ChronoUnit.DAYS.between(dates.get(j - 1), dates.get(j));
+                    totalDifference += difference;
+                }
+                long averageDifference = totalDifference / (dates.size() - 1);
+                calInfo.setPurchaseCycle(averageDifference);
             }
-            long averageDifference =  totalDifference / (dates.size() - 1);
-            calInfo.setPurchaseCycle(averageDifference);
             calendarDetailDto.getCalData().add(calInfo);
         }
         return calendarDetailDto;
