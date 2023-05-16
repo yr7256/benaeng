@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { throttle } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getFoodList } from '../apis/foods';
 import { selectBarcode } from '../store/modules/barcode';
 import { FoodData } from '../types';
@@ -13,12 +13,16 @@ const debounceFoodList = throttle(getFoodList, 3000);
 function useRefrigerator(): ReturnType {
 	const [search, setSearch] = useState<string>('');
 	const barcode = useAppSelector(selectBarcode);
-	const { isFetching, data } = useQuery(['foodList', barcode.status], debounceFoodList, {
+	const query = useQuery(['foodList', barcode.status], debounceFoodList, {
 		keepPreviousData: true,
 		select: res => res?.data.data,
 	});
 
-	return [search, setSearch, isFetching, data];
+	useEffect(() => {
+		query.refetch();
+	}, []);
+
+	return [search, setSearch, query.isFetching, query.data];
 }
 
 export default useRefrigerator;
