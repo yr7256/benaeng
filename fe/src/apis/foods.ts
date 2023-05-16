@@ -86,5 +86,5 @@ export function getFoodFoodDataDetail(foodCategoryId: number) {
 
 /** [GET] 냉장고 초기화 */
 export function getFoodInit() {
-	return getInstance().get<Response<null>>(`${FOOD_API}/init`);
+	return getInstance().delete<Response<null>>(`${FOOD_API}/init`);
 }
