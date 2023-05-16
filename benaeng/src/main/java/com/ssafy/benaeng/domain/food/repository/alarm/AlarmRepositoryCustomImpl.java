@@ -7,12 +7,11 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
-import com.ssafy.benaeng.domain.food.responseDto.FcmAlamDto;
+import com.ssafy.benaeng.domain.food.responseDto.FcmAlarmDto;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,7 +57,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
     }
 
     @Override
-    public List<FcmAlamDto> getFcmAlarmList() {
+    public List<FcmAlarmDto> getFcmAlarmList() {
         NumberExpression<Integer> count0 =
                 Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 0 then 1 else null end)", alarm);
         NumberExpression<Integer> count1 =
@@ -76,7 +75,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .where(user.isAlarm.eq(true))
                         .groupBy(user.id)
                         .fetch();
-        List<FcmAlamDto> fcmAlamDtoList = new ArrayList<>();
+        List<FcmAlarmDto> fcmAlamDtoList = new ArrayList<>();
         for(Tuple tuple : result){
             String deviceToken = tuple.get(user.deviceToken);
             Long userId = tuple.get(user.id);
@@ -85,7 +84,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
             Integer imminent = tuple.get(count1);
             Integer expiration = tuple.get(count2);
             if(period + imminent + expiration == 0) continue;
-            fcmAlamDtoList.add( new FcmAlamDto(deviceToken, imminent, expiration, period));
+            fcmAlamDtoList.add( new FcmAlarmDto(deviceToken, imminent, expiration, period));
         }
         return fcmAlamDtoList;
     }

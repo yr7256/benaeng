@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FcmAlamDto {
+public class FcmAlarmDto {
     private String deviceToken;
     private Integer imminentCnt;
     private Integer expirationCnt;
