@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface AlarmRepositoryCustom {
     List<AlarmDto> getAlarmList(Long userId);
+    Boolean isNew(Long userId);
     List<FcmAlarmDto> getFcmAlarmList();
+
 }
