@@ -1,6 +1,10 @@
 package com.ssafy.benaeng.domain.food.repository.alarm;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
 import com.ssafy.benaeng.domain.food.responseDto.FcmAlamDto;
@@ -9,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +59,34 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
 
     @Override
     public List<FcmAlamDto> getFcmAlarmList() {
-        return null;
+        NumberExpression<Integer> count0 =
+                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 0 then 1 else null end)", alarm);
+        NumberExpression<Integer> count1 =
+                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 1 then 1 else null end)", alarm);
+        NumberExpression<Integer> count2 =
+                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 2 then 1 else null end)", alarm);
+
+        StringExpression formattedDate = Expressions.stringTemplate("FUNCTION('DATE_FORMAT', {0}, '%Y-%m-%d')", alarm.createDate);
+        String date = LocalDate.now().toString();
+        List<Tuple> result =
+                queryFactory.select(user.deviceToken, user.id, count0, count1, count2)
+                        .from(alarm)
+                        .join(alarm.user, user)
+                        .where(formattedDate.eq(date))
+                        .where(user.isAlarm.eq(true))
+                        .groupBy(user.id)
+                        .fetch();
+        List<FcmAlamDto> fcmAlamDtoList = new ArrayList<>();
+        for(Tuple tuple : result){
+            String deviceToken = tuple.get(user.deviceToken);
+            Long userId = tuple.get(user.id);
+            if (deviceToken == null) continue;
+            Integer period = tuple.get(count0);
+            Integer imminent = tuple.get(count1);
+            Integer expiration = tuple.get(count2);
+            if(period + imminent + expiration == 0) continue;
+            fcmAlamDtoList.add( new FcmAlamDto(deviceToken, imminent, expiration, period));
+        }
+        return fcmAlamDtoList;
     }
 }
