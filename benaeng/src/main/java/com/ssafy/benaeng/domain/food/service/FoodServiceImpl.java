@@ -49,8 +49,8 @@ public class FoodServiceImpl implements FoodService{
             LocalDate startLocalDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             long daysDifference = ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
-            double assumedPeriod  =  daysDifference/(0.6);
-            double period80Percent = assumedPeriod * 0.8;
+            double assumedPeriod  =  daysDifference/(0.4);
+            double period80Percent = assumedPeriod * 0.9;
             LocalDate period80EndDate = startLocalDate.plusDays((long) period80Percent);
             LocalDate period80EndDateLocalDate = period80EndDate.plusDays((long) period80Percent);
             Instant period80EndDateInstant = period80EndDateLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
