@@ -19,7 +19,7 @@ public class CalendarDetailDto {
     public static class CalData {
         public Long foodCategoryId;
         public String foodName;
-        public List<Date> purchaseRecords = new ArrayList<>();
+        public List<String> purchaseRecords = new ArrayList<>();
     }
     List<CalData> purchase = new ArrayList<>();
 

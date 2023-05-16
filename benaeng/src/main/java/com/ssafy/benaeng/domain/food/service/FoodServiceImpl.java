@@ -653,26 +653,28 @@ public class FoodServiceImpl implements FoodService{
         List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
         List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByUserId(userId);
 
-        Map<String, List<Date>> purchaseInfo = new HashMap<>();
-        Map<Long, List<Date>> calendarInfo = new HashMap<>();
+        Map<String, List<String>> purchaseInfo = new HashMap<>();
+        Map<Long, List<String>> calendarInfo = new HashMap<>();
         Map<String, Long> foodNameInfo = new HashMap<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         for (UsedFood uf : usedFoodList) {
             CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
             calData.setFoodName(uf.getFoodName());
             calData.setFoodCategoryId(uf.getFoodCategory().getId());
             if (purchaseInfo.containsKey(uf.getFoodName())) {
-                purchaseInfo.get(uf.getFoodName()).add(uf.getStartDate());
+                purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
             } else {
-                List<Date> dates = new ArrayList<>();
-                dates.add(uf.getStartDate());
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
                 purchaseInfo.put(uf.getFoodName(), dates);
             }
 
             if (calendarInfo.containsKey(uf.getFoodCategory().getId())) {
-                calendarInfo.get(uf.getFoodCategory().getId()).add(uf.getStartDate());
+                calendarInfo.get(uf.getFoodCategory().getId()).add(dateFormat.format(uf.getStartDate()));
             } else {
-                List<Date> dates = new ArrayList<>();
-                dates.add(uf.getStartDate());
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
                 calendarInfo.put(uf.getFoodCategory().getId(), dates);
             }
 
@@ -680,8 +682,55 @@ public class FoodServiceImpl implements FoodService{
                 foodNameInfo.put(uf.getFoodName(), uf.getFoodCategory().getId());
             }
         }
+        for (MyFood uf : myFoodList) {
+            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
+            calData.setFoodName(uf.getFoodName());
+            calData.setFoodCategoryId(uf.getFoodCategory().getId());
+            if (purchaseInfo.containsKey(uf.getFoodName())) {
+                purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
+            } else {
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
+                purchaseInfo.put(uf.getFoodName(), dates);
+            }
 
-        List<Map.Entry<String, List<Date>>> entryList = new LinkedList<>(purchaseInfo.entrySet());
+            if (calendarInfo.containsKey(uf.getFoodCategory().getId())) {
+                calendarInfo.get(uf.getFoodCategory().getId()).add(dateFormat.format(uf.getStartDate()));
+            } else {
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
+                calendarInfo.put(uf.getFoodCategory().getId(), dates);
+            }
+
+            if (!foodNameInfo.containsKey(uf.getFoodName())) {
+                foodNameInfo.put(uf.getFoodName(), uf.getFoodCategory().getId());
+            }
+        }
+        for (WastedFood uf : wastedFoodList) {
+            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
+            calData.setFoodName(uf.getFoodName());
+            calData.setFoodCategoryId(uf.getFoodCategory().getId());
+            if (purchaseInfo.containsKey(uf.getFoodName())) {
+                purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
+            } else {
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
+                purchaseInfo.put(uf.getFoodName(), dates);
+            }
+
+            if (calendarInfo.containsKey(uf.getFoodCategory().getId())) {
+                calendarInfo.get(uf.getFoodCategory().getId()).add(dateFormat.format(uf.getStartDate()));
+            } else {
+                List<String> dates = new ArrayList<>();
+                dates.add(dateFormat.format(uf.getStartDate()));
+                calendarInfo.put(uf.getFoodCategory().getId(), dates);
+            }
+
+            if (!foodNameInfo.containsKey(uf.getFoodName())) {
+                foodNameInfo.put(uf.getFoodName(), uf.getFoodCategory().getId());
+            }
+        }
+        List<Map.Entry<String, List<String>>> entryList = new LinkedList<>(purchaseInfo.entrySet());
         for (int i = 0; i < entryList.size(); i++) {
             CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
             String fn = entryList.get(i).getKey();
@@ -690,17 +739,6 @@ public class FoodServiceImpl implements FoodService{
             calData.setPurchaseRecords(purchaseInfo.get(fn));
             calendarDetailDto.getPurchase().add(calData);
         }
-        List<Map.Entry<Long, List<Date>>> entryListForCalendar = new LinkedList<>(calendarInfo.entrySet());
-//        for (int i = 0; i < entryListForCalendar.size(); i++) {
-//            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
-//            Long fcId = entryListForCalendar.get(i).getKey();
-//            calData.setFoodCategoryId(fcId);
-//            calData.setPurchaseRecords(entryListForCalendar.get(i).getValue());
-//            Purchase pcInfo = purchaseRepository.findByFoodCategoryIdAndUserId(fcId, userId);
-//            calendarDetailDto.getCalendar().add(calendar);
-//        }
-
-        log.info("test", calendarDetailDto);
         return calendarDetailDto;
 
     }
