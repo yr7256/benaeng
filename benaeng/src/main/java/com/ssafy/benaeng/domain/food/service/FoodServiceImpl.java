@@ -612,7 +612,10 @@ public class FoodServiceImpl implements FoodService{
         else{
             reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
         }
-        int usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        int usedPercent = 0;
+        if(myFoodList.size() + usedFoodList.size() + wastedFoodList.size() >= 1) {
+            usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        }
         int margin = 4;
         System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
 
