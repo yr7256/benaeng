@@ -535,8 +535,8 @@ public class FoodServiceImpl implements FoodService{
         Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(foodCategoryId , userId);
         FoodCategory foodCategory = foodCategoryRepository.findById(foodCategoryId).orElseThrow();
         reportDetailDto.setSubCategory(foodCategory.getSubCategory());
-        log.info("진입 후 구매 내역 조회 " , purchaseInfo);
         if(purchaseInfo == null) return null;
+        log.info("진입 후 구매 내역 조회 " , purchaseInfo);
         if(purchaseInfo != null) {
             if (purchaseInfo.getCnt() == 1) {
                 reportDetailDto.setPurchase(-1L);
