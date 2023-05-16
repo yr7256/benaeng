@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
 import AlarmButton from '../components/home/button/AlarmButton';
 import Logo from '../components/common/logo/Logo';
 import AddButton from '../components/home/button/AddButton';
@@ -8,11 +9,11 @@ import SettingButton from '../components/home/button/SettingButton';
 import SearchBar from '../components/home/search/SearchBar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { resetBarcodeData, selectBarcode } from '../store/modules/barcode';
-import useRefrigerator from '../hooks/useRefrigerator';
 import FoodList from '../components/home/foodList/FoodList';
 import WarningFoodList from '../components/home/foodList/WarningFoodList';
 import ExpiredFoodList from '../components/home/foodList/ExpiredFoodList';
 import AddModal from '../components/home/modal/addModal/AddModal';
+import { getFoodList } from '../apis/foods';
 
 declare global {
 	interface Window {
@@ -24,8 +25,11 @@ declare global {
 
 // 메인화면
 function Home() {
-	const [search, setSearch, isFetching, data] = useRefrigerator();
+	const [search, setSearch] = useState<string>('');
 	const barcode = useAppSelector(selectBarcode);
+	const { data, isFetching } = useQuery(['foodList', barcode.status], getFoodList, {
+		select: res => res?.data.data,
+	});
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
