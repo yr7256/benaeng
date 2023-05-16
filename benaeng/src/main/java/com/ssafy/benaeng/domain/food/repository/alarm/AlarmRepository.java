@@ -8,4 +8,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long>, AlarmRepositoryCustom{
+    void deleteByUserId(Long id);
 }

@@ -19,6 +19,8 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.*;
 
+import static java.lang.Math.abs;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -190,11 +192,14 @@ public class FoodServiceImpl implements FoodService{
         List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByFoodCategoryIdAndUserId(myFood.getFoodCategory().getId() , myFood.getUser().getId());
 
         Map<String , Long> topthree  = new HashMap<>();
+
         for(MyFood mf: myFoodList){
             if(topthree.containsKey(mf.getFoodName())) topthree.replace (mf.getFoodName() ,topthree.get(mf.getFoodName()) + 1) ;
             else {
                 topthree.put(mf.getFoodName() , 1L);
             }
+
+
         }
         for(UsedFood uf: usedFoodList){
             if(topthree.containsKey(uf.getFoodName())) topthree.replace (uf.getFoodName() ,topthree.get(uf.getFoodName()) + 1) ;
@@ -235,6 +240,46 @@ public class FoodServiceImpl implements FoodService{
         if(usedFoodList.size() >=2) foodMoreInfoDto.setCycle(total / usedFoodList.size());
         else if(usedFoodList.size() <= 1) foodMoreInfoDto.setCycle(-1L);
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
+
+        if(!(foodMoreInfoDto.getPurchase() == -1L || foodMoreInfoDto.getCycle() == -1L)){
+            if(foodMoreInfoDto.getPurchase() <  foodMoreInfoDto.getCycle()){
+                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
+            }
+            else if(abs(foodMoreInfoDto.getPurchase() - foodMoreInfoDto.getCycle()) <= 10){
+                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
+            }
+            else{
+                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
+            }
+        }
+        int usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        int margin = 4;
+        if(usedPercent >= foodMoreInfoDto.getPercent() + margin){
+            foodMoreInfoDto.getMsg().add( "절약을 위해 더 큰 용량의 " + myFood.getFoodCategory().getSubCategory() + "을(를) 구매하는 건 어떨까요 ?");
+
+        }
+        else if(usedPercent < foodMoreInfoDto.getPercent() - margin){
+            foodMoreInfoDto.getMsg().add( "더 작은 크기의 " +  myFood.getFoodCategory().getSubCategory() + "을(를) 구매해 보세요!");
+        }
+        else{
+            foodMoreInfoDto.getMsg().add( "적절한 용량의 " +  myFood.getFoodCategory().getSubCategory() + "을(를) 소비하고 있네요");
+        }
+
+
+        if(foodMoreInfoDto.getPercent()>=0 &&foodMoreInfoDto.getPercent()<=33){
+            foodMoreInfoDto.getMsg().add("소비기한에 맞게" + myFood.getFoodCategory().getSubCategory() + "을(를) 소비하고 있어요.");
+        }
+        else if(foodMoreInfoDto.getPercent()>33 &&foodMoreInfoDto.getPercent()<=66){
+            foodMoreInfoDto.getMsg().add("소비기한 내" + myFood.getFoodCategory().getSubCategory() + "을(를) 소비하지 못하고 있어요.");
+        }
+        else{
+            foodMoreInfoDto.getMsg().add("대부분의 " + myFood.getFoodCategory().getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
+        }
+
+
+
+
+
         return foodMoreInfoDto;
     }
 
@@ -548,38 +593,36 @@ public class FoodServiceImpl implements FoodService{
         List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);
         List<WastedFood> wastedFoodList = wastedFoodRepository.findAllByUserId(userId);
 
-        Map<String , List<Date>> purchaseInfo = new HashMap<>();
-        Map<Long , List<Date>> calendarInfo = new HashMap<>();
-        Map<String , Long> foodNameInfo = new HashMap<>();
-        for(UsedFood uf : usedFoodList){
+        Map<String, List<Date>> purchaseInfo = new HashMap<>();
+        Map<Long, List<Date>> calendarInfo = new HashMap<>();
+        Map<String, Long> foodNameInfo = new HashMap<>();
+        for (UsedFood uf : usedFoodList) {
             CalendarDetailDto.Purchase purchase = new CalendarDetailDto.Purchase();
             purchase.setFoodName(uf.getFoodName());
             purchase.setFoodCategoryId(uf.getFoodCategory().getId());
-            if(purchaseInfo.containsKey(uf.getFoodName())){
+            if (purchaseInfo.containsKey(uf.getFoodName())) {
                 purchaseInfo.get(uf.getFoodName()).add(uf.getStartDate());
-            }
-            else{
+            } else {
                 List<Date> dates = new ArrayList<>();
                 dates.add(uf.getStartDate());
-                purchaseInfo.put(uf.getFoodName() ,dates);
+                purchaseInfo.put(uf.getFoodName(), dates);
             }
 
-            if(calendarInfo.containsKey(uf.getFoodCategory().getId())){
+            if (calendarInfo.containsKey(uf.getFoodCategory().getId())) {
                 calendarInfo.get(uf.getFoodCategory().getId()).add(uf.getStartDate());
-            }
-            else{
+            } else {
                 List<Date> dates = new ArrayList<>();
                 dates.add(uf.getStartDate());
-                calendarInfo.put(uf.getFoodCategory().getId() ,dates);
+                calendarInfo.put(uf.getFoodCategory().getId(), dates);
             }
 
-            if(!foodNameInfo.containsKey(uf.getFoodName())){
-                foodNameInfo.put(uf.getFoodName() , uf.getFoodCategory().getId());
+            if (!foodNameInfo.containsKey(uf.getFoodName())) {
+                foodNameInfo.put(uf.getFoodName(), uf.getFoodCategory().getId());
             }
         }
 
         List<Map.Entry<String, List<Date>>> entryList = new LinkedList<>(purchaseInfo.entrySet());
-        for (int i =0; i<entryList.size(); i++){
+        for (int i = 0; i < entryList.size(); i++) {
             CalendarDetailDto.Purchase purchase = new CalendarDetailDto.Purchase();
             String fn = entryList.get(i).getKey();
             purchase.setFoodName(fn);
@@ -587,18 +630,23 @@ public class FoodServiceImpl implements FoodService{
             purchase.setPurchaseRecords(purchaseInfo.get(fn));
             calendarDetailDto.getPurchase().add(purchase);
         }
-        List<Map.Entry<Long, List<Date>>> entryListForCalendar =new LinkedList<>(calendarInfo.entrySet());
-        for (int i =0; i<entryListForCalendar.size(); i++){
+        List<Map.Entry<Long, List<Date>>> entryListForCalendar = new LinkedList<>(calendarInfo.entrySet());
+        for (int i = 0; i < entryListForCalendar.size(); i++) {
             CalendarDetailDto.Calendar calendar = new CalendarDetailDto.Calendar();
             Long fcId = entryListForCalendar.get(i).getKey();
             calendar.setFoodCategoryId(fcId);
             calendar.setPurchaseRecords(entryListForCalendar.get(i).getValue());
-            Purchase pcInfo = purchaseRepository.findByFoodCategoryIdAndUserId(fcId , userId);
+            Purchase pcInfo = purchaseRepository.findByFoodCategoryIdAndUserId(fcId, userId);
             calendarDetailDto.getCalendar().add(calendar);
         }
 
-        log.info("test" , calendarDetailDto);
+        log.info("test", calendarDetailDto);
         return calendarDetailDto;
 
+    }
+
+    @Override
+    public void deleteByUserId(Long id) {
+        myfoodRepository.deleteByUserId(id);
     }
 }

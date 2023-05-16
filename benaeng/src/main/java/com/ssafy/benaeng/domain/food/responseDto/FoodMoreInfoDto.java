@@ -33,7 +33,7 @@ public class FoodMoreInfoDto {
 
     private Long purchase;
     private int percent;
-    private String msg;
+    private List<String> msg  = new ArrayList<>();
     private Long cycle;
     private List<String> preferProducts = new ArrayList<>();
 }
