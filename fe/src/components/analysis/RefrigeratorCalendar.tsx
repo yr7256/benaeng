@@ -4,28 +4,36 @@ import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
 import FoodIcon from '../common/foodIcon/FoodIcon';
 import { getCalendarData } from '../../apis/foods';
-import CalendarDataQuery from './test.json';
+// import CalendarDataQuery from './test.json';
 import Category from '../../constants/category.json';
 
 // 오늘 구매한 항목 데이터 받아야함
 
-function RefrigeratorCalendar() {
-	// const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
-	// 	keepPreviousData: true,
-	// 	select: res => {
-	// 		const calendarData = {};
-	// 		// 요청 실패 시 종료합니다
+interface CalData {
+	categoryId: number;
+	foodName: string;
+	foodId: number;
+	purchaseRecords: string[];
+	purchaseCycle: number;
+}
 
-	// 		return calendarData;
-	// 	},
-	// });
+function RefrigeratorCalendar() {
+	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
+		keepPreviousData: true,
+		select: res => {
+			const calendarData = {};
+			// 요청 실패 시 종료합니다
+
+			return calendarData;
+		},
+	});
 
 	const today = new Date();
 	const [selectedDatePurchases, setSelectedDatePurchases] = useState<Date>(today);
 	const totalRecords: { [key: string]: number[] } = {};
 	const totalCycles: { [key: string]: number[] } = {};
 
-	CalendarDataQuery.calendar.forEach(item => {
+	CalendarDataQuery.calData.forEach(item => {
 		item.purchaseRecords.forEach(record => {
 			if (!totalRecords[record]) {
 				totalRecords[record] = [];
@@ -62,25 +70,37 @@ function RefrigeratorCalendar() {
 		return `${month}/${day}`;
 	};
 
-	const filteredPurchases = CalendarDataQuery.purchase.filter(data =>
+	const nextPurchaseDate = (item: CalData) => {
+		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
+		const date = new Date(lastRecord);
+		date.setDate(date.getDate() + item.purchaseCycle);
+		return date.toISOString().split('T')[0];
+	};
+
+	const filteredPurchases = CalendarDataQuery.calData.filter(data =>
 		data.purchaseRecords.includes(dateToyyyymmdd(selectedDatePurchases)),
+	);
+
+	const filterCycle = CalendarDataQuery.calData.filter(
+		data => nextPurchaseDate(data) === dateToyyyymmdd(selectedDatePurchases),
 	);
 
 	return (
 		<div className="mt-6">
 			<Calendar purchase={totalRecords} cycle={totalCycles} setSelectedDatePurchases={setSelectedDatePurchases} />
-			<div className="flex text-sm font-bold text-green mb-3 min-w-75.5 max-w-88">슬슬 구매해야 할 항목</div>
-			{CalendarDataQuery.alarm.map(data => (
-				<div className="mb-3">
-					<Alarm
-						name={getSubCategory(data.categoryId)}
-						food={data.categoryId}
-						type={data.status}
-						day={data.dDay}
-						foodId={data.foodId}
-					/>
-				</div>
-			))}
+			<div className="flex text-sm font-bold text-green mb-3 min-w-75.5 max-w-88">
+				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 슬슬
+				구매해야 할 항목
+			</div>
+			{filterCycle.length > 0 ? (
+				CalendarDataQuery.calData.map(data => (
+					<div className="mb-3">
+						<Alarm name={data.foodName} food={data.categoryId} type={0} day={0} foodId={0} />
+					</div>
+				))
+			) : (
+				<p>임박한 상품이 없어요.</p>
+			)}
 			{/* // 음식명, 소분류, 알림 타입, d-day, 음식 id */}
 			<div className="flex text-sm font-bold text-yellow mt-3 mb-3 min-w-75.5 max-w-88">
 				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 구매한

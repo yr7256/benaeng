@@ -14,14 +14,6 @@ interface Props {
 	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const dateToyyyymmdd = (date: Date): string => {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	const day = String(date.getDate()).padStart(2, '0');
-
-	return `${year}-${month}-${day}`;
-};
-
 function allDay({
 	day,
 	nowDate,
@@ -37,17 +29,16 @@ function allDay({
 	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
 	const dateClassName = sameMonth ? '' : 'otherMonth';
 	let conditionClassName = '';
-	if (isPurchase && isCycle) {
+	if (isPurchase && isCycle && sameMonth) {
 		conditionClassName = 'PurchaseAndCycleDay';
-	} else if (isPurchase) {
+	} else if (isPurchase && sameMonth) {
 		conditionClassName = 'PurchaseDay';
-	} else if (isCycle) {
+	} else if (isCycle && sameMonth) {
 		conditionClassName = 'CycleDay';
 	}
 	const clickDate = () => {
 		setClickedDate(day);
 		setSelectedDatePurchases(day);
-		const dateStr = dateToyyyymmdd(day);
 	};
 	return (
 		<div onClick={() => clickDate()} className={`${dateClassName} AlldayDayContainer mx-auto`}>
