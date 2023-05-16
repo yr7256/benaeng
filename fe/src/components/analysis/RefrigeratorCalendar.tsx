@@ -4,7 +4,7 @@ import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
 import FoodIcon from '../common/foodIcon/FoodIcon';
 import { getCalendarData } from '../../apis/foods';
-// import CalendarDataQuery from './test.json';
+// import CalendarDataQuery.data? from './test.json';
 import Category from '../../constants/category.json';
 
 // 오늘 구매한 항목 데이터 받아야함
@@ -20,7 +20,7 @@ interface CalData {
 function RefrigeratorCalendar() {
 	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
 		keepPreviousData: true,
-		select: res => res.data,
+		select: res => res.data.data,
 	});
 
 	const today = new Date();
@@ -28,7 +28,7 @@ function RefrigeratorCalendar() {
 	const totalRecords: { [key: string]: number[] } = {};
 	const totalCycles: { [key: string]: number[] } = {};
 
-	CalendarDataQuery.calData.forEach(item => {
+	CalendarDataQuery.data?.calData.forEach(item => {
 		item.purchaseRecords.forEach(record => {
 			if (!totalRecords[record]) {
 				totalRecords[record] = [];
@@ -72,11 +72,11 @@ function RefrigeratorCalendar() {
 		return date.toISOString().split('T')[0];
 	};
 
-	const filteredPurchases = CalendarDataQuery.calData.filter(data =>
+	const filteredPurchases = CalendarDataQuery.data?.calData.filter(data =>
 		data.purchaseRecords.includes(dateToyyyymmdd(selectedDatePurchases)),
 	);
 
-	const filterCycle = CalendarDataQuery.calData.filter(
+	const filterCycle = CalendarDataQuery.data?.calData.filter(
 		data => nextPurchaseDate(data) === dateToyyyymmdd(selectedDatePurchases),
 	);
 
@@ -87,8 +87,8 @@ function RefrigeratorCalendar() {
 				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 슬슬
 				구매해야 할 항목
 			</div>
-			{filterCycle.length > 0 ? (
-				CalendarDataQuery.calData.map(data => (
+			{filterCycle && filterCycle.length > 0 ? (
+				CalendarDataQuery.data?.calData.map(data => (
 					<div className="mb-3">
 						<Alarm name={data.foodName} food={data.categoryId} type={0} day={0} foodId={0} />
 					</div>
@@ -102,7 +102,7 @@ function RefrigeratorCalendar() {
 				항목
 			</div>
 			<div className="flex flex-wrap px-5 py-6 border component stroke">
-				{filteredPurchases.length > 0 ? (
+				{filteredPurchases && filteredPurchases.length > 0 ? (
 					filteredPurchases.map(data => (
 						<div className="flex w-1/4">
 							<div className="flex flex-col mx-auto my-2 text-xs font-bold">
