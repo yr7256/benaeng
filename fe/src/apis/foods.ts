@@ -2,7 +2,7 @@ import moment from 'moment';
 import getInstance from '.';
 import { AddFrom } from '../hooks/useAddForm';
 import { CategoryData, FoodDetailData, FoodReportData, Response } from '../types';
-import { MonthlyReportData, CalendarData } from '../types/AnalysisTypes';
+import { MonthlyReportData, CalendarDataResponse } from '../types/AnalysisTypes';
 import { FoodData, BarcodeData } from '../types/index';
 
 export const FOOD_API = 'foods';
@@ -76,7 +76,7 @@ export function getFoodFoodDataMonth(year: number, month: number) {
 
 /** [GET] 냉장고 캘린더의 데이터 조회 (구매 기록, 구매 주기, 슬슬 구매한 항목, 오늘 구매한 항목) */
 export function getCalendarData() {
-	return getInstance().get<Response<CalendarData>>(`${FOOD_API}/fooddata/calendar`);
+	return getInstance().get<Response<CalendarDataResponse>>(`${FOOD_API}/fooddata/calendar`);
 }
 
 /** [GET] 식품별 분석 조회 */

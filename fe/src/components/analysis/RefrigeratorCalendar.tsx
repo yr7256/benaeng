@@ -20,12 +20,7 @@ interface CalData {
 function RefrigeratorCalendar() {
 	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
 		keepPreviousData: true,
-		select: res => {
-			const calendarData = {};
-			// 요청 실패 시 종료합니다
-
-			return calendarData;
-		},
+		select: res => res.data,
 	});
 
 	const today = new Date();

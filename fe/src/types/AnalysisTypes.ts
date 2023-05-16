@@ -12,10 +12,14 @@ export interface MonthlyReportData {
 	mostWaste: MostCategory[];
 }
 
-export interface PurchaseData {
-	name: string;
+export interface CalendarData {
+	categoryId: number;
+	foodName: string;
+	foodId: number;
+	purchaseRecords: string[];
+	purchaseCycle: number;
 }
 
-export interface CalendarData {
-	name: string;
+export interface CalendarDataResponse {
+	calData: CalendarData[];
 }
