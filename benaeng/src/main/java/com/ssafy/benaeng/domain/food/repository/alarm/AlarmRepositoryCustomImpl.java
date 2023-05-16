@@ -28,6 +28,25 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
     public AlarmRepositoryCustomImpl(EntityManager entityManager) {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
+    @Override
+    public Boolean isNew(Long userId) {
+        Date date = new Date();
+        LocalDate curDate = LocalDate.now();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, -7);
+        date = cal.getTime();
+        Integer result =
+                queryFactory.select(Projections.fields(Integer.class,
+                                alarm.count()
+                        )).from(alarm)
+                        .join(alarm.user, user)
+                        .where(user.id.eq(userId))
+                        .where(alarm.status.eq(0))
+                        .where(alarm.createDate.between(date, new Date()))
+                        .fetchOne();
+        return result != 0;
+    }
 
     @Override
     public List<AlarmDto> getAlarmList(Long userId) {
