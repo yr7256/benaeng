@@ -87,13 +87,13 @@ function FoodDetailAnalysis({ foodData }: Props) {
 								>
 									<div className="ml-3 text-sm">{item}</div>
 									<div
-										className="flex items-center w-20 h-6 cursor-pointer rounded-xl bg-paleyellow"
+										className="flex items-center justify-center w-20 h-8 cursor-pointer rounded-2xl bg-paleyellow"
 										onClick={() => {
 											window.location.href = `https://www.coupang.com/np/search?component=&q=${item}&channel=user`;
 										}}
 									>
-										<div className="mr-4 text-xs text-black">구매</div>
-										<img className="block w-5 h-5 m-auto" src="/assets/common/cart.svg" alt="cart" />
+										<div className="mr-2 text-xs text-black">구매</div>
+										<img className="block w-5 h-5" src="/assets/common/cart.svg" alt="cart" />
 									</div>
 								</div>
 							))}
