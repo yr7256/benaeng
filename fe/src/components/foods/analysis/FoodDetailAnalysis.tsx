@@ -62,7 +62,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 								);
 							}
 							return (
-								<div key={item} className="mb-2 font-bold">
+								<div key={item} className="mb-2 font-bold text-green">
 									{item}
 								</div>
 							);
@@ -83,16 +83,17 @@ function FoodDetailAnalysis({ foodData }: Props) {
 							foodData.preferProducts.map(item => (
 								<div
 									key={item}
-									className="flex items-center rounded-[16px] px-1 justify-between w-full h-[34px] border stroke"
+									className="flex items-center rounded-[16px] mb-4 px-1 justify-between w-full h-[40px] border stroke"
 								>
 									<div className="ml-3 text-sm">{item}</div>
 									<div
-										className="flex items-center w-6 h-6 cursor-pointer rounded-xl bg-paleyellow"
+										className="flex items-center justify-center w-20 h-8 cursor-pointer rounded-2xl bg-paleyellow"
 										onClick={() => {
 											window.location.href = `https://www.coupang.com/np/search?component=&q=${item}&channel=user`;
 										}}
 									>
-										<img className="block w-4 h-4 m-auto" src="/assets/common/cart.svg" alt="cart" />
+										<div className="mr-2 text-xs text-black">구매</div>
+										<img className="block w-5 h-5" src="/assets/common/cart.svg" alt="cart" />
 									</div>
 								</div>
 							))}

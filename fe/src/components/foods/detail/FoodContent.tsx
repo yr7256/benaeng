@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router';
-// import FoodIcon from '../../common/foodIcon/FoodIcon';
+import moment from 'moment';
 import Slider from '../slider/Slider';
 import { FoodDetailData } from '../../../types';
 import CategoryData from '../../../constants/category.json';
 import { FOOD_API, postFoodExpire, postFoodUsed } from '../../../apis/foods';
 import Modal from '../../common/modal/Modal';
 import DDayFoodIcon from '../../common/foodIcon/DDayFoodIcon';
+import { getTodayStr } from '../../../utils/string';
 
 interface Props {
 	foodData: FoodDetailData;
@@ -24,18 +25,37 @@ function FoodContent({ foodData }: Props) {
 
 	// api 요청
 	const { id } = useParams();
-	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(id)));
-	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(id)));
+	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(id)), {
+		onSuccess: () => {
+			setConfirmUsed(false);
+			navigate('/', {
+				replace: true,
+			});
+		},
+		onError: () => {
+			setConfirmUsed(false);
+			setAlertError(true);
+		},
+	});
+	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(id)), {
+		onSuccess: () => {
+			setConfirmDelete(false);
+			navigate('/', {
+				replace: true,
+			});
+		},
+		onError: () => {
+			setConfirmDelete(false);
+			setAlertError(true);
+		},
+	});
 
 	// D-day 계산
+	const today = moment(getTodayStr(), 'YYYY-MM-DD');
+	const dDay = moment(foodData.endDate, 'YYYY-MM-DD').diff(today, 'days');
+
 	const start = foodData.startDate.split('-');
 	const end = foodData.endDate.split('-');
-	const today = new Date();
-
-	const sDate = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-	const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
-
-	const dDay = Math.floor((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
 	const dayCnt = dDay > 99 ? 99 : dDay;
 	let color = 'green';
 	if (dayCnt <= 7) color = 'yellow';
@@ -58,16 +78,7 @@ function FoodContent({ foodData }: Props) {
 					onClose={() => setConfirmUsed(false)}
 					label="소비 완료"
 					submitText="확인"
-					onSubmit={() => {
-						try {
-							mutationUpdate.mutate();
-							setConfirmUsed(false);
-							navigate('/');
-						} catch (error) {
-							setConfirmUsed(false);
-							setAlertError(true);
-						}
-					}}
+					onSubmit={() => mutationUpdate.mutate()}
 				>
 					<div className="text-center">
 						<span className="text-green"> {foodData.foodName}</span> 상품을 <br /> 모두 소비 하셨습니까?
@@ -82,16 +93,7 @@ function FoodContent({ foodData }: Props) {
 					onClose={() => setConfirmDelete(false)}
 					label="상품 폐기"
 					submitText="폐기"
-					onSubmit={() => {
-						try {
-							mutationDelete.mutate();
-							setConfirmDelete(false);
-							navigate('/');
-						} catch (error) {
-							setConfirmDelete(false);
-							setAlertError(true);
-						}
-					}}
+					onSubmit={() => mutationDelete.mutate()}
 				>
 					<div className="text-center">
 						<span className="text-green"> {foodData.foodName}</span> 상품을 <br /> 모두 폐기 하시겠습니까?
@@ -116,14 +118,6 @@ function FoodContent({ foodData }: Props) {
 					<div className="flex items-center justify-between mb-4">
 						<div className="relative flex items-center">
 							<div className="relative mr-4">
-								{/* <div
-									className={`absolute top-[-8px] left-[-8px] bg-${color} w-10 h-5 rounded-lg text-xs flex justify-center font-bold text-white items-center`}
-								>
-									D{dayCnt < 0 ? '+' : '-'}
-									{dayCnt === 0 ? 'day' : Math.abs(dayCnt)}
-									{Math.abs(dDay) > 99 && <sup className="font-thin">+</sup>}
-								</div>
-								<FoodIcon food={foodData.subCategory} size="lg" /> */}
 								<DDayFoodIcon dDay={dDay} icon={foodData.subCategory} />
 							</div>
 							<div>
