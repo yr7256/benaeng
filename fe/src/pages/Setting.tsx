@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { logout, selectUser } from '../store/modules/user';
@@ -13,11 +14,27 @@ import { FOOD_API, getFoodInit } from '../apis/foods';
 // 설정 화면
 
 function Setting() {
-	const [alartModal, setAlartModal] = useState(false);
-	const userInfo = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
+	const navigator = useNavigate();
+	const userInfo = useAppSelector(selectUser);
+
+	// modal 상태 관리
+	const [alartLogout, setAlartLogout] = useState(false);
+	const [alartInit, setAlartInit] = useState(false);
+
+	// 초기화 쿼리 호출 state
+	const [isInit, setIsInit] = useState(false);
+
+	// 쿼리문
 	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
+	useQuery([FOOD_API, isInit], () => getFoodInit(), {
+		enabled: isInit,
+		onSuccess: () => {
+			setIsInit(false);
+			navigator('/');
+		},
+	});
 	useEffect(() => {
 		mutation.mutate();
 	}, [userInfo]);
@@ -36,29 +53,48 @@ function Setting() {
 		sendDeviceToken();
 	}, []);
 
+	// 로그아웃 실행
 	const handleLogout = () => {
 		removeCookie('accessToken');
 		dispatch(logout());
-		setAlartModal(false);
+		setAlartLogout(false);
 	};
 
+	// 냉장고 초기화 실행
 	const handleInit = () => {
-		useQuery([FOOD_API], getFoodInit);
+		setIsInit(true);
+		setAlartInit(false);
 	};
 
 	return (
 		<div className="px-6 pt-10">
-			{alartModal && (
+			{alartLogout && (
 				<Modal
 					mode="confirm"
 					size="sm"
 					label="로그아웃"
-					open={alartModal}
-					onClose={() => setAlartModal(false)}
+					open={alartLogout}
+					onClose={() => setAlartLogout(false)}
 					submitText="확인"
 					onSubmit={handleLogout}
 				>
 					<div className="my-4 text-center">로그아웃 하시겠습니까 ?</div>
+				</Modal>
+			)}
+			{alartInit && (
+				<Modal
+					mode="confirm"
+					size="sm"
+					label="초기화"
+					open={alartInit}
+					onClose={() => setAlartInit(false)}
+					submitText="확인"
+					onSubmit={handleInit}
+				>
+					<div className="my-4 text-center">
+						냉장고에 있는 상품을
+						<br /> 모두 삭제 하시겠습니까 ?
+					</div>
 				</Modal>
 			)}
 			<Topbar />
@@ -90,13 +126,13 @@ function Setting() {
 			</div>
 			<div
 				className="px-6 py-3 mb-4 text-left border-2 rounded-2xl text-red stroke bg-light/component dark:bg-dark/component"
-				onClick={handleInit}
+				onClick={() => setAlartInit(true)}
 			>
 				냉장고 초기화하기
 			</div>
 			<div
 				className="px-6 py-3 text-left border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text"
-				onClick={() => setAlartModal(true)}
+				onClick={() => setAlartLogout(true)}
 			>
 				로그아웃
 			</div>
