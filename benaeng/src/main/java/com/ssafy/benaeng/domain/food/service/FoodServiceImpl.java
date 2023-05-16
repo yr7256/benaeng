@@ -52,7 +52,7 @@ public class FoodServiceImpl implements FoodService{
             double assumedPeriod  =  daysDifference/(0.6);
             double period80Percent = assumedPeriod * 0.8;
             LocalDate period80EndDate = startLocalDate.plusDays((long) period80Percent);
-            LocalDate period80EndDateLocalDate = startLocalDate.plusDays((long) period80Percent);
+            LocalDate period80EndDateLocalDate = period80EndDate.plusDays((long) period80Percent);
             Instant period80EndDateInstant = period80EndDateLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
             endDate = Date.from(period80EndDateInstant);
             myFood.setStartDate(startDate);
