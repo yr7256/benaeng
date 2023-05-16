@@ -1,12 +1,11 @@
 package com.ssafy.benaeng.domain.food.responseDto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import lombok.*;
 
 @Getter
-@Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class FcmAlamDto {
     private String deviceToken;
     private Integer imminentCnt;
