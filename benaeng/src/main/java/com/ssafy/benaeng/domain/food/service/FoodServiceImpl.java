@@ -279,7 +279,7 @@ public class FoodServiceImpl implements FoodService{
 
 
 
-
+        log.info("저장된 메시지 목록입니다." , foodMoreInfoDto.getMsg());
         return foodMoreInfoDto;
     }
 

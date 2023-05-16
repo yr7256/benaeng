@@ -154,7 +154,6 @@ public class FoodController {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
         }
     }
-<<<<<<< HEAD
 
 
     @GetMapping("/fooddata/calendar/{year}/{month}")
