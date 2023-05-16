@@ -41,7 +41,6 @@ function Home() {
 				{/* 비냉 로고 */}
 				<div className="flex items-center">
 					<Logo type={1} />
-					<h1 className="text text-2xl font-extrabold mx-2">비냉</h1>
 				</div>
 
 				{/* 알람버튼 */}
