@@ -2,6 +2,7 @@ package com.ssafy.benaeng.domain.food.service;
 
 import com.ssafy.benaeng.domain.food.entity.*;
 import com.ssafy.benaeng.domain.food.repository.*;
+import com.ssafy.benaeng.domain.food.repository.alarm.AlarmRepository;
 import com.ssafy.benaeng.domain.food.requestDto.ChangeCountDto;
 import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
@@ -11,6 +12,7 @@ import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +37,7 @@ public class FoodServiceImpl implements FoodService{
     private final UsedFoodRepository usedFoodRepository;
     private final WastedFoodRepository wastedFoodRepository;
     private final PurchaseRepository purchaseRepository;
+    private final AlarmRepository alarmRepository;
     @Override
     public MyFood saveMyFood(RegistDto registDto) {
         MyFood myFood = new MyFood();
@@ -635,6 +638,7 @@ public class FoodServiceImpl implements FoodService{
         return reportDetailDto;
     }
 
+    @Transactional
     @Override
     public CalendarDetailDto getCalendarDetail(Long userId, int year, int month) {
         CalendarDetailDto calendarDetailDto = new CalendarDetailDto();
@@ -697,5 +701,6 @@ public class FoodServiceImpl implements FoodService{
     @Override
     public void deleteByUserId(Long id) {
         myfoodRepository.deleteByUserId(id);
+        alarmRepository.deleteByUserId(id);
     }
 }

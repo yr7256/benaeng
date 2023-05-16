@@ -2,12 +2,11 @@ package com.ssafy.benaeng.domain.food.service;
 
 import com.ssafy.benaeng.domain.food.repository.alarm.AlarmRepository;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
-import lombok.AllArgsConstructor;
+import com.ssafy.benaeng.domain.food.responseDto.FcmAlarmDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
@@ -22,5 +21,9 @@ public class AlarmServiceImpl implements AlarmService{
     @Override
     public void deleteByUserId(Long userId) {
         alarmRepository.deleteByUserId(userId);
+    }
+    @Override
+    public List<FcmAlarmDto> getFcmAlarmList() {
+        return alarmRepository.getFcmAlarmList();
     }
 }
