@@ -70,7 +70,7 @@ function Home() {
 			</section>
 
 			{/* 식품 추가 버튼 */}
-			<AddButton onClick={onClickAddBtn} className="fixed bottom-10 left-1/2 -translate-x-10 z-10" />
+			<AddButton onClick={onClickAddBtn} className="fixed top-[calc(100%-120px)] left-1/2 -translate-x-10 z-10" />
 			<AddModal open={barcode.status === 'success'} setClose={() => dispatch(resetBarcodeData())} />
 		</div>
 	);
