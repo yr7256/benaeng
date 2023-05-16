@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from './hooks/useStore';
 import { selectUser, setUser } from './store/modules/user';
@@ -19,7 +19,55 @@ function App() {
 			dispatch(setUser(data.data));
 		},
 		enabled: !!getCookie('accessToken') && !user.isValid,
+		retry: 1,
 	});
+
+	/** 라우터 */
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: <Home />,
+			loader: () => {
+				userQuery.refetch();
+				return 0;
+			},
+		},
+		{
+			path: '/foods/:id',
+			element: <FoodDetail />,
+		},
+		{
+			path: '/barcode',
+			element: <BarcodeReader />,
+		},
+		{
+			path: '/analysis/:type',
+			element: <Analysis />,
+			children: [
+				{
+					path: 'report',
+					element: <MonthlyReport />,
+				},
+				{
+					path: 'calendar',
+					element: <RefrigeratorCalendar />,
+				},
+				{
+					path: 'food',
+					element: <FoodAnalysis />,
+				},
+			],
+		},
+		{
+			path: '/notice',
+			element: <Notice />,
+		},
+		{
+			path: '/setting',
+			element: <Setting />,
+		},
+	]);
+
 	if (!user.isValid) {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
@@ -34,19 +82,7 @@ function App() {
 	return (
 		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{/* {userQuery.isFetching ? <Loading /> : undefined} */}
-				<Routes>
-					<Route index path="/" element={<Home />} />
-					<Route path="/foods/:id" element={<FoodDetail />} />
-					<Route path="/barcode" caseSensitive element={<BarcodeReader />} />
-					<Route path="/analysis/:type" element={<Analysis />}>
-						<Route path="report" element={<MonthlyReport />} />
-						<Route path="calendar" element={<RefrigeratorCalendar />} />
-						<Route path="food" element={<FoodAnalysis />} />
-					</Route>
-					<Route path="/notice" element={<Notice />} />
-					<Route path="/setting" element={<Setting />} />
-				</Routes>
+				<RouterProvider router={router} />
 			</div>
 		</div>
 	);
