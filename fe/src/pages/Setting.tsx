@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { logout, selectUser } from '../store/modules/user';
@@ -8,6 +8,7 @@ import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
 import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
+import { FOOD_API, getFoodInit } from '../apis/foods';
 
 // 설정 화면
 
@@ -39,6 +40,10 @@ function Setting() {
 		removeCookie('accessToken');
 		dispatch(logout());
 		setAlartModal(false);
+	};
+
+	const handleInit = () => {
+		useQuery([FOOD_API], getFoodInit);
 	};
 
 	return (
@@ -83,7 +88,10 @@ function Setting() {
 					/>
 				</div>
 			</div>
-			<div className="px-6 py-3 mb-4 text-left border-2 rounded-2xl text-red stroke bg-light/component dark:bg-dark/component">
+			<div
+				className="px-6 py-3 mb-4 text-left border-2 rounded-2xl text-red stroke bg-light/component dark:bg-dark/component"
+				onClick={handleInit}
+			>
 				냉장고 초기화하기
 			</div>
 			<div

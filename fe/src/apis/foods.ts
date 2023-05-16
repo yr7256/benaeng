@@ -83,3 +83,8 @@ export function getCalendarData() {
 export function getFoodFoodDataDetail(foodCategoryId: number) {
 	return getInstance().get<Response<FoodReportData>>(`${FOOD_API}/foodDataDetail/${foodCategoryId}`);
 }
+
+/** [GET] 냉장고 초기화 */
+export function getFoodInit() {
+	return getInstance().get<Response<null>>(`${FOOD_API}/init`);
+}
