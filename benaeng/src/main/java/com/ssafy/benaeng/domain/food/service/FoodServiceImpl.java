@@ -578,7 +578,7 @@ public class FoodServiceImpl implements FoodService{
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList);
         int index = 0;
-        System.out.println(reportDetailDto);
+
         while(true){
             if(entryList.size() ==0) break;
             if(index >= 3 || index >= entryList.size()) break;
@@ -602,7 +602,7 @@ public class FoodServiceImpl implements FoodService{
         if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
         else reportDetailDto.setCycle(-1L);
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
-
+        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
         if(reportDetailDto.getPurchase() <  reportDetailDto.getCycle()){
             reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
         }
@@ -614,6 +614,8 @@ public class FoodServiceImpl implements FoodService{
         }
         int usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         int margin = 4;
+        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
+
         if(usedPercent >= reportDetailDto.getPercent() + margin){
             reportDetailDto.getMsg().add( "절약을 위해 더 큰 용량의 " + foodCategory.getSubCategory() + "을(를) 구매하는 건 어떨까요 ?");
 
@@ -624,6 +626,7 @@ public class FoodServiceImpl implements FoodService{
         else{
             reportDetailDto.getMsg().add( "적절한 용량의 " +  foodCategory.getSubCategory() + "을(를) 소비하고 있네요");
         }
+        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
 
 
         if(reportDetailDto.getPercent()>0 &&reportDetailDto.getPercent()<=33){
@@ -636,7 +639,8 @@ public class FoodServiceImpl implements FoodService{
             reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
         log.info("저장된 메시지 목록입니다." , reportDetailDto.getMsg());
-        System.out.println(reportDetailDto);
+        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
+
         return reportDetailDto;
     }
 
