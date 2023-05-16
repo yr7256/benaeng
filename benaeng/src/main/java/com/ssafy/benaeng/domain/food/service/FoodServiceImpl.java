@@ -265,13 +265,13 @@ public class FoodServiceImpl implements FoodService{
         }
 
 
-        if(foodMoreInfoDto.getPercent()>=0 &&foodMoreInfoDto.getPercent()<=33){
+        if(foodMoreInfoDto.getPercent()>0 &&foodMoreInfoDto.getPercent()<=33){
             foodMoreInfoDto.getMsg().add("소비기한에 맞게 " + myFood.getFoodCategory().getSubCategory() + "을(를) 소비하고 있어요.");
         }
         else if(foodMoreInfoDto.getPercent()>33 &&foodMoreInfoDto.getPercent()<=66){
             foodMoreInfoDto.getMsg().add("소비기한 내" + myFood.getFoodCategory().getSubCategory() + "을(를) 소비하지 못하고 있어요.");
         }
-        else{
+        else if(foodMoreInfoDto.getPercent()>66 && foodMoreInfoDto.getPercent()<=100){{
             foodMoreInfoDto.getMsg().add("대부분의 " + myFood.getFoodCategory().getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
 
@@ -603,13 +603,13 @@ public class FoodServiceImpl implements FoodService{
         }
 
 
-        if(reportDetailDto.getPercent()>=0 &&reportDetailDto.getPercent()<=33){
+        if(reportDetailDto.getPercent()>0 &&reportDetailDto.getPercent()<=33){
             reportDetailDto.getMsg().add("소비기한에 맞게 " + foodCategory.getSubCategory() + "을(를) 소비하고 있어요.");
         }
         else if(reportDetailDto.getPercent()>33 && reportDetailDto.getPercent()<=66){
             reportDetailDto.getMsg().add("소비기한 내" + foodCategory.getSubCategory() + "을(를) 소비하지 못하고 있어요.");
         }
-        else{
+        else if(reportDetailDto.getPercent()>66 && reportDetailDto.getPercent()<=100){
             reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
         log.info("저장된 메시지 목록입니다." , reportDetailDto.getMsg());
