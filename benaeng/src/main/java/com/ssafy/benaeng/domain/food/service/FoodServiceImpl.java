@@ -14,9 +14,11 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static java.lang.Math.abs;
@@ -41,6 +43,25 @@ public class FoodServiceImpl implements FoodService{
         myFood.setTotalCount(registDto.getTotalCount());
         myFood.setCount(registDto.getTotalCount());
         myFood.setUser(userRepository.findById(registDto.getUserId()).orElseThrow());
+        if(!registDto.getIsConsume()){
+            Date startDate = registDto.getStartDate();
+            Date endDate = registDto.getEndDate();
+            LocalDate startLocalDate = startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate endLocalDate = endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long daysDifference = ChronoUnit.DAYS.between(startLocalDate, endLocalDate);
+            double assumedPeriod  =  daysDifference/(0.6);
+            double period80Percent = assumedPeriod * 0.8;
+            LocalDate period80EndDate = startLocalDate.plusDays((long) period80Percent);
+            LocalDate period80EndDateLocalDate = startLocalDate.plusDays((long) period80Percent);
+            Instant period80EndDateInstant = period80EndDateLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            endDate = Date.from(period80EndDateInstant);
+            myFood.setStartDate(startDate);
+            myFood.setEndDate(endDate);
+        }
+        else {
+            myFood.setStartDate(registDto.getStartDate());
+            myFood.setEndDate(registDto.getEndDate());
+        }
 //        if(registDto.getIsRecommend()){
 //            String barcode = registDto.getBarcode();
 //            List<FoodData> foodDataList  = foodDataRepository.findAllByBarcode(barcode);
@@ -76,8 +97,6 @@ public class FoodServiceImpl implements FoodService{
 //            }
 //            else{
 //        log.info("소비기한을 입력했으므로 바로 저장합니다.");
-        myFood.setStartDate(registDto.getStartDate());
-        myFood.setEndDate(registDto.getEndDate());
 //            }
 //        }
         log.info("음식 {} (이)가 {}의 냉장고에 저장됩니다.",myFood.getFoodName() , myFood.getUser().getName());
