@@ -25,8 +25,30 @@ function FoodContent({ foodData }: Props) {
 
 	// api 요청
 	const { id } = useParams();
-	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(id)));
-	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(id)));
+	const mutationUpdate = useMutation([FOOD_API, 'state'], () => postFoodUsed(Number(id)), {
+		onSuccess: () => {
+			setConfirmUsed(false);
+			navigate('/', {
+				replace: true,
+			});
+		},
+		onError: () => {
+			setConfirmUsed(false);
+			setAlertError(true);
+		},
+	});
+	const mutationDelete = useMutation([FOOD_API, 'state'], () => postFoodExpire(Number(id)), {
+		onSuccess: () => {
+			setConfirmDelete(false);
+			navigate('/', {
+				replace: true,
+			});
+		},
+		onError: () => {
+			setConfirmDelete(false);
+			setAlertError(true);
+		},
+	});
 
 	// D-day 계산
 	const today = moment(getTodayStr(), 'YYYY-MM-DD');
@@ -56,16 +78,7 @@ function FoodContent({ foodData }: Props) {
 					onClose={() => setConfirmUsed(false)}
 					label="소비 완료"
 					submitText="확인"
-					onSubmit={() => {
-						try {
-							mutationUpdate.mutate();
-							setConfirmUsed(false);
-							navigate('/');
-						} catch (error) {
-							setConfirmUsed(false);
-							setAlertError(true);
-						}
-					}}
+					onSubmit={() => mutationUpdate.mutate()}
 				>
 					<div className="text-center">
 						<span className="text-green"> {foodData.foodName}</span> 상품을 <br /> 모두 소비 하셨습니까?
@@ -80,16 +93,7 @@ function FoodContent({ foodData }: Props) {
 					onClose={() => setConfirmDelete(false)}
 					label="상품 폐기"
 					submitText="폐기"
-					onSubmit={() => {
-						try {
-							mutationDelete.mutate();
-							setConfirmDelete(false);
-							navigate('/');
-						} catch (error) {
-							setConfirmDelete(false);
-							setAlertError(true);
-						}
-					}}
+					onSubmit={() => mutationDelete.mutate()}
 				>
 					<div className="text-center">
 						<span className="text-green"> {foodData.foodName}</span> 상품을 <br /> 모두 폐기 하시겠습니까?
