@@ -659,9 +659,9 @@ public class FoodServiceImpl implements FoodService{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         for (UsedFood uf : usedFoodList) {
-            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
-            calData.setFoodName(uf.getFoodName());
-            calData.setFoodCategoryId(uf.getFoodCategory().getId());
+            CalendarDetailDto.CalInfo calInfo = new CalendarDetailDto.CalInfo();
+            calInfo.setFoodName(uf.getFoodName());
+            calInfo.setFoodCategoryId(uf.getFoodCategory().getId());
             if (purchaseInfo.containsKey(uf.getFoodName())) {
                 purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
             } else {
@@ -683,9 +683,9 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for (MyFood uf : myFoodList) {
-            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
-            calData.setFoodName(uf.getFoodName());
-            calData.setFoodCategoryId(uf.getFoodCategory().getId());
+            CalendarDetailDto.CalInfo calInfo = new CalendarDetailDto.CalInfo();
+            calInfo.setFoodName(uf.getFoodName());
+            calInfo.setFoodCategoryId(uf.getFoodCategory().getId());
             if (purchaseInfo.containsKey(uf.getFoodName())) {
                 purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
             } else {
@@ -707,9 +707,9 @@ public class FoodServiceImpl implements FoodService{
             }
         }
         for (WastedFood uf : wastedFoodList) {
-            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
-            calData.setFoodName(uf.getFoodName());
-            calData.setFoodCategoryId(uf.getFoodCategory().getId());
+            CalendarDetailDto.CalInfo calInfo = new CalendarDetailDto.CalInfo();
+            calInfo.setFoodName(uf.getFoodName());
+            calInfo.setFoodCategoryId(uf.getFoodCategory().getId());
             if (purchaseInfo.containsKey(uf.getFoodName())) {
                 purchaseInfo.get(uf.getFoodName()).add(dateFormat.format(uf.getStartDate()));
             } else {
@@ -732,12 +732,25 @@ public class FoodServiceImpl implements FoodService{
         }
         List<Map.Entry<String, List<String>>> entryList = new LinkedList<>(purchaseInfo.entrySet());
         for (int i = 0; i < entryList.size(); i++) {
-            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
+            CalendarDetailDto.CalInfo calInfo = new CalendarDetailDto.CalInfo();
             String fn = entryList.get(i).getKey();
-            calData.setFoodName(fn);
-            calData.setFoodCategoryId(foodNameInfo.get(fn));
-            calData.setPurchaseRecords(purchaseInfo.get(fn));
-            calendarDetailDto.getPurchase().add(calData);
+            calInfo.setFoodName(fn);
+            calInfo.setFoodCategoryId(foodNameInfo.get(fn));
+            calInfo.setPurchaseRecords(purchaseInfo.get(fn));
+
+            List<LocalDate> dates = new ArrayList<>();
+            for (String dateStr : calInfo.purchaseRecords) {
+                LocalDate date = LocalDate.parse(dateStr);
+                dates.add(date);
+            }
+            long totalDifference = 0;
+            for (int j = 1; j < dates.size(); j++) {
+                long difference = ChronoUnit.DAYS.between(dates.get(j - 1), dates.get(j));
+                totalDifference += difference;
+            }
+            long averageDifference =  totalDifference / (dates.size() - 1);
+            calInfo.setPurchaseCycle(averageDifference);
+            calendarDetailDto.getCalData().add(calInfo);
         }
         return calendarDetailDto;
 

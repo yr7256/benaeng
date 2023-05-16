@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,11 +15,12 @@ public class CalendarDetailDto {
     @Getter
     @Setter
     @RequiredArgsConstructor
-    public static class CalData {
+    public static class CalInfo {
         public Long foodCategoryId;
         public String foodName;
         public List<String> purchaseRecords = new ArrayList<>();
+        public Long purchaseCycle;
     }
-    List<CalData> purchase = new ArrayList<>();
+    List<CalInfo> calData = new ArrayList<>();
 
 }
