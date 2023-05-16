@@ -535,6 +535,7 @@ public class FoodServiceImpl implements FoodService{
         Purchase purchaseInfo = purchaseRepository.findByFoodCategoryIdAndUserId(foodCategoryId , userId);
         FoodCategory foodCategory = foodCategoryRepository.findById(foodCategoryId).orElseThrow();
         reportDetailDto.setSubCategory(foodCategory.getSubCategory());
+        log.info("진입 후 구매 내역 조회 " , purchaseInfo);
         if(purchaseInfo == null) return null;
         if(purchaseInfo != null) {
             if (purchaseInfo.getCnt() == 1) {
@@ -638,7 +639,7 @@ public class FoodServiceImpl implements FoodService{
         return reportDetailDto;
     }
 
-    @Transactional
+
     @Override
     public CalendarDetailDto getCalendarDetail(Long userId, int year, int month) {
         CalendarDetailDto calendarDetailDto = new CalendarDetailDto();
@@ -650,9 +651,9 @@ public class FoodServiceImpl implements FoodService{
         Map<Long, List<Date>> calendarInfo = new HashMap<>();
         Map<String, Long> foodNameInfo = new HashMap<>();
         for (UsedFood uf : usedFoodList) {
-            CalendarDetailDto.Purchase purchase = new CalendarDetailDto.Purchase();
-            purchase.setFoodName(uf.getFoodName());
-            purchase.setFoodCategoryId(uf.getFoodCategory().getId());
+            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
+            calData.setFoodName(uf.getFoodName());
+            calData.setFoodCategoryId(uf.getFoodCategory().getId());
             if (purchaseInfo.containsKey(uf.getFoodName())) {
                 purchaseInfo.get(uf.getFoodName()).add(uf.getStartDate());
             } else {
@@ -676,22 +677,22 @@ public class FoodServiceImpl implements FoodService{
 
         List<Map.Entry<String, List<Date>>> entryList = new LinkedList<>(purchaseInfo.entrySet());
         for (int i = 0; i < entryList.size(); i++) {
-            CalendarDetailDto.Purchase purchase = new CalendarDetailDto.Purchase();
+            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
             String fn = entryList.get(i).getKey();
-            purchase.setFoodName(fn);
-            purchase.setFoodCategoryId(foodNameInfo.get(fn));
-            purchase.setPurchaseRecords(purchaseInfo.get(fn));
-            calendarDetailDto.getPurchase().add(purchase);
+            calData.setFoodName(fn);
+            calData.setFoodCategoryId(foodNameInfo.get(fn));
+            calData.setPurchaseRecords(purchaseInfo.get(fn));
+            calendarDetailDto.getPurchase().add(calData);
         }
         List<Map.Entry<Long, List<Date>>> entryListForCalendar = new LinkedList<>(calendarInfo.entrySet());
-        for (int i = 0; i < entryListForCalendar.size(); i++) {
-            CalendarDetailDto.Calendar calendar = new CalendarDetailDto.Calendar();
-            Long fcId = entryListForCalendar.get(i).getKey();
-            calendar.setFoodCategoryId(fcId);
-            calendar.setPurchaseRecords(entryListForCalendar.get(i).getValue());
-            Purchase pcInfo = purchaseRepository.findByFoodCategoryIdAndUserId(fcId, userId);
-            calendarDetailDto.getCalendar().add(calendar);
-        }
+//        for (int i = 0; i < entryListForCalendar.size(); i++) {
+//            CalendarDetailDto.CalData calData = new CalendarDetailDto.CalData();
+//            Long fcId = entryListForCalendar.get(i).getKey();
+//            calData.setFoodCategoryId(fcId);
+//            calData.setPurchaseRecords(entryListForCalendar.get(i).getValue());
+//            Purchase pcInfo = purchaseRepository.findByFoodCategoryIdAndUserId(fcId, userId);
+//            calendarDetailDto.getCalendar().add(calendar);
+//        }
 
         log.info("test", calendarDetailDto);
         return calendarDetailDto;
