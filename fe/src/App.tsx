@@ -25,7 +25,7 @@ function App() {
 		return (
 			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
 				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-					{userQuery.isFetching ? <Loading /> : undefined}
+					{/* {userQuery.isFetching ? <Loading /> : undefined} */}
 					<Login />
 				</div>
 			</div>
