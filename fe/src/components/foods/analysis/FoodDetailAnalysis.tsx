@@ -62,7 +62,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 								);
 							}
 							return (
-								<div key={item} className="mb-2 font-bold">
+								<div key={item} className="mb-2 font-bold text-green">
 									{item}
 								</div>
 							);
