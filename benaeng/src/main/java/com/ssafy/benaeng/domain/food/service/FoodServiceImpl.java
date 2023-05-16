@@ -587,6 +587,7 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
+<<<<<<< HEAD
     public CalendarDetailDto getCalendarDetail(Long userId, int year, int month) {
         CalendarDetailDto calendarDetailDto = new CalendarDetailDto();
         List<MyFood> myFoodList = myfoodRepository.findAllByUserId(userId);
@@ -646,6 +647,8 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
+=======
+>>>>>>> b8e1eb65511bbaf2fffe35a04d5d926599d72c19
     public void deleteByUserId(Long id) {
         myfoodRepository.deleteByUserId(id);
     }
