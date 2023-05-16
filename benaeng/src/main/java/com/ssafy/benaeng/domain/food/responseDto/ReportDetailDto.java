@@ -14,7 +14,7 @@ public class ReportDetailDto {
     private String subCategory;
     private Long purchase =0L;
     private int percent =0;
-    private String msg;
+    private List<String> msg;
     private Long cycle =0L;
     List<String> preferProducts = new ArrayList<>();
 }

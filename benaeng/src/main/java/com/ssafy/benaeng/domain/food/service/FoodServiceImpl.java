@@ -241,16 +241,15 @@ public class FoodServiceImpl implements FoodService{
         else if(usedFoodList.size() <= 1) foodMoreInfoDto.setCycle(-1L);
         foodMoreInfoDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
 
-        if(!(foodMoreInfoDto.getPurchase() == -1L || foodMoreInfoDto.getCycle() == -1L)){
-            if(foodMoreInfoDto.getPurchase() <  foodMoreInfoDto.getCycle()){
-                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
-            }
-            else if(abs(foodMoreInfoDto.getPurchase() - foodMoreInfoDto.getCycle()) <= 10){
-                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
-            }
-            else{
-                foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
-            }
+
+        if(foodMoreInfoDto.getPurchase() <  foodMoreInfoDto.getCycle()){
+            foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
+        }
+        else if(abs(foodMoreInfoDto.getPurchase() - foodMoreInfoDto.getCycle()) <= 10){
+            foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
+        }
+        else{
+            foodMoreInfoDto.getMsg().add(myFood.getFoodCategory().getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
         }
         int usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         int margin = 4;
@@ -275,9 +274,6 @@ public class FoodServiceImpl implements FoodService{
         else{
             foodMoreInfoDto.getMsg().add("대부분의 " + myFood.getFoodCategory().getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
-
-
-
 
         log.info("저장된 메시지 목록입니다." , foodMoreInfoDto.getMsg());
         return foodMoreInfoDto;
@@ -583,6 +579,40 @@ public class FoodServiceImpl implements FoodService{
         if(usedFoodList.size() >=2) reportDetailDto.setCycle(total / usedFoodList.size());
         else reportDetailDto.setCycle(-1L);
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
+
+        if(reportDetailDto.getPurchase() <  reportDetailDto.getCycle()){
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
+        }
+        else if(abs(reportDetailDto.getPurchase() - reportDetailDto.getCycle()) <= 10){
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
+        }
+        else{
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
+        }
+        int usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
+        int margin = 4;
+        if(usedPercent >= reportDetailDto.getPercent() + margin){
+            reportDetailDto.getMsg().add( "절약을 위해 더 큰 용량의 " + foodCategory.getSubCategory() + "을(를) 구매하는 건 어떨까요 ?");
+
+        }
+        else if(usedPercent < reportDetailDto.getPercent() - margin){
+            reportDetailDto.getMsg().add( "더 작은 크기의 " +  foodCategory.getSubCategory() + "을(를) 구매해 보세요!");
+        }
+        else{
+            reportDetailDto.getMsg().add( "적절한 용량의 " +  foodCategory.getSubCategory() + "을(를) 소비하고 있네요");
+        }
+
+
+        if(reportDetailDto.getPercent()>=0 &&reportDetailDto.getPercent()<=33){
+            reportDetailDto.getMsg().add("소비기한에 맞게 " + foodCategory.getSubCategory() + "을(를) 소비하고 있어요.");
+        }
+        else if(reportDetailDto.getPercent()>33 && reportDetailDto.getPercent()<=66){
+            reportDetailDto.getMsg().add("소비기한 내" + foodCategory.getSubCategory() + "을(를) 소비하지 못하고 있어요.");
+        }
+        else{
+            reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
+        }
+        log.info("저장된 메시지 목록입니다." , reportDetailDto.getMsg());
         return reportDetailDto;
     }
 
