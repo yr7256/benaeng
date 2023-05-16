@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { postFood } from '../apis/foods';
 import { selectBarcode } from '../store/modules/barcode';
 import { FoodData } from '../types';
-import { getDateDiff } from '../utils/string';
+import { getDateDiff, getExpireDayStr, getTodayStr } from '../utils/string';
 
 /** 식품 추가 폼 */
 export interface AddFrom extends FoodData {
@@ -38,8 +38,8 @@ function useAddForm(
 		foodCategoryId: barcode.foodCategoryId,
 		foodName: barcode.foodName,
 		count: 0,
-		startDate: '',
-		endDate: '',
+		startDate: barcode.barcode ? getTodayStr() : '',
+		endDate: barcode.pogDaycnt > 0 ? getExpireDayStr(barcode.pogDaycnt) : '',
 		isConsume: true,
 		isRecommend: Boolean(barcode.barcode),
 	});

@@ -28,3 +28,20 @@ export function getDateDiff(a: string, b: string): number {
 	endDate = moment(b ?? a, 'YYYY-MM-DD');
 	return endDate.diff(startDate, 'day');
 }
+
+/**
+ * 오늘 문자열 반환 함수
+ * @returns 오늘 문자열
+ */
+export function getTodayStr() {
+	return moment().format('YYYY-MM-DD');
+}
+
+/**
+ * 마감기한 문자열 반환 함수
+ * @param pogDayCnt 마감기한까지 남은 날
+ * @returns 문자열의 마감기한
+ */
+export function getExpireDayStr(pogDayCnt: number) {
+	return moment().add(pogDayCnt, 'days').format('YYYY-MM-DD');
+}

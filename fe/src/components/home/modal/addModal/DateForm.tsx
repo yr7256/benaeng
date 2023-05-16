@@ -1,9 +1,9 @@
-import moment from 'moment';
 import React from 'react';
 import { VscQuestion } from 'react-icons/vsc';
 import { useSelector } from 'react-redux';
 import { AddFrom } from '../../../../hooks/useAddForm';
 import { selectBarcode } from '../../../../store/modules/barcode';
+import { getExpireDayStr, getTodayStr } from '../../../../utils/string';
 import CheckInput from '../../../common/input/CheckInput';
 import Input from '../../../common/input/Input';
 
@@ -23,13 +23,11 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 
 		// CASE 1: 추천 소비기한 사용하는 경우
 		if (!form.isRecommend) {
-			const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : Math.round((barcode.pogDaycnt / 10) * 8);
-			const startDate = moment();
-			const endDate = startDate.add(pogDayCnt, 'days');
-			const dateFormat = 'YYYY-MM-DD';
+			const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : barcode.pogDaycnt;
 
-			setDate(startDate.format(dateFormat), 'startDate');
-			setDate(endDate.format(dateFormat), 'endDate');
+			setDate(getTodayStr(), 'startDate');
+			setDate(getExpireDayStr(pogDayCnt), 'endDate');
+			setData(false, 'isConsume');
 			setData(true, 'isRecommend');
 		}
 		// CASE 2: 추천 소비기한 사용을 취소하는 경우
