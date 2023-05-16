@@ -698,6 +698,7 @@ public class FoodServiceImpl implements FoodService{
 
     }
 
+    @Transactional
     @Override
     public void deleteByUserId(Long id) {
         myfoodRepository.deleteByUserId(id);
