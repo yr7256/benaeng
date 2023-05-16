@@ -25,7 +25,7 @@ public class Alarm {
     private Date createDate;
     private Integer dDay;
     private String foodName;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "my_food_id")
     private MyFood food;
     @OneToOne
