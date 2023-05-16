@@ -603,8 +603,6 @@ public class FoodServiceImpl implements FoodService{
         else reportDetailDto.setCycle(-1L);
         reportDetailDto.setPercent( wastedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size()));
 
-        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
-
         if(reportDetailDto.getPurchase() <  reportDetailDto.getCycle()){
             reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
         }
@@ -617,14 +615,10 @@ public class FoodServiceImpl implements FoodService{
 
         int usedPercent = 0;
 
-        System.out.println(myFoodList.size() +" "+ usedFoodList.size() +" "+ wastedFoodList.size() );
-
-
         if(myFoodList.size() + usedFoodList.size() + wastedFoodList.size() >= 1) {
             usedPercent = usedFoodList.size() * 100 / (myFoodList.size() + usedFoodList.size() + wastedFoodList.size());
         }
         int margin = 4;
-        System.out.println(usedPercent );
 
         if(usedPercent >= reportDetailDto.getPercent() + margin){
             reportDetailDto.getMsg().add( "절약을 위해 더 큰 용량의 " + foodCategory.getSubCategory() + "을(를) 구매하는 건 어떨까요 ?");
@@ -636,8 +630,6 @@ public class FoodServiceImpl implements FoodService{
         else{
             reportDetailDto.getMsg().add( "적절한 용량의 " +  foodCategory.getSubCategory() + "을(를) 소비하고 있네요");
         }
-        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
-
 
         if(reportDetailDto.getPercent()>0 &&reportDetailDto.getPercent()<=33){
             reportDetailDto.getMsg().add("소비기한에 맞게 " + foodCategory.getSubCategory() + "을(를) 소비하고 있어요.");
@@ -648,8 +640,7 @@ public class FoodServiceImpl implements FoodService{
         else if(reportDetailDto.getPercent()>66 && reportDetailDto.getPercent()<=100){
             reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
-        log.info("저장된 메시지 목록입니다." , reportDetailDto.getMsg());
-        System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
+        log.info("식품 분석리포트 입니다." , reportDetailDto.getMsg());
 
         return reportDetailDto;
     }
