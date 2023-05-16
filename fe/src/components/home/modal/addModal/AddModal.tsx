@@ -94,7 +94,6 @@ function AddModal({ open, setClose }: Props) {
 					onSubmit={() => {
 						setForm('date')(moment().add(1, 'years').format('YYYY-MM-DD'), 'endDate');
 						setAlertModal({ ...alertModal, open: false });
-						onSubmit();
 					}}
 				/>
 			</Modal>
