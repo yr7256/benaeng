@@ -605,15 +605,15 @@ public class FoodServiceImpl implements FoodService{
 
         System.out.println(reportDetailDto.getCycle() + " " + reportDetailDto.getPurchase() + " " +reportDetailDto.getPercent() );
 
-//        if(reportDetailDto.getPurchase() <  reportDetailDto.getCycle()){
-//            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
-//        }
-//        else if(Math.abs(reportDetailDto.getPurchase() - reportDetailDto.getCycle()) <= 10){
-//            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
-//        }
-//        else{
-//            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
-//        }
+        if(reportDetailDto.getPurchase() <  reportDetailDto.getCycle()){
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 평소보다 자주 구매하고 있어요.");
+        }
+        else if(Math.abs(reportDetailDto.getPurchase() - reportDetailDto.getCycle()) <= 10){
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 적절한 시기에 구매하고 있어요.");
+        }
+        else{
+            reportDetailDto.getMsg().add(foodCategory.getSubCategory() + "을(를) 구매하는 시기가 늦춰졌어요.");
+        }
 
         int usedPercent = 0;
 
