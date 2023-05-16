@@ -578,7 +578,7 @@ public class FoodServiceImpl implements FoodService{
         entryList.sort(Map.Entry.comparingByValue());
         Collections.reverse(entryList);
         int index = 0;
-
+        System.out.println(reportDetailDto);
         while(true){
             if(entryList.size() ==0) break;
             if(index >= 3 || index >= entryList.size()) break;
@@ -636,6 +636,7 @@ public class FoodServiceImpl implements FoodService{
             reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
         log.info("저장된 메시지 목록입니다." , reportDetailDto.getMsg());
+        System.out.println(reportDetailDto);
         return reportDetailDto;
     }
 
