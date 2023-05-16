@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, { useMemo } from 'react';
 import { CategoryData, FoodData, HomeFoodData, Refrigerator } from '../../../types';
-import { matchKo } from '../../../utils/string';
+import { getTodayStr, matchKo } from '../../../utils/string';
 import Accordion from '../../common/accordion/Accordion';
 import FoodIcon from '../button/FoodIcon';
 import Category from '../../../constants/category.json';
@@ -36,7 +36,8 @@ function FoodList({ data, isFetching, search }: Props) {
 			// 유효한 카테고리인 경우
 			if (categoryData) {
 				// 음식의 남은 날짜를 연산
-				const dDay = moment(food.endDate, 'YYYY-MM-DD').diff(moment(), 'days');
+				const today = moment(getTodayStr(), 'YYYY-MM-DD');
+				const dDay = moment(food.endDate, 'YYYY-MM-DD').diff(today, 'days');
 				const homeFood: HomeFoodData = { ...food, ...categoryData, dDay };
 
 				if (!matchKo(homeFood.subCategory, search) && !matchKo(homeFood.foodName, search)) return;
