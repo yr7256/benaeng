@@ -14,5 +14,6 @@ public class UserDto {
     private  Boolean isPurchase;
 
     private  Boolean isCycle;
+    private Boolean newAlarm;
     private String accessToken;
 }

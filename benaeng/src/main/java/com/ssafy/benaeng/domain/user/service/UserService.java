@@ -3,6 +3,7 @@ package com.ssafy.benaeng.domain.user.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.ssafy.benaeng.domain.food.repository.alarm.AlarmRepository;
 import com.ssafy.benaeng.domain.user.entity.JwtToken;
 import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.jwt.JwtTokenProvider;
@@ -30,6 +31,7 @@ import java.util.Optional;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -73,6 +75,7 @@ public class UserService {
                 .isCycle(user.getIsCycle())
                 .isDark(user.getIsDark())
                 .accessToken(token)
+                .newAlarm(alarmRepository.isNew(id))
                 .build();
     }
 
@@ -121,6 +124,7 @@ public class UserService {
                 .isDark(user.getIsDark())
                 .isAlarm(user.getIsAlarm())
                 .accessToken(jwt.getAccessToken())
+                .newAlarm(alarmRepository.isNew(user.getId()))
                 .build();
     }
 
