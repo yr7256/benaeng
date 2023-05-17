@@ -22,6 +22,7 @@ interface AlertModal {
 type ChangeType = 'default' | 'date' | 'category';
 type ReturnType = [
 	AddFrom,
+	React.Dispatch<React.SetStateAction<AddFrom>>,
 	(type: ChangeType) => (value: string | number | boolean, target: string) => void,
 	() => Promise<void>,
 ];
@@ -103,7 +104,7 @@ function useAddForm(
 		}
 	};
 
-	return [form, onChangeForm, onSubmit];
+	return [form, setForm, onChangeForm, onSubmit];
 }
 
 export default useAddForm;
