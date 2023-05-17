@@ -76,8 +76,7 @@ function App() {
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 				{isFetching ? <Loading /> : undefined}
-				<RouterProvider router={router} />
-				{/* {user.accessToken ? <RouterProvider router={router} /> : <Login />} */}
+				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
 	);
