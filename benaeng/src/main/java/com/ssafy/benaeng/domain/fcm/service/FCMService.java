@@ -32,7 +32,6 @@ public class FCMService {
     @Scheduled(cron = "0 0 9 * * *")
     public void sendMessageTo() throws IOException {
         List<FcmAlarmDto> alarmList = alarmRepository.getFcmAlarmList();
-        System.out.println(alarmList);
         for (FcmAlarmDto fcmAlarmDto : alarmList) {
             String deviceToken = fcmAlarmDto.getDeviceToken();
             String title = "냉장고를 확인하세요!";
