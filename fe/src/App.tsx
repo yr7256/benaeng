@@ -31,10 +31,10 @@ function App() {
 		{
 			path: '/',
 			element: <Home />,
-			loader: () => {
-				refetch();
-				return 0;
-			},
+			// loader: () => {
+			// 	refetch();
+			// 	return 0;
+			// },
 		},
 		{
 			path: '/foods/:id',
