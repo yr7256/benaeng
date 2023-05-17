@@ -752,7 +752,7 @@ public class FoodServiceImpl implements FoodService {
 
     }
 
-    @Transactional
+
     @Override
     public void deleteByUserId(Long id) {
         List<MyFood> myFoodList = myfoodRepository.findAllByUserId(id);
@@ -766,7 +766,7 @@ public class FoodServiceImpl implements FoodService {
 
 
 
-    @Transactional
+
     @Override
     public void deleteAlarmByUserId(Long id){
         List<Alarm> alarmList = alarmRepository.findAllByUserId(id);
