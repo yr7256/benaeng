@@ -30,7 +30,7 @@ public class UserController {
             UserDto user = userService.login(code);
             return CommonDto.of("200", "login 성공", user);
         }catch (Exception re){
-            return CommonDto.of("400", "login 실패", null);
+            return CommonDto.of("400", "login 실패", re.getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ public class UserController {
             UserDto user = userService.getUser(request, id);
             return CommonDto.of("200", "사용자 정보 획득 성공", user);
         }catch(RuntimeException re){
-            return CommonDto.of("400", "사용자 정보 획득 실패", null);
+            return CommonDto.of("400", "사용자 정보 획득 실패", re.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class UserController {
             UpdateUserDto user = userService.updateUser(id, updateUserDto);
             return CommonDto.of("200", "사용자 정보 변경 성공", user);
         }catch(RuntimeException re){
-            return CommonDto.of("400", "사용자 정보 변경 실패", null);
+            return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
         }
     }
 
@@ -81,7 +81,7 @@ public class UserController {
             log.info("logout " + userId);
             return CommonDto.of("200", "사용자 정보 변경 성공", id);
         }catch(RuntimeException re){
-            return CommonDto.of("400", "사용자 정보 변경 실패", null);
+            return CommonDto.of("400", "사용자 정보 변경 실패", re.getMessage());
         }
     }
 
