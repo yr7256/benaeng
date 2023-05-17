@@ -8,6 +8,7 @@ import com.ssafy.benaeng.domain.food.requestDto.RegistDto;
 import com.ssafy.benaeng.domain.food.requestDto.StateDto;
 import com.ssafy.benaeng.domain.food.requestDto.YearMonthDto;
 import com.ssafy.benaeng.domain.food.responseDto.*;
+import com.ssafy.benaeng.domain.user.entity.User;
 import com.ssafy.benaeng.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -761,7 +762,9 @@ public class FoodServiceImpl implements FoodService{
     @Transactional
     @Override
     public void deleteByUserId(Long id) {
-        myfoodRepository.deleteByUserId(id);
-        alarmRepository.deleteByUserId(id);
+        User user = userRepository.findById(id).orElseThrow();
+        user.setAlarmList(null);
+        myfoodRepository.deleteAllByUserId(id);
+        alarmRepository.deleteAllByUserId(id);
     }
 }

@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface AlarmService {
     List<AlarmDto> getAlarmList(Long userId);
-
-    void deleteByUserId(Long userId);
     List<FcmAlarmDto> getFcmAlarmList();
     void updateAlarm(Long userId);
 }
