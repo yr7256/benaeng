@@ -4,7 +4,7 @@ const cookies = new Cookies();
 
 /** 쿠키 설정 */
 export const setCookie = (name: string, value: string, option?: any) => {
-	return cookies.set(name, value, { ...option });
+	return cookies.set(name, value, { ...option, path: '/' });
 };
 
 /** 쿠키 가져오기 */
