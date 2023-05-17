@@ -759,7 +759,16 @@ public class FoodServiceImpl implements FoodService {
         for (MyFood myFood : myFoodList) {
             long myFoodId = myFood.getId();
             myFood.setUser(null);
+            List<Alarm> alarms = alarmRepository.findAllByFoodId(myFoodId);
+            for(Alarm alarm : alarms){
+                alarm.setFood(null);
+                alarm.setUser(null);
+                alarmRepository.save(alarm);
+            }
             myfoodRepository.save(myFood);
+            for(Alarm alarm : alarms){
+                alarmRepository.deleteById(alarm.getId());
+            }
             myfoodRepository.deleteById(myFoodId);
         }
     }
