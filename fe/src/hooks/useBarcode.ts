@@ -13,7 +13,11 @@ declare global {
 	}
 }
 
-function useBarcode(): [() => void, (string: string) => void] {
+interface Props {
+	addMessage(message: string): void;
+}
+
+function useBarcode({ addMessage }: Props): [() => void, (string: string) => void] {
 	const barcode = useAppSelector(selectBarcode);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -25,7 +29,10 @@ function useBarcode(): [() => void, (string: string) => void] {
 	// 바코드 인식 결과에 따른 처리 로직
 	useEffect(() => {
 		if (barcode.status === 'success') navigate('/');
-		if (barcode.status === 'fail') setCode('');
+		if (barcode.status === 'fail') {
+			if (code) addMessage(`없는 바코드입니다 : ${code}`);
+			// setCode('');
+		}
 	}, [barcode.status]);
 
 	// 초기 비디오 설정
@@ -78,7 +85,6 @@ function useBarcode(): [() => void, (string: string) => void] {
 			readerControls = await reader.decodeFromVideoElement(video, result => {
 				if (result) {
 					const newCode = result.getText();
-					console.log(newCode);
 					if (code === newCode) return;
 					if (barcode.status === 'loading') return;
 					setCode(newCode);
