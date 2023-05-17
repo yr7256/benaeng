@@ -25,7 +25,7 @@ function App() {
 		enabled: !!getCookie('accessToken') && !user.isValid,
 	});
 
-	if (!!getCookie('accessToken') && !user.isValid) {
+	if (!getCookie('accessToken') && !user.isValid) {
 		return (
 			<div className={`App ${user.isDark ? 'dark' : ''}`}>
 				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
