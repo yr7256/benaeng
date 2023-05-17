@@ -10,7 +10,6 @@ import { getCookie, setCookie } from './utils/cookie';
 import Loading from './components/common/loading/Loading';
 
 function App() {
-	const userInfo = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
 	const userQuery = useQuery(['login', user.isValid], getUserData, {
@@ -23,7 +22,7 @@ function App() {
 
 	if (!user.isValid) {
 		return (
-			<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
+			<div className={`App ${user.isDark ? 'dark' : ''}`}>
 				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 					{userQuery.isFetching ? <Loading /> : undefined}
 					<Login />
@@ -33,7 +32,7 @@ function App() {
 	}
 
 	return (
-		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
+		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 				{/* {userQuery.isFetching ? <Loading /> : undefined} */}
 				<Routes>
