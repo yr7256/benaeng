@@ -11,4 +11,5 @@ import java.util.List;
 public interface AlarmRepository extends JpaRepository<Alarm, Long>, AlarmRepositoryCustom{
 
     void deleteAllByUserId(Long id);
+    List<Alarm> findAllByUserId(Long userId);
 }
