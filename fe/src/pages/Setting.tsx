@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
-import { logout, selectUser, setUser } from '../store/modules/user';
+import { logout, selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
@@ -26,11 +26,7 @@ function Setting() {
 	const [isInit, setIsInit] = useState(false);
 
 	// 쿼리문
-	const mutation = useMutation([USER_API], () => usePutUser(userInfo), {
-		onSuccess: res => {
-			dispatch(setUser(res.data.data.data));
-		},
-	});
+	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
 	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useQuery([FOOD_API, isInit], () => getFoodInit(), {
 		enabled: isInit,
