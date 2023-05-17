@@ -19,10 +19,6 @@ public class AlarmServiceImpl implements AlarmService{
     }
 
     @Override
-    public void deleteByUserId(Long userId) {
-        alarmRepository.deleteByUserId(userId);
-    }
-    @Override
     public List<FcmAlarmDto> getFcmAlarmList() {
         return alarmRepository.getFcmAlarmList();
     }
