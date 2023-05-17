@@ -37,10 +37,6 @@ const userSlice = createSlice({
 		logout(state) {
 			const temp = state;
 			temp.isValid = false;
-			temp.isAlarm = false;
-			temp.isCycle = true;
-			temp.isPurchase = true;
-			temp.newAlarm = false;
 		},
 		setIsDark(state, action) {
 			const temp = state;
