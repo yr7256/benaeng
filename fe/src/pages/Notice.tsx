@@ -1,11 +1,11 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useEffect } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Topbar from '../components/common/topbar/Topbar';
 import { AlarmData } from '../types/FoodTypes';
 import Alarm from '../components/notice/alarm/Alarm';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
-import getAlarm, { ALARM_API } from '../apis/alarm';
+import { getAlarm, ALARM_API, putAlarm } from '../apis/alarm';
 
 // 알림 화면
 
@@ -18,6 +18,9 @@ function Notice() {
 		keepPreviousData: true,
 		select: res => res.data.data,
 	});
+
+	/** 알림 읽음 처리 */
+	const mutation = useMutation([ALARM_API], () => putAlarm());
 
 	// 날짜 별로 알림 메시지 분류
 	const day: AlarmData[][] = Array.from(Array(8), item => new Array(item));
@@ -34,6 +37,12 @@ function Notice() {
 		});
 	}
 	const title: string[] = ['오늘', '어제', '그제', '3일 전', '4일 전', '5일 전', '6일 전', '일주일 전'];
+
+	// 렌더링 시 알림 읽음 처리
+	useEffect(() => {
+		mutation.mutate();
+	}, []);
+
 	return (
 		<div className="px-6 pt-10 page">
 			<Topbar />
