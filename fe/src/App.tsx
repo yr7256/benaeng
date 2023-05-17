@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from './hooks/useStore';
-import { selectUser, setUser } from './store/modules/user';
+import { logout, selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
 import { getUserData } from './apis/user';
-import { getCookie, setCookie } from './utils/cookie';
+import { getCookie, removeCookie, setCookie } from './utils/cookie';
 import Loading from './components/common/loading/Loading';
 
 function App() {
@@ -14,12 +14,18 @@ function App() {
 	const user = useAppSelector(selectUser);
 	const userQuery = useQuery(['login', user.isValid], getUserData, {
 		select: ({ data }) => {
-			setCookie('accessToken', data.data.accessToken);
-			dispatch(setUser(data.data));
+			if (data.resultCode === '400') {
+				removeCookie('accessToken');
+				dispatch(logout());
+			} else {
+				setCookie('accessToken', data.data.accessToken);
+				dispatch(setUser(data.data));
+			}
 		},
 		enabled: !!getCookie('accessToken') && !user.isValid,
 	});
-	if (!user.isValid) {
+
+	if (!!getCookie('accessToken') && !user.isValid) {
 		return (
 			<div className={`App ${user.isDark ? 'dark' : ''}`}>
 				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
