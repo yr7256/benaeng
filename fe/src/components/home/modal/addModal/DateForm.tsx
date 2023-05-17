@@ -10,18 +10,17 @@ import CategoryData from '../../../../constants/category.json';
 
 interface Props {
 	form: AddFrom;
+	setForm: React.Dispatch<React.SetStateAction<AddFrom>>;
 	setData(value: string | number | boolean, target: string): void;
 	setDate(value: string | number | boolean, target: string): void;
 	openAlertModal(): void;
 }
 
-function DateForm({ form, setDate, setData, openAlertModal }: Props) {
+function DateForm({ form, setDate, setForm, setData, openAlertModal }: Props) {
 	const barcode = useSelector(selectBarcode);
 	const allowRecommend =
 		!barcode.barcode && (form.foodCategoryId < 0 || CategoryData.data[form.foodCategoryId - 1].pogDayCnt < 0);
-	// console.log(form.startDate);
-	// console.log(form.endDate);
-	// const checkValue = Boolean(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
+
 	const onToggleRecommendDate = () => {
 		// CASE 0: 추천 소비기한 사용 불가인 경우
 		if (CategoryData.data[form.foodCategoryId - 1].pogDayCnt < 0) return;
@@ -30,22 +29,22 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 		if (!form.isRecommend) {
 			if (barcode.barcode) {
 				const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : barcode.pogDaycnt;
-
-				setDate(getTodayStr(), 'startDate');
-				setDate(getExpireDayStr(pogDayCnt), 'endDate');
-				setData(false, 'isConsume');
-				setData(true, 'isRecommend');
+				setForm(pre => ({
+					...pre,
+					startDate: getTodayStr(),
+					endDate: getExpireDayStr(pogDayCnt),
+					isConsume: false,
+					isRecommend: true,
+				}));
 			} else {
-				console.log('바코드', barcode.barcode);
-				console.log(form.foodCategoryId);
-				console.log(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
-
 				const endDate = getExpireDayStr(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
-				console.log(endDate);
-				setDate(getTodayStr(), 'startDate');
-				setDate(endDate, 'endDate');
-				setData(false, 'isConsume');
-				setData(true, 'isRecommend');
+				setForm(pre => ({
+					...pre,
+					startDate: getTodayStr(),
+					endDate,
+					isConsume: false,
+					isRecommend: true,
+				}));
 			}
 		}
 		// CASE 2: 추천 소비기한 사용을 취소하는 경우

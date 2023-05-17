@@ -32,7 +32,7 @@ function AddModal({ open, setClose }: Props) {
 		open: false,
 		type: 0,
 	});
-	const [form, setForm, onSubmit] = useAddForm(setClose, setOpenSearchCategoryModal, setAlertModal);
+	const [form, setFormAll, setForm, onSubmit] = useAddForm(setClose, setOpenSearchCategoryModal, setAlertModal);
 	return (
 		<>
 			{/* 식품 추가 모달 */}
@@ -71,6 +71,7 @@ function AddModal({ open, setClose }: Props) {
 				</div>
 				<DateForm
 					form={form}
+					setForm={setFormAll}
 					setData={setForm('default')}
 					setDate={setForm('date')}
 					openAlertModal={() => setAlertModal({ type: 1, open: true })}
