@@ -6,13 +6,13 @@ import { logout, selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
 import { getUserData } from './apis/user';
-import { getCookie, removeCookie, setCookie } from './utils/cookie';
+import { removeCookie, setCookie } from './utils/cookie';
 import Loading from './components/common/loading/Loading';
 
 function App() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
-	const userQuery = useQuery(['login', user.isValid], getUserData, {
+	const userQuery = useQuery(['login', user.accessToken], getUserData, {
 		select: ({ data }) => {
 			if (data.resultCode === '400') {
 				removeCookie('accessToken');
@@ -22,7 +22,8 @@ function App() {
 				dispatch(setUser(data.data));
 			}
 		},
-		enabled: !!getCookie('accessToken') && !user.isValid,
+		retry: 2,
+		enabled: !!user.accessToken,
 	});
 
 	/** 라우터 */
@@ -71,22 +72,11 @@ function App() {
 		},
 	]);
 
-	if (!getCookie('accessToken') && !user.isValid) {
-		return (
-			<div className={`App ${user.isDark ? 'dark' : ''}`}>
-				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-					{userQuery.isFetching ? <Loading /> : undefined}
-					<Login />
-				</div>
-			</div>
-		);
-	}
-
 	return (
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{/* {userQuery.isFetching ? <Loading /> : undefined} */}
-				<RouterProvider router={router} />
+				{userQuery.data ? undefined : <Loading />}
+				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
 	);
