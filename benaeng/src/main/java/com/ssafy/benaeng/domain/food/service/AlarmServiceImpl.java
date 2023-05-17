@@ -26,4 +26,9 @@ public class AlarmServiceImpl implements AlarmService{
     public List<FcmAlarmDto> getFcmAlarmList() {
         return alarmRepository.getFcmAlarmList();
     }
+
+    @Override
+    public void updateAlarm(Long userId) {
+        alarmRepository.updateAlarm(userId);
+    }
 }

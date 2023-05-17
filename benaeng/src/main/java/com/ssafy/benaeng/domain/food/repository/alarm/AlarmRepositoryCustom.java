@@ -9,5 +9,6 @@ public interface AlarmRepositoryCustom {
     List<AlarmDto> getAlarmList(Long userId);
     Boolean isNew(Long userId);
     List<FcmAlarmDto> getFcmAlarmList();
+    void updateAlarm(Long userId);
 
 }

@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.benaeng.domain.food.responseDto.AlarmDto;
 import com.ssafy.benaeng.domain.food.responseDto.FcmAlarmDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -115,5 +116,29 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
             fcmAlamDtoList.add( new FcmAlarmDto(deviceToken, imminent, expiration, period));
         }
         return fcmAlamDtoList;
+    }
+    @Transactional
+    @Override
+    public void updateAlarm(Long userId) {
+        Date startDate = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.add(Calendar.DATE, -7);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        startDate = cal.getTime();
+        log.info("startDate = "+ startDate);
+
+        Date endDate = new Date();
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.setTime(endDate);
+        endDate = calEnd.getTime();
+        queryFactory.update(alarm)
+                .set(alarm.status, 1)
+                .where(alarm.user.id.eq(userId))
+                .where(alarm.createDate.between(startDate, endDate))
+                .execute();
     }
 }
