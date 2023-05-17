@@ -58,6 +58,7 @@ function Setting() {
 		removeCookie('accessToken');
 		dispatch(logout());
 		setAlartLogout(false);
+		navigator('/');
 	};
 
 	// 냉장고 초기화 실행
