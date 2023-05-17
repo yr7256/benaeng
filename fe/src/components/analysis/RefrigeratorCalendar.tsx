@@ -81,7 +81,7 @@ function RefrigeratorCalendar() {
 				구매해야 할 항목
 			</div>
 			{filterCycle && filterCycle.length > 0 ? (
-				CalendarDataQuery.data?.calData.map(data => (
+				filterCycle.map(data => (
 					<div className="mb-3">
 						<Alarm name={data.foodName} food={data.foodCategoryId} type={0} day={0} foodId={0} />
 					</div>
