@@ -12,7 +12,11 @@ import Loading from './components/common/loading/Loading';
 function App() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
-	const userQuery = useQuery(['login', user.isValid], getUserData, {
+	const userQuery = useQuery(['authUser'], getUserData, {
+		onError: () => {
+			removeCookie('accessToken');
+			dispatch(logout());
+		},
 		select: ({ data }) => {
 			if (data.resultCode === '400') {
 				removeCookie('accessToken');
@@ -22,6 +26,7 @@ function App() {
 				dispatch(setUser(data.data));
 			}
 		},
+		retry: 2,
 		enabled: !!getCookie('accessToken') && !user.isValid,
 	});
 
@@ -71,22 +76,11 @@ function App() {
 		},
 	]);
 
-	if (!getCookie('accessToken') && !user.isValid) {
-		return (
-			<div className={`App ${user.isDark ? 'dark' : ''}`}>
-				<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-					{userQuery.isFetching ? <Loading /> : undefined}
-					<Login />
-				</div>
-			</div>
-		);
-	}
-
 	return (
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{/* {userQuery.isFetching ? <Loading /> : undefined} */}
-				<RouterProvider router={router} />
+				{userQuery.data ? <Loading /> : undefined}
+				{!getCookie('accessToken') && !user.isValid ? <Login /> : <RouterProvider router={router} />}
 			</div>
 		</div>
 	);
