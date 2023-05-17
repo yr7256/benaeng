@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AxiosError, AxiosResponse } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import Logo from '../components/common/logo/Logo';
@@ -7,7 +6,6 @@ import LoginButton from '../components/common/button/LoginButton';
 import { SOCIAL_API, useGetSocial } from '../apis/user';
 import { CACHE_TIME, STALE_TIME } from '../constants/api';
 import { setCookie } from '../utils/cookie';
-import { SocialResponse } from '../types/UserTypes';
 import { useAppDispatch } from '../hooks/useStore';
 import { setUser } from '../store/modules/user';
 import Modal from '../components/common/modal/Modal';
@@ -21,15 +19,11 @@ function Login() {
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
 	if (code) {
-		const { isLoading, data } = useQuery<AxiosResponse<SocialResponse>, AxiosError>(
-			[SOCIAL_API],
-			() => useGetSocial(code),
-			{
-				keepPreviousData: true,
-				staleTime: STALE_TIME,
-				cacheTime: CACHE_TIME,
-			},
-		);
+		const { isLoading, data } = useQuery([SOCIAL_API], () => useGetSocial(code), {
+			keepPreviousData: true,
+			staleTime: STALE_TIME,
+			cacheTime: CACHE_TIME,
+		});
 
 		if (!isLoading) {
 			if (data?.data.data.accessToken) {
