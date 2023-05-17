@@ -30,20 +30,29 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
     }
     @Override
     public Boolean isNew(Long userId) {
-        Date date = new Date();
-        LocalDate curDate = LocalDate.now();
+        Date startDate = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
+        cal.setTime(startDate);
         cal.add(Calendar.DATE, -7);
-        date = cal.getTime();
-        Integer result =
-                queryFactory.select(Projections.fields(Integer.class,
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        startDate = cal.getTime();
+
+        Date endDate = new Date();
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.setTime(endDate);
+        endDate = calEnd.getTime();
+
+        Long result =
+                queryFactory.select(Projections.constructor(Long.class,
                                 alarm.count()
                         )).from(alarm)
                         .join(alarm.user, user)
                         .where(user.id.eq(userId))
                         .where(alarm.status.eq(0))
-                        .where(alarm.createDate.between(date, new Date()))
+                        .where(alarm.createDate.between(startDate, endDate))
                         .fetchOne();
         return result != 0;
     }
