@@ -12,6 +12,10 @@ function App() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
 	const { isFetching, refetch } = useQuery(['login', user.accessToken], getUserData, {
+		onError: () => {
+			removeCookie('accessToken');
+			dispatch(logout());
+		},
 		select: ({ data }) => {
 			if (data.resultCode === '400') {
 				removeCookie('accessToken');
