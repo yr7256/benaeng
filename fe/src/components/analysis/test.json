@@ -1,7 +1,7 @@
 {
   "calData": [
-  { "categoryId": 2, "foodName": "신라면", "foodId": 1, "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
-  { "categoryId": 2, "foodName": "진라면", "foodId": 1, "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
-  { "categoryId": 3, "foodName": "딸기", "foodId": 1, "purchaseRecords": ["2023-04-17", "2023-04-22"], "purchaseCycle": 5 },
-  { "categoryId": 3, "foodName": "수박", "foodId": 1, "purchaseRecords": ["2023-04-16", "2023-04-23"], "purchaseCycle": 7 }]
+  { "foodCategoryId": 2, "foodName": "신라면", "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
+  { "foodCategoryId": 2, "foodName": "진라면", "purchaseRecords": ["2023-04-20", "2023-04-22"], "purchaseCycle": 2 },
+  { "foodCategoryId": 3, "foodName": "딸기", "purchaseRecords": ["2023-04-17", "2023-04-22"], "purchaseCycle": 5 },
+  { "foodCategoryId": 3, "foodName": "수박", "purchaseRecords": ["2023-04-16", "2023-04-23"], "purchaseCycle": 7 }]
 }

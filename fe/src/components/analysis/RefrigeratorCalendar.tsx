@@ -46,8 +46,8 @@ function RefrigeratorCalendar() {
 		}
 		totalCycles[nextPurchaseDate].push(item.categoryId);
 	});
-	const getSubCategory = (categoryId: number) => {
-		const categoryData = Category.data.find(category => category.foodCategoryId === categoryId);
+	const getSubCategory = (foodCategoryId: number) => {
+		const categoryData = Category.data.find(category => category.foodCategoryId === foodCategoryId);
 		return categoryData ? categoryData.subCategory : '';
 	};
 
