@@ -8,6 +8,7 @@ export interface userSlice {
 	isAlarm: boolean;
 	isCycle: boolean;
 	isPurchase: boolean;
+	newAlarm: boolean;
 }
 
 // 초기 상태 정의
@@ -17,6 +18,7 @@ const initialState: userSlice = {
 	isAlarm: true,
 	isCycle: true,
 	isPurchase: true,
+	newAlarm: false,
 };
 
 const userSlice = createSlice({
@@ -30,6 +32,7 @@ const userSlice = createSlice({
 			temp.isAlarm = action.payload.isAlarm;
 			temp.isCycle = action.payload.isCycle;
 			temp.isPurchase = action.payload.isPurchase;
+			temp.newAlarm = action.payload.newAlarm;
 		},
 		logout(state) {
 			const temp = state;
@@ -37,6 +40,7 @@ const userSlice = createSlice({
 			temp.isAlarm = false;
 			temp.isCycle = true;
 			temp.isPurchase = true;
+			temp.newAlarm = false;
 		},
 		setIsDark(state, action) {
 			const temp = state;
