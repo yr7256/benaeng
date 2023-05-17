@@ -26,4 +26,5 @@ public interface FoodService {
     CalendarDetailDto getCalendarDetail(Long userId, int year, int month);
     ReportDetailDto getReportDetail(Long userId, Long foodCategoryId);
     void deleteByUserId(Long id);
+    void deleteAlarmByUserId(Long id);
 }

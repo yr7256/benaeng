@@ -762,7 +762,13 @@ public class FoodServiceImpl implements FoodService {
             myfoodRepository.save(myFood);
             myfoodRepository.deleteById(myFoodId);
         }
+    }
 
+
+
+    @Transactional
+    @Override
+    public void deleteAlarmByUserId(Long id){
         List<Alarm> alarmList = alarmRepository.findAllByUserId(id);
         for (Alarm alarm : alarmList) {
             long alarmId = alarm.getId();
