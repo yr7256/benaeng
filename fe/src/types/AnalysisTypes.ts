@@ -13,7 +13,7 @@ export interface MonthlyReportData {
 }
 
 export interface CalendarData {
-	categoryId: number;
+	foodCategoryId: number;
 	foodName: string;
 	foodId: number;
 	purchaseRecords: string[];

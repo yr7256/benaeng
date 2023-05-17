@@ -6,16 +6,9 @@ import FoodIcon from '../common/foodIcon/FoodIcon';
 import { getCalendarData } from '../../apis/foods';
 // import CalendarDataQuery.data? from './test.json';
 import Category from '../../constants/category.json';
+import { CalendarData } from '../../types/AnalysisTypes';
 
 // 오늘 구매한 항목 데이터 받아야함
-
-interface CalData {
-	categoryId: number;
-	foodName: string;
-	foodId: number;
-	purchaseRecords: string[];
-	purchaseCycle: number;
-}
 
 function RefrigeratorCalendar() {
 	const CalendarDataQuery = useQuery(['/calendar'], getCalendarData, {
@@ -33,7 +26,7 @@ function RefrigeratorCalendar() {
 			if (!totalRecords[record]) {
 				totalRecords[record] = [];
 			}
-			totalRecords[record].push(item.categoryId);
+			totalRecords[record].push(item.foodCategoryId);
 		});
 
 		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
@@ -44,10 +37,10 @@ function RefrigeratorCalendar() {
 		if (!totalCycles[nextPurchaseDate]) {
 			totalCycles[nextPurchaseDate] = [];
 		}
-		totalCycles[nextPurchaseDate].push(item.categoryId);
+		totalCycles[nextPurchaseDate].push(item.foodCategoryId);
 	});
-	const getSubCategory = (categoryId: number) => {
-		const categoryData = Category.data.find(category => category.foodCategoryId === categoryId);
+	const getSubCategory = (foodCategoryId: number) => {
+		const categoryData = Category.data.find(category => category.foodCategoryId === foodCategoryId);
 		return categoryData ? categoryData.subCategory : '';
 	};
 
@@ -65,7 +58,7 @@ function RefrigeratorCalendar() {
 		return `${month}/${day}`;
 	};
 
-	const nextPurchaseDate = (item: CalData) => {
+	const nextPurchaseDate = (item: CalendarData) => {
 		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
 		const date = new Date(lastRecord);
 		date.setDate(date.getDate() + item.purchaseCycle);
@@ -77,7 +70,7 @@ function RefrigeratorCalendar() {
 	);
 
 	const filterCycle = CalendarDataQuery.data?.calData.filter(
-		data => nextPurchaseDate(data) === dateToyyyymmdd(selectedDatePurchases),
+		item => nextPurchaseDate(item) === dateToyyyymmdd(selectedDatePurchases),
 	);
 
 	return (
@@ -90,7 +83,7 @@ function RefrigeratorCalendar() {
 			{filterCycle && filterCycle.length > 0 ? (
 				CalendarDataQuery.data?.calData.map(data => (
 					<div className="mb-3">
-						<Alarm name={data.foodName} food={data.categoryId} type={0} day={0} foodId={0} />
+						<Alarm name={data.foodName} food={data.foodCategoryId} type={0} day={0} foodId={0} />
 					</div>
 				))
 			) : (
@@ -106,7 +99,7 @@ function RefrigeratorCalendar() {
 					filteredPurchases.map(data => (
 						<div className="flex w-1/4">
 							<div className="flex flex-col mx-auto my-2 text-xs font-bold">
-								<FoodIcon food={getSubCategory(data.categoryId)} size="lg" />
+								<FoodIcon food={getSubCategory(data.foodCategoryId)} size="lg" />
 								<p className="mt-2 text-left">{data.foodName}</p>
 							</div>
 						</div>
