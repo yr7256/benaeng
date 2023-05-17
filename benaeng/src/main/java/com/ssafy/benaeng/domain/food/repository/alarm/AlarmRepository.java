@@ -9,6 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long>, AlarmRepositoryCustom{
-    @Transactional
-    void deleteByUserId(Long id);
+
+    void deleteAllByUserId(Long id);
 }

@@ -11,7 +11,6 @@ import java.util.List;
 public interface MyfoodRepository extends JpaRepository<MyFood, Long> {
     List<MyFood> findAllByUserId(Long userId);
     List<MyFood> findAllByFoodCategoryIdAndUserId(Long foodCategoryId , Long userId);
-    @Transactional
-    void deleteByUserId(Long id);
+    void deleteAllByUserId(Long id);
 
 }
