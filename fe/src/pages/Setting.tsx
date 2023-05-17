@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { Cookies } from 'react-cookie';
+// import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { logout, selectUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { USER_API, usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
-// import { removeCookie } from '../utils/cookie';
+import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
 import { FOOD_API, getFoodInit } from '../apis/foods';
 
 // 설정 화면
 
 function Setting() {
-	const cookie = new Cookies();
+	// const cookie = new Cookies();
 
 	const dispatch = useAppDispatch();
 	const navigator = useNavigate();
@@ -58,11 +58,10 @@ function Setting() {
 
 	// 로그아웃 실행
 	const handleLogout = () => {
-		// removeCookie('accessToken');
-		cookie.remove('accessToken');
+		removeCookie('accessToken');
 		dispatch(logout());
 		setAlartLogout(false);
-		navigator('/');
+		// navigator('/');
 	};
 
 	// 냉장고 초기화 실행
