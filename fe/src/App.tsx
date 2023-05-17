@@ -11,7 +11,7 @@ import Loading from './components/common/loading/Loading';
 function App() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
-	const { refetch, isFetching } = useQuery(['login', user.accessToken], getUserData, {
+	const { refetch, data: res } = useQuery(['login', user.accessToken], getUserData, {
 		select: ({ data }) => {
 			if (data.resultCode === '400') {
 				removeCookie('accessToken');
@@ -31,10 +31,10 @@ function App() {
 		{
 			path: '/',
 			element: <Home />,
-			// loader: () => {
-			// 	refetch();
-			// 	return 0;
-			// },
+			loader: () => {
+				refetch();
+				return 0;
+			},
 		},
 		{
 			path: '/foods/:id',
@@ -75,7 +75,7 @@ function App() {
 	return (
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{isFetching ? undefined : <Loading />}
+				{res ? undefined : <Loading />}
 				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
