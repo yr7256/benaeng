@@ -3,11 +3,14 @@ import Camera from '../components/barcodeReader/camera/Camera';
 import BackButton from '../components/common/button/BackButton';
 import Input from '../components/common/input/Input';
 import Modal from '../components/common/modal/Modal';
+import Toast from '../components/common/toast/Toast';
 import useBarcode from '../hooks/useBarcode';
+import useToast from '../hooks/useToast';
 
 // 식품 등록 화면(바코드 인식 화면)
 function BarcodeReader() {
-	const [onHanWriting, onSubmitBarcode] = useBarcode();
+	const [messageList, addMessage] = useToast();
+	const [onHanWriting, onSubmitBarcode] = useBarcode({ addMessage });
 	const [barcodeModal, setBarcodeModal] = useState<boolean>(false);
 	const [code, setCode] = useState<string>('');
 
@@ -53,6 +56,7 @@ function BarcodeReader() {
 					className=""
 				/>
 			</Modal>
+			<Toast messageList={messageList} />
 		</div>
 	);
 }

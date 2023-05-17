@@ -12,9 +12,9 @@ interface Props {
 
 function Toast({ messageList }: Props) {
 	return (
-		<div className="pointer-events-none h-full bottom-0 w-full fixed center justify-end flex-col-reverse overflow-hidden">
+		<div className="z-[10000] pointer-events-none h-full bottom-0 w-full fixed center justify-end flex-col-reverse overflow-hidden pt-10">
 			{messageList.map(item => (
-				<div key={`${item.id}`} className="min-h-[2.5rem] toast rounded-lg bg-green text-white px-6 center shadow-lg">
+				<div key={`${item.id}`} className="min-h-[2.5rem] toast rounded-lg bg-red text-white px-6 center shadow-lg">
 					{item.message}
 				</div>
 			))}
@@ -22,4 +22,4 @@ function Toast({ messageList }: Props) {
 	);
 }
 
-export default React.memo(Toast);
+export default Toast;

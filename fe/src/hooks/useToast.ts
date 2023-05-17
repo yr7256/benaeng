@@ -11,10 +11,10 @@ function useToast(): [Message[], (message: string) => void] {
 
 	const addMessage = (message: string) => {
 		setMessageList(pre => {
-			setTimeout(() => setMessageList(_pre => [..._pre.slice(1)]), 2500);
 			countRef.current = (countRef.current + 1) % 1000;
 			return [...pre, { id: countRef.current, message }];
 		});
+		setTimeout(() => setMessageList(_pre => [..._pre.slice(1)]), 2500);
 	};
 
 	return [messageList, addMessage];
