@@ -641,7 +641,7 @@ public class FoodServiceImpl implements FoodService {
 
 
     @Override
-    public CalendarDetailDto getCalendarDetail(Long userId, int year, int month) {
+    public CalendarDetailDto getCalendarDetail(Long userId) {
         CalendarDetailDto calendarDetailDto = new CalendarDetailDto();
         List<MyFood> myFoodList = myfoodRepository.findAllByUserId(userId);
         List<UsedFood> usedFoodList = usedFoodRepository.findAllByUserId(userId);

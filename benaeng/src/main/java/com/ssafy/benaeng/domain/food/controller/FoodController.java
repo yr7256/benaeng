@@ -155,12 +155,11 @@ public class FoodController {
     }
 
 
-    @GetMapping("/fooddata/calendar/{year}/{month}")
-    public CommonDto<Object> getCalendarDetail(@AuthenticationPrincipal String id , @PathVariable int year , @PathVariable int month) {
+    @GetMapping("/fooddata/calendar")
+    public CommonDto<Object> getCalendarDetail(@AuthenticationPrincipal String id) {
         try {
-            System.out.println(month + " " + year);
             Long userId = Long.parseLong(id);
-            CalendarDetailDto calendarDetailDto = foodService.getCalendarDetail(userId, year, month);
+            CalendarDetailDto calendarDetailDto = foodService.getCalendarDetail(userId);
             return CommonDto.of("200", "월간 분석리포트 입니다.", calendarDetailDto);
         } catch (Exception e) {
             return CommonDto.of("400", "내용 : " + e.getMessage(), null);
