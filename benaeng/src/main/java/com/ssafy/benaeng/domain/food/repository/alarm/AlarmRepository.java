@@ -12,4 +12,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long>, AlarmReposi
 
     void deleteAllByUserId(Long id);
     List<Alarm> findAllByUserId(Long userId);
+    List<Alarm> findAllByFoodId(Long foodId);
+
+
 }
