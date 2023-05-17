@@ -39,7 +39,7 @@ function Home() {
 	};
 
 	return (
-		<div className="px-6 pt-10 pb-40 max-w-screen-md mx-auto flex flex-col gap-4">
+		<div className="flex flex-col max-w-screen-md gap-4 px-6 pt-10 pb-40 mx-auto">
 			{/* 헤더 */}
 			<header className="flex justify-between mb-8">
 				{/* 비냉 로고 */}
@@ -50,14 +50,14 @@ function Home() {
 				{/* 알람버튼 */}
 				<div>
 					<SettingButton />
-					<AlarmButton isAlarm={false} />
+					<AlarmButton />
 				</div>
 			</header>
 			{/* 소비패턴 페이지 이동 버튼 */}
 			<AnalysisButton />
 
 			{/* 냉장고 소비기한 임박 식품 목록 */}
-			<section className="mt-8 flex flex-col gap-4">
+			<section className="flex flex-col gap-4 mt-8">
 				<ExpiredFoodList data={data} />
 				<WarningFoodList data={data} />
 				<hr className={`stroke ${data ? '' : 'hidden'}`} />
