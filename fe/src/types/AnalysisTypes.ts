@@ -15,7 +15,6 @@ export interface MonthlyReportData {
 export interface CalendarData {
 	foodCategoryId: number;
 	foodName: string;
-	foodId: number;
 	purchaseRecords: string[];
 	purchaseCycle: number;
 }
