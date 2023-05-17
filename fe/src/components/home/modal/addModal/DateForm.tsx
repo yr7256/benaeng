@@ -33,7 +33,7 @@ function DateForm({ form, setDate, setForm, setData, openAlertModal }: Props) {
 					...pre,
 					startDate: getTodayStr(),
 					endDate: getExpireDayStr(pogDayCnt),
-					isConsume: false,
+					isConsume: true,
 					isRecommend: true,
 				}));
 			} else {
@@ -42,7 +42,7 @@ function DateForm({ form, setDate, setForm, setData, openAlertModal }: Props) {
 					...pre,
 					startDate: getTodayStr(),
 					endDate,
-					isConsume: false,
+					isConsume: true,
 					isRecommend: true,
 				}));
 			}
