@@ -6,6 +6,7 @@ import { selectBarcode } from '../../../../store/modules/barcode';
 import { getExpireDayStr, getTodayStr } from '../../../../utils/string';
 import CheckInput from '../../../common/input/CheckInput';
 import Input from '../../../common/input/Input';
+import CategoryData from '../../../../constants/category.json';
 
 interface Props {
 	form: AddFrom;
@@ -16,19 +17,36 @@ interface Props {
 
 function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 	const barcode = useSelector(selectBarcode);
-
+	const allowRecommend =
+		!barcode.barcode && (form.foodCategoryId < 0 || CategoryData.data[form.foodCategoryId - 1].pogDayCnt < 0);
+	// console.log(form.startDate);
+	// console.log(form.endDate);
+	// const checkValue = Boolean(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
 	const onToggleRecommendDate = () => {
 		// CASE 0: 추천 소비기한 사용 불가인 경우
-		if (!barcode.barcode) return;
+		if (CategoryData.data[form.foodCategoryId - 1].pogDayCnt < 0) return;
 
 		// CASE 1: 추천 소비기한 사용하는 경우
 		if (!form.isRecommend) {
-			const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : barcode.pogDaycnt;
+			if (barcode.barcode) {
+				const pogDayCnt = barcode.pogDaycnt === -1 ? 365 : barcode.pogDaycnt;
 
-			setDate(getTodayStr(), 'startDate');
-			setDate(getExpireDayStr(pogDayCnt), 'endDate');
-			setData(false, 'isConsume');
-			setData(true, 'isRecommend');
+				setDate(getTodayStr(), 'startDate');
+				setDate(getExpireDayStr(pogDayCnt), 'endDate');
+				setData(false, 'isConsume');
+				setData(true, 'isRecommend');
+			} else {
+				console.log('바코드', barcode.barcode);
+				console.log(form.foodCategoryId);
+				console.log(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
+
+				const endDate = getExpireDayStr(CategoryData.data[form.foodCategoryId - 1].pogDayCnt);
+				console.log(endDate);
+				setDate(getTodayStr(), 'startDate');
+				setDate(endDate, 'endDate');
+				setData(false, 'isConsume');
+				setData(true, 'isRecommend');
+			}
 		}
 		// CASE 2: 추천 소비기한 사용을 취소하는 경우
 		else {
@@ -37,13 +55,13 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 	};
 
 	return (
-		<div className="gap-2 flex flex-col">
-			<div className={`flex items-end ${barcode.barcode ? '' : 'opacity-60'}`}>
+		<div className="flex flex-col gap-2">
+			<div className={`flex items-end ${allowRecommend ? '' : 'opacity-60'}`}>
 				<CheckInput
 					value={form.isRecommend}
 					onToggle={onToggleRecommendDate}
-					disabled={!barcode.barcode}
-					className="text-green font-bold mt-4"
+					disabled={allowRecommend}
+					className="mt-4 font-bold text-green"
 				>
 					예측 소비기한 사용
 				</CheckInput>
@@ -53,13 +71,13 @@ function DateForm({ form, setDate, setData, openAlertModal }: Props) {
 						e.stopPropagation();
 						openAlertModal();
 					}}
-					className="text-xl px-1 text-green"
+					className="px-1 text-xl text-green"
 				>
 					<VscQuestion />
 				</button>
 			</div>
 
-			<span className="text-left text-xs mb-2 text-light/boldStroke dark:text-dark/boldStroke">
+			<span className="mb-2 text-xs text-left text-light/boldStroke dark:text-dark/boldStroke">
 				* 등록일 기준으로 연산한 소비기한을 사용합니다.
 			</span>
 
