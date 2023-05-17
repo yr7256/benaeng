@@ -10,4 +10,5 @@ public interface AlarmService {
 
     void deleteByUserId(Long userId);
     List<FcmAlarmDto> getFcmAlarmList();
+    void updateAlarm(Long userId);
 }
