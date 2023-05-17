@@ -4,6 +4,7 @@ export interface UserResponse {
 	isCycle: boolean;
 	isDark: boolean;
 	isPurchase: boolean;
+	newAlarm: boolean;
 }
 
 export interface SocialResponse {

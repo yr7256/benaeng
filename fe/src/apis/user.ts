@@ -1,5 +1,6 @@
 import getInstance, { getInstanceWithoutAuth } from '.';
-import { UserData } from '../types/UserTypes';
+import { UserData, UserResponse } from '../types/UserTypes';
+import { Response } from '../types';
 
 export const SOCIAL_API = '/social';
 export const USER_API = '/user';
@@ -19,5 +20,5 @@ export function usePutUser(user: UserData) {
 
 /** [GET] cookie 내 token을 통한 사용자정보 요청 */
 export function getUserData() {
-	return getInstance().get(`${USER_API}`, { timeout: 400 });
+	return getInstance().get<Response<UserResponse>>(`${USER_API}`, { timeout: 400 });
 }
