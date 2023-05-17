@@ -18,7 +18,7 @@ public class AlarmController {
         try{
             return CommonDto.of("200", "사용자 알람 리스트 획득 성공", alarmService.getAlarmList(id));
         }catch (Exception e){
-            return CommonDto.of("400", "사용자 알람 리스트 획득 실패", null);
+            return CommonDto.of("400", "사용자 알람 리스트 획득 실패", e.getMessage());
         }
     }
     @PutMapping("/alarm")
@@ -28,7 +28,7 @@ public class AlarmController {
             alarmService.updateAlarm(id);
             return CommonDto.of("200", "사용자 알람 업데이트 성공", "성공");
         }catch (Exception e){
-            return CommonDto.of("400", "사용자 알람 업데이트 실패", null);
+            return CommonDto.of("400", "사용자 알람 업데이트 실패", e.getMessage());
         }
     }
 }
