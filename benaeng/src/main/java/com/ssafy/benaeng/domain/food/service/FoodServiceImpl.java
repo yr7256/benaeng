@@ -764,6 +764,10 @@ public class FoodServiceImpl implements FoodService{
     public void deleteByUserId(Long id) {
         User user = userRepository.findById(id).orElseThrow();
         user.setAlarmList(null);
+        List<MyFood> myFoodList = myfoodRepository.findAllByUserId(id);
+        for (MyFood myFood : myFoodList) {
+            myFood.setId(null);
+        }
         myfoodRepository.deleteAllByUserId(id);
         alarmRepository.deleteAllByUserId(id);
     }
