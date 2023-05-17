@@ -35,6 +35,7 @@ function Setting() {
 		enabled: isInit,
 		onSuccess: () => {
 			setIsInit(false);
+			setAlartInit(false);
 			navigator('/');
 		},
 	});
@@ -59,6 +60,7 @@ function Setting() {
 	// 로그아웃 실행
 	const handleLogout = () => {
 		removeCookie('accessToken');
+		console.log('이제  state 변경');
 		dispatch(logout());
 		// setAlartLogout(false);
 		// navigator('/');
@@ -67,7 +69,6 @@ function Setting() {
 	// 냉장고 초기화 실행
 	const handleInit = () => {
 		setIsInit(true);
-		setAlartInit(false);
 	};
 
 	return (
