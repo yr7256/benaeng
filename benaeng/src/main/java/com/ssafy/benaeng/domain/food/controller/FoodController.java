@@ -172,7 +172,7 @@ public class FoodController {
         try{
             Long id = Long.parseLong(userId);
             foodService.deleteByUserId(id);
-            foodService.deleteAlarmByUserId(id);
+//            foodService.deleteAlarmByUserId(id);
             return CommonDto.of("200", "냉장고 초기화 성공", userId);
         }catch (Exception e){
             return CommonDto.of("400", "냉장고 초기화 실패", e.getMessage());
