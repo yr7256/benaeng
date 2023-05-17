@@ -30,11 +30,7 @@ function App() {
 	const router = createBrowserRouter([
 		{
 			path: '/',
-			element: <Home />,
-			action: () => {
-				refetch();
-				return 0;
-			},
+			element: <Home refetch={refetch} />,
 		},
 		{
 			path: '/foods/:id',
@@ -76,7 +72,8 @@ function App() {
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 				{isFetching ? <Loading /> : undefined}
-				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
+				<RouterProvider router={router} />
+				{/* {user.accessToken ? <RouterProvider router={router} /> : <Login />} */}
 			</div>
 		</div>
 	);

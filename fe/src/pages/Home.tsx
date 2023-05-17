@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import AlarmButton from '../components/home/button/AlarmButton';
@@ -23,8 +23,12 @@ declare global {
 	}
 }
 
+interface Props {
+	refetch(): void;
+}
+
 // 메인화면
-function Home() {
+function Home({ refetch }: Props) {
 	const [search, setSearch] = useState<string>('');
 	const barcode = useAppSelector(selectBarcode);
 	const { data, isFetching } = useQuery(['foodList', barcode.status], getFoodList, {
@@ -37,6 +41,10 @@ function Home() {
 	const onClickAddBtn = () => {
 		navigate('/barcode');
 	};
+
+	useEffect(() => {
+		refetch();
+	}, []);
 
 	return (
 		<div className="flex flex-col max-w-screen-md gap-4 px-6 pt-10 pb-40 mx-auto">
