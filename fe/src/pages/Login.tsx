@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
 import { SOCIAL_API, useGetSocial } from '../apis/user';
@@ -14,7 +13,6 @@ import Modal from '../components/common/modal/Modal';
 
 function Login() {
 	const [alartModal, setAlartModal] = useState(false);
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	// 인가코드 받기
 	const code = new URL(window.location.href).searchParams.get('code');
@@ -29,7 +27,6 @@ function Login() {
 			if (data?.data.data.accessToken) {
 				setCookie('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
-				navigate('/');
 			} else {
 				setAlartModal(true);
 			}
