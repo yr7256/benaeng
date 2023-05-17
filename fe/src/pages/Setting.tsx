@@ -60,7 +60,7 @@ function Setting() {
 	const handleLogout = () => {
 		removeCookie('accessToken');
 		dispatch(logout());
-		setAlartLogout(false);
+		// setAlartLogout(false);
 		// navigator('/');
 	};
 
