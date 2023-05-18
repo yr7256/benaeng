@@ -1,10 +1,9 @@
 import React from 'react';
 import './calendar.css';
-import moment from 'moment';
 
 interface Props {
-	nowDate: moment.Moment;
-	setNowDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
+	nowDate: Date;
+	setNowDate: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 function ControlDate({ nowDate, setNowDate }: Props) {
@@ -24,8 +23,8 @@ function ControlDate({ nowDate, setNowDate }: Props) {
 	];
 
 	const changeMonth = (change: number) => {
-		const date = moment(nowDate);
-		date.add(change, 'month');
+		const date = new Date(nowDate.getTime());
+		date.setMonth(date.getMonth() + change);
 		setNowDate(date);
 	};
 	return (
@@ -37,7 +36,7 @@ function ControlDate({ nowDate, setNowDate }: Props) {
 					onClick={() => changeMonth(-1)}
 				>{`<`}</button>
 			</div>
-			<p className="text-lg font-extrabold">{`${monthNames[nowDate.month()]} ${nowDate.year()}`}</p>
+			<p className="text-lg font-extrabold">{`${monthNames[nowDate.getMonth()]} ${nowDate.getFullYear()}`}</p>
 			<div>
 				<button
 					type="button"
