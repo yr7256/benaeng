@@ -40,7 +40,7 @@ function CircleGraph({ reverse = false, size, percent }: Props) {
 	 * 그래프 색상
 	 */
 	const graphColor = useMemo(() => {
-		const score = reverse ? 1 - percent : percent;
+		const score = reverse ? percent : 1 - percent;
 		// 안전군 : 66 초과
 		if (score > 0.66) return 'stroke-green text-green';
 		// 주의군 : 66 이하
@@ -52,7 +52,7 @@ function CircleGraph({ reverse = false, size, percent }: Props) {
 	return (
 		<div className={`${graphSize} ${graphColor} rounded-full flex justify-center items-center relative`}>
 			<label className="z-10 font-black text-inherit text-stroke">
-				<span>{percent * 100}%</span>
+				<span>{Math.round(percent * 100)}%</span>
 			</label>
 			<svg className={`${graphSize} ${graphColor} absolute`}>
 				<circle
