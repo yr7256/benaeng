@@ -18,7 +18,9 @@ function FoodDetailAnalysis({ foodData }: Props) {
 			{foodData.subCategory === '더미' && (
 				<>
 					<div className="absolute z-30 p-4 top-16">
-						<div className="text-center text-light/text dark:text-dark/text">분석 데이터가 존재하지 않습니다.</div>
+						<div className="text-center text-light/text dark:text-dark/text">
+							{foodData.subCategory === '더미' ? '분석 데이터가 존재하지 않습니다.' : '카테고리를 선택해 주세요.'}
+						</div>
 						<img className="block w-40 h-40 m-auto" src={analysis} alt="empty" />
 					</div>
 					<div className="absolute z-10 w-full h-[470px] opacity-50 top-0 bg-light/component dark:bg-dark/component" />
