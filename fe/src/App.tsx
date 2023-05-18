@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks/useStore';
 import { logout, selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
@@ -11,31 +12,31 @@ import Loading from './components/common/loading/Loading';
 function App() {
 	const dispatch = useAppDispatch();
 	const user = useAppSelector(selectUser);
-	const { isFetching, refetch } = useQuery(['login', user.accessToken], getUserData, {
-		onError: () => {
-			removeCookie('accessToken');
-			dispatch(logout());
-		},
-		select: ({ data }) => {
+	const { isLoading, mutate } = useMutation(async () => {
+		try {
+			const { data } = await getUserData();
 			if (data.resultCode === '400') {
 				localStorage.removeItem('accessToken');
 				dispatch(logout());
 			} else {
-				console.log('setUser');
 				localStorage.setItem('accessToken', data.data.accessToken);
 				dispatch(setUser(data.data));
 			}
-			return true;
-		},
-		retry: 2,
-		enabled: !user.accessToken,
+		} catch (e) {
+			removeCookie('accessToken');
+			dispatch(logout());
+		}
 	});
+
+	useEffect(() => {
+		if (!user.accessToken) mutate();
+	}, [user.accessToken]);
 
 	/** 라우터 */
 	const router = createBrowserRouter([
 		{
 			path: '/',
-			element: <Home refetch={refetch} />,
+			element: <Home refetch={mutate} />,
 		},
 		{
 			path: '/foods/:id',
@@ -76,8 +77,8 @@ function App() {
 	return (
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
-				{isFetching ? <Loading /> : undefined}
-				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
+				{isLoading ? <Loading /> : undefined}
+				{localStorage.getItem('accessToken') ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
 	);
