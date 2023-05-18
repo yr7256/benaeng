@@ -107,7 +107,7 @@ function RefrigeratorCalendar() {
 						<div className="flex w-1/4">
 							<div className="flex flex-col mx-auto my-2 text-xs font-bold">
 								<FoodIcon food={getSubCategory(data.foodCategoryId)} size="lg" />
-								<p className="mt-2 text-left">{data.foodName}</p>
+								<p className="w-16 mt-2 text-center truncate">{data.foodName}</p>
 							</div>
 						</div>
 					))
