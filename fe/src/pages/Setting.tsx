@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { logout, selectUser, updateUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import sendToken from '../apis/token';
-import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
 import { getFoodInit } from '../apis/foods';
 
@@ -36,7 +35,7 @@ function Setting() {
 
 	// 로그아웃 실행
 	const handleLogout = () => {
-		removeCookie('accessToken');
+		localStorage.removeItem('accessToken');
 		dispatch(logout());
 		// setAlartLogout(false);
 		// navigator('/');
@@ -51,35 +50,6 @@ function Setting() {
 
 	return (
 		<div className="px-6 pt-10">
-			{alartLogout && (
-				<Modal
-					mode="confirm"
-					size="sm"
-					label="로그아웃"
-					open={alartLogout}
-					onClose={() => setAlartLogout(false)}
-					submitText="확인"
-					onSubmit={handleLogout}
-				>
-					<div className="my-4 text-center">로그아웃 하시겠습니까 ?</div>
-				</Modal>
-			)}
-			{alartInit && (
-				<Modal
-					mode="confirm"
-					size="sm"
-					label="초기화"
-					open={alartInit}
-					onClose={() => setAlartInit(false)}
-					submitText="확인"
-					onSubmit={handleInit}
-				>
-					<div className="my-4 text-center">
-						냉장고에 있는 상품을
-						<br /> 모두 삭제 하시겠습니까 ?
-					</div>
-				</Modal>
-			)}
 			<Topbar />
 			<div className="flex items-center justify-between px-6 py-3 mb-4 border-2 rounded-2xl stroke bg-light/component dark:bg-dark/component text-light/text dark:text-dark/text">
 				<div>다크모드</div>
@@ -139,6 +109,33 @@ function Setting() {
 			>
 				로그아웃
 			</div>
+
+			{/* 모달 */}
+			<Modal
+				mode="confirm"
+				size="sm"
+				label="로그아웃"
+				open={alartLogout}
+				onClose={() => setAlartLogout(false)}
+				submitText="확인"
+				onSubmit={handleLogout}
+			>
+				<div className="my-4 text-center">로그아웃 하시겠습니까 ?</div>
+			</Modal>
+			<Modal
+				mode="confirm"
+				size="sm"
+				label="초기화"
+				open={alartInit}
+				onClose={() => setAlartInit(false)}
+				submitText="확인"
+				onSubmit={handleInit}
+			>
+				<div className="my-4 text-center">
+					냉장고에 있는 상품을
+					<br /> 모두 삭제 하시겠습니까 ?
+				</div>
+			</Modal>
 		</div>
 	);
 }
