@@ -78,7 +78,7 @@ function RefrigeratorCalendar() {
 		CalendarDataQuery.refetch();
 	}, []);
 
-	console.log(CalendarDataQuery.data);
+	// console.log(CalendarDataQuery.data);
 
 	return (
 		<div className="mt-6">
