@@ -4,7 +4,15 @@ import { useNavigate } from 'react-router';
 // import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
-import { logout, selectUser, setIsAlarm, setIsCycle, setIsDark, setIsPurchase, userSlice } from '../store/modules/user';
+import {
+	logout,
+	selectUser,
+	setIsAlarm,
+	setIsCycle,
+	setIsPurchase,
+	updateUser,
+	userSlice,
+} from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
 import { usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
@@ -101,7 +109,7 @@ function Setting() {
 					label="isDark"
 					disabled={false}
 					value={userInfo.isDark}
-					onToggle={() => dispatch(setIsDark(!userInfo.isDark))}
+					onToggle={() => dispatch(updateUser({ ...userInfo, isDark: !userInfo.isDark }))}
 					className=""
 				/>
 			</div>
