@@ -1,20 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 // import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
-import {
-	logout,
-	selectUser,
-	setIsAlarm,
-	setIsCycle,
-	setIsPurchase,
-	updateUser,
-	userSlice,
-} from '../store/modules/user';
+import { logout, selectUser, updateUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
-import { usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
 import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
@@ -34,9 +24,6 @@ function Setting() {
 	const [alartLogout, setAlartLogout] = useState(false);
 	const [alartInit, setAlartInit] = useState(false);
 
-	// 쿼리문
-	const userMutation = useMutation((user: userSlice) => usePutUser(user));
-
 	useEffect(() => {
 		async function sendDeviceToken() {
 			try {
@@ -50,10 +37,6 @@ function Setting() {
 
 		sendDeviceToken();
 	}, []);
-
-	useEffect(() => {
-		if (userInfo.accessToken) userMutation.mutate(userInfo);
-	}, [userInfo]);
 
 	// 로그아웃 실행
 	const handleLogout = () => {
@@ -120,7 +103,7 @@ function Setting() {
 						label="isAlarm"
 						disabled={false}
 						value={userInfo.isAlarm}
-						onToggle={() => dispatch(setIsAlarm(!userInfo.isAlarm))}
+						onToggle={() => dispatch(updateUser({ ...userInfo, isAlarm: !userInfo.isAlarm }))}
 						className=""
 					/>
 				</div>
@@ -132,7 +115,7 @@ function Setting() {
 						label="isCycle"
 						disabled={!userInfo.isAlarm}
 						value={userInfo.isAlarm ? userInfo.isCycle : false}
-						onToggle={() => dispatch(setIsCycle(!userInfo.isCycle))}
+						onToggle={() => dispatch(updateUser({ ...userInfo, isCycle: !userInfo.isCycle }))}
 						className=""
 					/>
 				</div>
@@ -144,7 +127,7 @@ function Setting() {
 						label="isPurchase"
 						disabled={!userInfo.isAlarm}
 						value={userInfo.isAlarm ? userInfo.isPurchase : false}
-						onToggle={() => dispatch(setIsPurchase(!userInfo.isPurchase))}
+						onToggle={() => dispatch(updateUser({ ...userInfo, isPurchase: !userInfo.isPurchase }))}
 						className=""
 					/>
 				</div>
