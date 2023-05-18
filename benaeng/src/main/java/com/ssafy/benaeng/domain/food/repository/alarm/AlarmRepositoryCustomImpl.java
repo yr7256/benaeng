@@ -84,17 +84,17 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .fetch();
         return alarmDtoList;
     }
+    static NumberExpression<Integer> count0 =
+            Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 0 then 1 else null end)", alarm);
+    static NumberExpression<Integer> count1 =
+            Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 1 then 1 else null end)", alarm);
+    static NumberExpression<Integer> count2 =
+            Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 2 then 1 else null end)", alarm);
+
+    static StringExpression formattedDate = Expressions.stringTemplate("FUNCTION('DATE_FORMAT', {0}, '%Y-%m-%d')", alarm.createDate);
 
     @Override
     public List<FcmAlarmDto> getFcmAlarmList() {
-        NumberExpression<Integer> count0 =
-                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 0 then 1 else null end)", alarm);
-        NumberExpression<Integer> count1 =
-                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 1 then 1 else null end)", alarm);
-        NumberExpression<Integer> count2 =
-                Expressions.numberTemplate(Integer.class, "count(case when {0}.type = 2 then 1 else null end)", alarm);
-
-        StringExpression formattedDate = Expressions.stringTemplate("FUNCTION('DATE_FORMAT', {0}, '%Y-%m-%d')", alarm.createDate);
         String date = LocalDate.now().toString();
         List<Tuple> result =
                 queryFactory.select(user.deviceToken, user.id, count0, count1, count2)
@@ -140,5 +140,25 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                 .where(alarm.user.id.eq(userId))
                 .where(alarm.createDate.between(startDate, endDate))
                 .execute();
+    }
+
+    @Override
+    public FcmAlarmDto getFcmAlarm(String deviceToken) {
+        String date = LocalDate.now().toString();
+        Tuple tuple =
+                queryFactory.select(user.deviceToken, user.id, count0, count1, count2)
+                        .from(alarm)
+                        .join(alarm.user, user)
+                        .where(formattedDate.eq(date))
+                        .where(user.isAlarm.eq(true))
+                        .where(user.deviceToken.eq(deviceToken))
+                        .groupBy(user.id)
+                        .fetchOne();
+        Integer period = tuple.get(count0);
+        Integer imminent = tuple.get(count1);
+        Integer expiration = tuple.get(count2);
+        if(deviceToken == null || period+imminent+expiration == 0) return null;
+
+        return new FcmAlarmDto(deviceToken, imminent, expiration, period);
     }
 }
