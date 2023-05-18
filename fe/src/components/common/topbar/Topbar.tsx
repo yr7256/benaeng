@@ -13,16 +13,18 @@ function Topbar() {
 		displayText = '설정';
 	} else if (path.includes('foods')) {
 		displayText = '식품 상세';
+	} else if (path.includes('notice')) {
+		displayText = '알림';
 	}
 
 	return (
-		<div className="text mb-10">
+		<div className="mb-10 text">
 			<div className="flex items-center text">
 				<Link to="/">
 					<img className="block dark:hidden" src="/assets/light/back-btn.svg" alt="back" />
 					<img className="hidden dark:block" src="/assets/dark/back-btn.svg" alt="back" />
 				</Link>
-				<p className="text-2xl">{displayText}</p>
+				<p className="text-xl">{displayText}</p>
 			</div>
 		</div>
 	);

@@ -2,6 +2,24 @@
 export default {
 	darkMode: 'class',
 	content: ['./home.tsx', './src/**/*.{ts,tsx}'],
+	safelist: [
+		'grid-cols-1',
+		'grid-cols-2',
+		'grid-cols-3',
+		'grid-cols-4',
+		'grid-cols-5',
+		'grid-cols-6',
+		'grid-cols-7',
+		'h-1',
+		'h-2',
+		'h-3',
+		'h-4',
+		'h-5',
+		'h-6',
+		'h-7',
+		'h-8',
+		'h-9',
+	],
 	theme: {
 		extend: {
 			keyframes: {
@@ -23,6 +41,11 @@ export default {
 				'8': '2rem',
 				'2.5xl': '1.25rem',
 			},
+			minWidth: {
+				'24': '6rem',
+				'36': '9rem',
+				'75.5': '18.875rem',
+			},
 			maxWidth: {
 				'30': '7.5rem',
 				'88': '22.875rem',
@@ -33,6 +56,9 @@ export default {
 				'38': '9.5rem',
 				'76': '19rem',
 				'88': '22.875rem',
+			},
+			minHeight: {
+				'24': '6rem',
 			},
 			height: {
 				'22': '5.5rem',
@@ -69,6 +95,9 @@ export default {
 				'light/stroke': '#EEEEEE',
 				'light/boldStroke': '#AAAAAA',
 				'light/text': '#000000',
+			},
+			boxShadow: {
+				day: `2px -2px 0px 0px`,
 			},
 		},
 	},

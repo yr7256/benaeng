@@ -1,15 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
+import { SOCIAL_API, useGetSocial } from '../apis/user';
+import { CACHE_TIME, STALE_TIME } from '../constants/api';
+import { setCookie } from '../utils/cookie';
+import { useAppDispatch } from '../hooks/useStore';
+import { setUser } from '../store/modules/user';
+import Modal from '../components/common/modal/Modal';
 
 // 로그인 화면
 
 function Login() {
+	const [alartModal, setAlartModal] = useState(false);
+	const dispatch = useAppDispatch();
 	// 인가코드 받기
-	// const code = new URL(window.location.href).searchParams.get('code');
-	useEffect(() => {
-		// api 요청 (토큰 받은 후 -> 사용자 정보 요청)
-	}, []);
+	const code = new URL(window.location.href).searchParams.get('code');
+	if (code) {
+		const { isLoading, data } = useQuery([SOCIAL_API], () => useGetSocial(code), {
+			keepPreviousData: true,
+			staleTime: STALE_TIME,
+			cacheTime: CACHE_TIME,
+		});
+
+		if (!isLoading) {
+			if (data?.data.data.accessToken) {
+				setCookie('accessToken', data.data.data.accessToken);
+				dispatch(setUser(data.data.data));
+			} else {
+				setAlartModal(true);
+			}
+		}
+	}
 	return (
 		<div className="w-screen h-screen py-20 page">
 			<div className="flex flex-col items-center justify-between h-full m-auto w-88">
@@ -29,6 +51,21 @@ function Login() {
 					<LoginButton />
 				</div>
 			</div>
+			{alartModal && (
+				<Modal
+					mode="alert"
+					size="sm"
+					label="로그인"
+					open={alartModal}
+					onClose={() => setAlartModal(false)}
+					submitText="확인"
+					onSubmit={() => setAlartModal(false)}
+				>
+					<div className="text-center">
+						로그인에 실패했습니다. <br /> 다시 시도해 주세요.
+					</div>
+				</Modal>
+			)}
 		</div>
 	);
 }

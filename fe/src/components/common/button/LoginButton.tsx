@@ -6,7 +6,6 @@ function LoginButton() {
 	const handleLogin = () => {
 		window.location.href = KAKAO_AUTH_URI;
 	};
-
 	return (
 		<button
 			type="button"

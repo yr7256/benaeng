@@ -3,18 +3,22 @@ import { RootState } from '../store';
 
 // state type
 export interface userSlice {
+	accessToken: string;
 	isDark: boolean;
 	isAlarm: boolean;
 	isCycle: boolean;
 	isPurchase: boolean;
+	newAlarm: boolean;
 }
 
 // 초기 상태 정의
 const initialState: userSlice = {
+	accessToken: '',
 	isDark: false,
 	isAlarm: true,
 	isCycle: true,
 	isPurchase: true,
+	newAlarm: false,
 };
 
 const userSlice = createSlice({
@@ -23,10 +27,16 @@ const userSlice = createSlice({
 	reducers: {
 		setUser(state, action) {
 			const temp = state;
-			temp.isDark = action.payload;
-			temp.isAlarm = action.payload;
-			temp.isCycle = action.payload;
-			temp.isPurchase = action.payload;
+			temp.accessToken = action.payload.accessToken;
+			temp.isDark = action.payload.isDark;
+			temp.isAlarm = action.payload.isAlarm;
+			temp.isCycle = action.payload.isCycle;
+			temp.isPurchase = action.payload.isPurchase;
+			temp.newAlarm = action.payload.newAlarm;
+		},
+		logout(state) {
+			const temp = state;
+			temp.accessToken = '';
 		},
 		setIsDark(state, action) {
 			const temp = state;
@@ -48,7 +58,7 @@ const userSlice = createSlice({
 });
 
 // 액션 생성함수
-export const { setUser, setIsDark, setIsAlarm, setIsCycle, setIsPurchase } = userSlice.actions;
+export const { setUser, logout, setIsDark, setIsAlarm, setIsCycle, setIsPurchase } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 // 리듀서
 export default userSlice.reducer;

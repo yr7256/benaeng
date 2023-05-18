@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { BiBarcodeReader } from 'react-icons/bi';
 
 import { TbCalculator, TbCalendar, TbCategory2, TbChevronUp, TbPencil, TbSearch } from 'react-icons/tb';
 import './Input.css';
@@ -7,7 +8,7 @@ interface Props {
 	/**
 	 * 아이콘
 	 */
-	icon: 'category' | 'pencil' | 'count' | 'calendar' | 'search' | undefined;
+	icon: 'category' | 'pencil' | 'count' | 'calendar' | 'search' | 'barcode' | undefined;
 	/**
 	 * 라벨
 	 */
@@ -15,7 +16,7 @@ interface Props {
 	/**
 	 * 타입
 	 */
-	type: 'number' | 'text' | 'date' | 'password';
+	type: 'number' | 'text' | 'date' | 'password' | 'month';
 	/**
 	 * 수정 가능 여부
 	 */
@@ -55,6 +56,8 @@ function Input({ icon, label, type = 'text', value, setValue, disabled, classNam
 				return <TbSearch />;
 			case 'count':
 				return <TbCalculator />;
+			case 'barcode':
+				return <BiBarcodeReader />;
 			default:
 				return undefined;
 		}

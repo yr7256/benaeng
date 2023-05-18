@@ -1,16 +1,18 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist'; // redux-persist (새로고침 해도 유지)
 import user from './modules/user';
+import barcode from './modules/barcode';
 
 const reducers = combineReducers({
 	user,
+	barcode,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['user'],
+	whitelist: ['user', 'barcode'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

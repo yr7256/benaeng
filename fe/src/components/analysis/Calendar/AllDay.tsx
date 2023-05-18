@@ -7,29 +7,42 @@ interface Props {
 	setNowDate: React.Dispatch<React.SetStateAction<Date>>;
 	clickedDate: Date | undefined;
 	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+	isPurchase: boolean;
+	isCycle: boolean;
+	purchase: { [key: string]: number[] };
+	cycle: { [key: string]: number[] };
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-function allDay({ day, nowDate, setNowDate, clickedDate, setClickedDate }: Props) {
-	// const nowTime = new Date();
+function allDay({
+	day,
+	nowDate,
+	setNowDate,
+	clickedDate,
+	setClickedDate,
+	isPurchase,
+	isCycle,
+	purchase,
+	cycle,
+	setSelectedDatePurchases,
+}: Props) {
 	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
 	const dateClassName = sameMonth ? '' : 'otherMonth';
-	// const sameDay: boolean =
-	// 	nowTime.getFullYear() === day.getFullYear() &&
-	// 	nowTime.getMonth() === day.getMonth() &&
-	// 	nowTime.getDate() === day.getDate();
-
-	// const clickDay: boolean = clickedDate
-	// 	? clickedDate.getFullYear() === day.getFullYear() &&
-	// 	  clickedDate.getMonth() === day.getMonth() &&
-	// 	  clickedDate.getDate() === day.getDate()
-	// 	: false;
-
+	let conditionClassName = '';
+	if (isPurchase && isCycle && sameMonth) {
+		conditionClassName = 'PurchaseAndCycleDay';
+	} else if (isPurchase && sameMonth) {
+		conditionClassName = 'PurchaseDay';
+	} else if (isCycle && sameMonth) {
+		conditionClassName = 'CycleDay';
+	}
 	const clickDate = () => {
 		setClickedDate(day);
+		setSelectedDatePurchases(day);
 	};
 	return (
-		<div onClick={() => clickDate()} className={dateClassName}>
-			<p>{day.getDate()}</p>
+		<div onClick={() => clickDate()} className={`${dateClassName} AlldayDayContainer mx-auto`}>
+			<p className={`text-center items-center ${conditionClassName}`}>{day.getDate()}</p>
 		</div>
 	);
 }

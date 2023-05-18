@@ -1,5 +1,5 @@
 .range {
-    width: 15rem;
+    width: calc(100% - 60px);
     height: 0.75rem;
     outline: none;
     border-radius: 1rem;

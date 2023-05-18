@@ -1,29 +1,82 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { useAppSelector } from './hooks/useStore';
-import { selectUser } from './store/modules/user';
-import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { useAppDispatch, useAppSelector } from './hooks/useStore';
+import { logout, selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
+import { getUserData } from './apis/user';
+import { removeCookie, setCookie } from './utils/cookie';
+import Loading from './components/common/loading/Loading';
 
 function App() {
-	const userInfo = useAppSelector(selectUser);
+	const dispatch = useAppDispatch();
+	const user = useAppSelector(selectUser);
+	const { isFetching, refetch } = useQuery(['login', user.accessToken], getUserData, {
+		onError: () => {
+			removeCookie('accessToken');
+			dispatch(logout());
+		},
+		select: ({ data }) => {
+			if (data.resultCode === '400') {
+				removeCookie('accessToken');
+				dispatch(logout());
+			} else {
+				setCookie('accessToken', data.data.accessToken);
+				dispatch(setUser(data.data));
+			}
+			return true;
+		},
+		retry: 2,
+		enabled: !!user.accessToken,
+	});
+
+	/** 라우터 */
+	const router = createBrowserRouter([
+		{
+			path: '/',
+			element: <Home refetch={refetch} />,
+		},
+		{
+			path: '/foods/:id',
+			element: <FoodDetail />,
+		},
+		{
+			path: '/barcode',
+			element: <BarcodeReader />,
+		},
+		{
+			path: '/analysis/:type',
+			element: <Analysis />,
+			children: [
+				{
+					path: 'report',
+					element: <MonthlyReport />,
+				},
+				{
+					path: 'calendar',
+					element: <RefrigeratorCalendar />,
+				},
+				{
+					path: 'food',
+					element: <FoodAnalysis />,
+				},
+			],
+		},
+		{
+			path: '/notice',
+			element: <Notice />,
+		},
+		{
+			path: '/setting',
+			element: <Setting />,
+		},
+	]);
+
 	return (
-		<div className={`App ${userInfo.isDark ? 'dark' : ''}`}>
-			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto background">
-				<Routes>
-					<Route index path="/" element={<Home />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/foods/:id" element={<FoodDetail />} />
-					<Route path="/barcode" caseSensitive element={<BarcodeReader />} />
-					<Route path="/analysis/:type" element={<Analysis />}>
-						<Route path="report" element={<MonthlyReport />} />
-						<Route path="calendar" element={<RefrigeratorCalendar />} />
-						<Route path="food" element={<FoodAnalysis />} />
-					</Route>
-					<Route path="/notice" element={<Notice />} />
-					<Route path="/setting" element={<Setting />} />
-				</Routes>
+		<div className={`App ${user.isDark ? 'dark' : ''}`}>
+			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
+				{isFetching ? <Loading /> : undefined}
+				{user.accessToken ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
 	);

@@ -14,6 +14,7 @@ function Toggle({ isCheck, onState, type }: Props) {
 	if (type === 'isCycle' || type === 'isPurchase') color = 'bg-light/stroke dark:bg-dark/stroke';
 
 	const toggleHandler = () => {
+		console.log(type, onState);
 		if (type === 'isDark') dispatch(setIsDark(!onState));
 		if (type === 'isAlarm') dispatch(setIsAlarm(!onState));
 		if (type === 'isCycle') dispatch(setIsCycle(!onState));
@@ -30,7 +31,7 @@ function Toggle({ isCheck, onState, type }: Props) {
 						className="sr-only"
 						disabled={isCheck}
 						onClick={toggleHandler}
-						checked={onState}
+						defaultChecked={onState}
 					/>
 					{onState === false ? (
 						<div className={`block h-8 rounded-full w-14 ${color}`} />
