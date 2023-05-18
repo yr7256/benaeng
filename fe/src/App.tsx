@@ -78,7 +78,7 @@ function App() {
 		<div className={`App ${user.isDark ? 'dark' : ''}`}>
 			<div className="w-screen h-screen overflow-x-hidden overflow-y-auto Page background">
 				{isLoading ? <Loading /> : undefined}
-				{localStorage.getItem('accessToken') ? <RouterProvider router={router} /> : <Login />}
+				{localStorage.getItem('accessToken') || user.accessToken ? <RouterProvider router={router} /> : <Login />}
 			</div>
 		</div>
 	);
