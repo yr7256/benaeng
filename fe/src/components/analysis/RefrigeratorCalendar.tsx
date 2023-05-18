@@ -70,7 +70,7 @@ function RefrigeratorCalendar() {
 	);
 
 	const filterCycle = CalendarDataQuery.data?.calData.filter(
-		item => nextPurchaseDate(item) === dateToyyyymmdd(selectedDatePurchases),
+		item => item.purchaseCycle > 0 && nextPurchaseDate(item) === dateToyyyymmdd(selectedDatePurchases),
 	);
 
 	useEffect(() => {
