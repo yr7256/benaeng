@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { usePutUser } from '../../apis/user';
 import { RootState } from '../store';
 
 // state type
@@ -20,6 +21,11 @@ const initialState: userSlice = {
 	isPurchase: true,
 	newAlarm: false,
 };
+
+export const updateUser = createAsyncThunk('user/update', async (user: userSlice) => {
+	await usePutUser(user);
+	return user;
+});
 
 const userSlice = createSlice({
 	name: 'user',
@@ -55,6 +61,15 @@ const userSlice = createSlice({
 			const temp = state;
 			temp.isPurchase = action.payload;
 		},
+	},
+	extraReducers(builder: ActionReducerMapBuilder<userSlice>) {
+		builder.addCase(updateUser.fulfilled, (state, { payload }) => {
+			const temp = state;
+			temp.isAlarm = payload.isAlarm;
+			temp.isCycle = payload.isCycle;
+			temp.isPurchase = payload.isPurchase;
+			temp.isDark = payload.isDark;
+		});
 	},
 });
 
