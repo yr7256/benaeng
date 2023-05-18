@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 // import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
@@ -10,7 +10,7 @@ import { usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
 import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
-import { FOOD_API, getFoodInit } from '../apis/foods';
+import { getFoodInit } from '../apis/foods';
 
 // 설정 화면
 
@@ -26,26 +26,14 @@ function Setting() {
 	const [alartLogout, setAlartLogout] = useState(false);
 	const [alartInit, setAlartInit] = useState(false);
 
-	// 초기화 쿼리 호출 state
-	const [isInit, setIsInit] = useState(false);
-
 	// 쿼리문
 	const userMutation = useMutation((user: userSlice) => usePutUser(user));
-	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
-	useQuery([FOOD_API, isInit], () => getFoodInit(), {
-		enabled: isInit,
-		onSuccess: () => {
-			setIsInit(false);
-			setAlartInit(false);
-			navigator('/');
-		},
-	});
 
 	useEffect(() => {
 		async function sendDeviceToken() {
 			try {
 				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
-				await sendTokenMutation.mutate(deviceToken);
+				await sendToken(deviceToken);
 				console.log('Device token sent successfully');
 			} catch (error) {
 				console.error('Error sending device token:', error);
@@ -56,7 +44,7 @@ function Setting() {
 	}, []);
 
 	useEffect(() => {
-		userMutation.mutate(userInfo);
+		if (userInfo.accessToken) userMutation.mutate(userInfo);
 	}, [userInfo]);
 
 	// 로그아웃 실행
@@ -69,8 +57,10 @@ function Setting() {
 	};
 
 	// 냉장고 초기화 실행
-	const handleInit = () => {
-		setIsInit(true);
+	const handleInit = async () => {
+		await getFoodInit();
+		setAlartInit(false);
+		navigator('/');
 	};
 
 	return (
