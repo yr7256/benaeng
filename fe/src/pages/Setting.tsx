@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router';
 // import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
-import { logout, selectUser } from '../store/modules/user';
+import { logout, selectUser, userSlice } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
-import { USER_API, usePutUser } from '../apis/user';
+import { usePutUser } from '../apis/user';
 import sendToken from '../apis/token';
 import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
@@ -30,7 +30,7 @@ function Setting() {
 	const [isInit, setIsInit] = useState(false);
 
 	// 쿼리문
-	useMutation([USER_API, userInfo], () => usePutUser(userInfo));
+	const userMutation = useMutation((user: userSlice) => usePutUser(user));
 	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useQuery([FOOD_API, isInit], () => getFoodInit(), {
 		enabled: isInit,
@@ -54,6 +54,10 @@ function Setting() {
 
 		sendDeviceToken();
 	}, []);
+
+	useEffect(() => {
+		userMutation.mutate(userInfo);
+	}, [userInfo]);
 
 	// 로그아웃 실행
 	const handleLogout = () => {
