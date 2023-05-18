@@ -21,6 +21,9 @@ function Login() {
 			keepPreviousData: true,
 			staleTime: STALE_TIME,
 			cacheTime: CACHE_TIME,
+			onSettled: () => {
+				window.history.replaceState(null, '', '/');
+			},
 		});
 
 		if (!isLoading) {
