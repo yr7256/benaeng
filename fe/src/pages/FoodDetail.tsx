@@ -9,6 +9,7 @@ import FoodDetailAnalysis from '../components/foods/analysis/FoodDetailAnalysis'
 import Topbar from '../components/common/topbar/Topbar';
 // import { CACHE_TIME, STALE_TIME } from '../constants/api';
 import { FOOD_API, getFood } from '../apis/foods';
+import InvalidPage from './InvalidPage';
 
 // 식품 상세화면
 
@@ -18,6 +19,9 @@ function FoodDetail() {
 		keepPreviousData: true,
 	});
 
+	if (!isFetching && !(data?.data.resultCode === '200')) {
+		return <InvalidPage />;
+	}
 	return (
 		<div>
 			{!isFetching && data && (
