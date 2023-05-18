@@ -5,7 +5,7 @@ import { logout, selectUser, setUser } from './store/modules/user';
 import { Analysis, BarcodeReader, FoodDetail, Home, Login, Notice, Setting } from './pages';
 import { MonthlyReport, RefrigeratorCalendar, FoodAnalysis } from './components/analysis';
 import { getUserData } from './apis/user';
-import { removeCookie, setCookie } from './utils/cookie';
+import { removeCookie } from './utils/cookie';
 import Loading from './components/common/loading/Loading';
 
 function App() {
@@ -18,16 +18,17 @@ function App() {
 		},
 		select: ({ data }) => {
 			if (data.resultCode === '400') {
-				removeCookie('accessToken');
+				localStorage.removeItem('accessToken');
 				dispatch(logout());
 			} else {
-				setCookie('accessToken', data.data.accessToken);
+				console.log('setUser');
+				localStorage.setItem('accessToken', data.data.accessToken);
 				dispatch(setUser(data.data));
 			}
 			return true;
 		},
 		retry: 2,
-		enabled: !!user.accessToken,
+		enabled: !user.accessToken,
 	});
 
 	/** 라우터 */
