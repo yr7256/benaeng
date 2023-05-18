@@ -75,6 +75,7 @@ function RefrigeratorCalendar() {
 
 	useEffect(() => {
 		CalendarDataQuery.refetch();
+		console.log(CalendarDataQuery);
 	}, []);
 
 	return (
