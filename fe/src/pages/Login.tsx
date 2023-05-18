@@ -4,7 +4,6 @@ import Logo from '../components/common/logo/Logo';
 import LoginButton from '../components/common/button/LoginButton';
 import { SOCIAL_API, useGetSocial } from '../apis/user';
 import { CACHE_TIME, STALE_TIME } from '../constants/api';
-import { setCookie } from '../utils/cookie';
 import { useAppDispatch } from '../hooks/useStore';
 import { setUser } from '../store/modules/user';
 import Modal from '../components/common/modal/Modal';
@@ -25,7 +24,7 @@ function Login() {
 
 		if (!isLoading) {
 			if (data?.data.data.accessToken) {
-				setCookie('accessToken', data.data.data.accessToken);
+				localStorage.setItem('accessToken', data.data.data.accessToken);
 				dispatch(setUser(data.data.data));
 			} else {
 				setAlartModal(true);
