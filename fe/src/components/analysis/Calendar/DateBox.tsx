@@ -1,46 +1,47 @@
 import React from 'react';
-import moment from 'moment';
 import WeekBox from './WeekBox';
 import AllDay from './AllDay';
 import './calendar.css';
 
 interface Props {
-	nowDate: moment.Moment;
-	setNowDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
-	clickedDate: moment.Moment | undefined;
-	setClickedDate: React.Dispatch<React.SetStateAction<moment.Moment | undefined>>;
+	nowDate: Date;
+	setNowDate: React.Dispatch<React.SetStateAction<Date>>;
+	clickedDate: Date | undefined;
+	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
-	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<moment.Moment>>;
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
-const monthList = (nowDate: moment.Moment) => {
-	const nowYear = nowDate.year();
-	const nowMonth = nowDate.month();
+const dateToyyyymmdd = (date: Date): string => {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
 
-	const dayOneWeek = moment(`${nowYear}-${nowMonth + 1}-1`).day();
-	const dayLastWeek = moment(`${nowYear}-${nowMonth + 2}-1`)
-		.subtract(1, 'days')
-		.day();
+	return `${year}-${month}-${day}`;
+};
 
-	const result: moment.Moment[] = [];
-	const prevMonthEnd = moment(`${nowYear}-${nowMonth + 1}-1`)
-		.subtract(1, 'days')
-		.date();
-	const nowMonthEnd = moment(`${nowYear}-${nowMonth + 2}-1`)
-		.subtract(1, 'days')
-		.date();
+const monthList = (nowDate: Date) => {
+	const nowYear = nowDate.getFullYear();
+	const nowMonth = nowDate.getMonth();
+
+	const dayOneWeek = new Date(nowYear, nowMonth, 1).getDay();
+	const dayLastWeek = new Date(nowYear, nowMonth + 1, 0).getDay();
+
+	const result: Date[] = [];
+	const prevMonthEnd = new Date(nowYear, nowMonth, 0).getDate();
+	const nowMonthEnd = new Date(nowYear, nowMonth + 1, 0).getDate();
 
 	for (let i = dayOneWeek - 1; i >= 0; i--) {
-		result.push(moment(`${nowYear}-${nowMonth}-${prevMonthEnd - i}`));
+		result.push(new Date(nowYear, nowMonth - 1, prevMonthEnd - i));
 	}
 
 	for (let i = 1; i <= nowMonthEnd; i++) {
-		result.push(moment(`${nowYear}-${nowMonth + 1}-${i}`));
+		result.push(new Date(nowYear, nowMonth, i));
 	}
 
 	for (let i = 1; i < 7 - dayLastWeek; i++) {
-		result.push(moment(`${nowYear}-${nowMonth + 2}-${i}`));
+		result.push(new Date(nowYear, nowMonth + 1, i));
 	}
 
 	return result;
@@ -55,7 +56,7 @@ function DateBox({
 	cycle,
 	setSelectedDatePurchases,
 }: Props) {
-	const allDay: moment.Moment[] = monthList(nowDate);
+	const allDay: Date[] = monthList(nowDate);
 
 	const weeks = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Ft', 'Sa'];
 
@@ -64,15 +65,15 @@ function DateBox({
 			{weeks.map(week => {
 				return <WeekBox key={week} weekName={week} />;
 			})}
-			{allDay.map((day: moment.Moment) => {
-				const yyyymmdd = day.format('YYYY-MM-DD');
+			{allDay.map((day: Date) => {
+				const yyyymmdd = dateToyyyymmdd(day);
 				const todayIsPurchase = Object.keys(purchase).indexOf(yyyymmdd);
 				const todayIsCycle = Object.keys(cycle).indexOf(yyyymmdd);
 				const isPurchase = todayIsPurchase !== -1;
 				const isCycle = todayIsCycle !== -1;
 				return (
 					<AllDay
-						key={yyyymmdd}
+						key={day.getTime()}
 						day={day}
 						nowDate={nowDate}
 						setNowDate={setNowDate}

@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import ControlDate from './ControlDate';
 import DateBox from './DateBox';
 import './calendar.css';
-import { getTodayStr } from '../../../utils/string';
 
 interface CalendarProps {
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
-	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<moment.Moment>>;
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 function Main({ purchase, cycle, setSelectedDatePurchases }: CalendarProps) {
-	const [nowDate, setNowDate] = useState(moment(getTodayStr(), 'YYYY-MM-DD'));
-	const [clickedDate, setClickedDate] = useState<moment.Moment>();
+	const [nowDate, setNowDate] = useState<Date>(new Date());
+	const [clickedDate, setClickedDate] = useState<Date>();
 
 	return (
 		<div className="mb-8">

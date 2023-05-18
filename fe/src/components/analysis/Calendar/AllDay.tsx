@@ -2,16 +2,16 @@ import React from 'react';
 import './calendar.css';
 
 interface Props {
-	day: moment.Moment;
-	nowDate: moment.Moment;
-	setNowDate: React.Dispatch<React.SetStateAction<moment.Moment>>;
-	clickedDate: moment.Moment | undefined;
-	setClickedDate: React.Dispatch<React.SetStateAction<moment.Moment | undefined>>;
+	day: Date;
+	nowDate: Date;
+	setNowDate: React.Dispatch<React.SetStateAction<Date>>;
+	clickedDate: Date | undefined;
+	setClickedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 	isPurchase: boolean;
 	isCycle: boolean;
 	purchase: { [key: string]: number[] };
 	cycle: { [key: string]: number[] };
-	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<moment.Moment>>;
+	setSelectedDatePurchases: React.Dispatch<React.SetStateAction<Date>>;
 }
 
 function allDay({
@@ -26,7 +26,7 @@ function allDay({
 	cycle,
 	setSelectedDatePurchases,
 }: Props) {
-	const sameMonth: boolean = nowDate.month() === day.month();
+	const sameMonth: boolean = nowDate.getMonth() === day.getMonth();
 	const dateClassName = sameMonth ? '' : 'otherMonth';
 	let conditionClassName = '';
 	if (isPurchase && isCycle && sameMonth) {
@@ -42,7 +42,7 @@ function allDay({
 	};
 	return (
 		<div onClick={() => clickDate()} className={`${dateClassName} AlldayDayContainer mx-auto`}>
-			<p className={`text-center items-center ${conditionClassName}`}>{day.date()}</p>
+			<p className={`text-center items-center ${conditionClassName}`}>{day.getDate()}</p>
 		</div>
 	);
 }
