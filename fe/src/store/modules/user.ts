@@ -3,7 +3,7 @@ import { usePutUser } from '../../apis/user';
 import { RootState } from '../store';
 
 // state type
-export interface userSlice {
+export interface UserState {
 	accessToken: string;
 	isDark: boolean;
 	isAlarm: boolean;
@@ -13,7 +13,7 @@ export interface userSlice {
 }
 
 // 초기 상태 정의
-const initialState: userSlice = {
+const initialState: UserState = {
 	accessToken: '',
 	isDark: false,
 	isAlarm: true,
@@ -22,7 +22,7 @@ const initialState: userSlice = {
 	newAlarm: false,
 };
 
-export const updateUser = createAsyncThunk('user/update', async (user: userSlice) => {
+export const updateUser = createAsyncThunk('user/update', async (user: UserState) => {
 	await usePutUser(user);
 	return user;
 });
@@ -44,25 +44,8 @@ const userSlice = createSlice({
 			const temp = state;
 			temp.accessToken = '';
 		},
-		setIsDark(state, action) {
-			console.log('다크모드 reducer');
-			const temp = state;
-			temp.isDark = action.payload;
-		},
-		setIsAlarm(state, action) {
-			const temp = state;
-			temp.isAlarm = action.payload;
-		},
-		setIsCycle(state, action) {
-			const temp = state;
-			temp.isCycle = action.payload;
-		},
-		setIsPurchase(state, action) {
-			const temp = state;
-			temp.isPurchase = action.payload;
-		},
 	},
-	extraReducers(builder: ActionReducerMapBuilder<userSlice>) {
+	extraReducers(builder: ActionReducerMapBuilder<UserState>) {
 		builder.addCase(updateUser.fulfilled, (state, { payload }) => {
 			const temp = state;
 			temp.isAlarm = payload.isAlarm;
@@ -74,7 +57,7 @@ const userSlice = createSlice({
 });
 
 // 액션 생성함수
-export const { setUser, logout, setIsDark, setIsAlarm, setIsCycle, setIsPurchase } = userSlice.actions;
+export const { setUser, logout } = userSlice.actions;
 export const selectUser = (state: RootState) => state.user;
 // 리듀서
 export default userSlice.reducer;
