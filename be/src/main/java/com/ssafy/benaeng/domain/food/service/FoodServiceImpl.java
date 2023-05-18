@@ -651,7 +651,7 @@ public class FoodServiceImpl implements FoodService {
         Map<Long, List<String>> calendarInfo = new HashMap<>();
         Map<String, Long> foodNameInfo = new HashMap<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         for (UsedFood uf : usedFoodList) {
             CalendarDetailDto.CalInfo calInfo = new CalendarDetailDto.CalInfo();
             calInfo.setFoodName(uf.getFoodName());
