@@ -39,7 +39,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 					</div>
 					<div className="flex justify-center items-center flex-col w-full h-[109px] text-sm">
 						<div className="flex justify-center mb-2">
-							<CircleGraph reverse size="sm" percent={foodData.percent / 100} />
+							<CircleGraph reverse={undefined} size="sm" percent={foodData.percent / 100} />
 						</div>
 						<div className="text-center">폐기율</div>
 					</div>
