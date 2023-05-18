@@ -31,15 +31,17 @@ function RefrigeratorCalendar() {
 			totalRecords[record].push(item.foodCategoryId);
 		});
 
-		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
-		const dateMoment = moment(lastRecord);
-		dateMoment.add(item.purchaseCycle, 'day');
-		const date = dateMoment.format('YYYY-MM-DD');
+		if (item.purchaseCycle > 0) {
+			const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
+			const dateMoment = moment(lastRecord);
+			dateMoment.add(item.purchaseCycle, 'day');
+			const date = dateMoment.format('YYYY-MM-DD');
 
-		if (!totalCycles[date]) {
-			totalCycles[date] = [];
+			if (!totalCycles[date]) {
+				totalCycles[date] = [];
+			}
+			totalCycles[date].push(item.foodCategoryId);
 		}
-		totalCycles[date].push(item.foodCategoryId);
 	});
 	const getSubCategory = (foodCategoryId: number) => {
 		const categoryData = Category.data.find(category => category.foodCategoryId === foodCategoryId);
