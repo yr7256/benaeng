@@ -52,7 +52,7 @@ function CircleGraph({ reverse = false, size, percent }: Props) {
 	return (
 		<div className={`${graphSize} ${graphColor} rounded-full flex justify-center items-center relative`}>
 			<label className="z-10 font-black text-inherit text-stroke">
-				<span>{percent * 100}%</span>
+				<span>{Math.round(percent * 100)}%</span>
 			</label>
 			<svg className={`${graphSize} ${graphColor} absolute`}>
 				<circle
