@@ -26,7 +26,7 @@ public class FCMController {
     @PostMapping("/send")
     public ResponseEntity<?> sendAlarm(@RequestBody Map<String, String> request) {
         try {
-            fcmService.sendMessageTo(request.get("deviceToken"), "비워줄게 냉장고", "");
+            fcmService.sendMessageTo(request.get("deviceToken"));
             return ResponseEntity.ok().body("전송에 성공하였습니다.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("전송에 실패하였습니다.");
