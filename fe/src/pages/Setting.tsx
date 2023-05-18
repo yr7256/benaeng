@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 // import { Cookies } from 'react-cookie';
 import Topbar from '../components/common/topbar/Topbar';
 import { useAppDispatch, useAppSelector } from '../hooks/useStore';
 import { logout, selectUser, updateUser } from '../store/modules/user';
 import Toggle from '../components/common/toggle/Toggle';
-import sendToken from '../apis/token';
+// import sendToken from '../apis/token';
 import { removeCookie } from '../utils/cookie';
 import Modal from '../components/common/modal/Modal';
 import { getFoodInit } from '../apis/foods';
@@ -24,19 +24,19 @@ function Setting() {
 	const [alartLogout, setAlartLogout] = useState(false);
 	const [alartInit, setAlartInit] = useState(false);
 
-	useEffect(() => {
-		async function sendDeviceToken() {
-			try {
-				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
-				await sendToken(deviceToken);
-				console.log('Device token sent successfully');
-			} catch (error) {
-				console.error('Error sending device token:', error);
-			}
-		}
+	// useEffect(() => {
+	// 	async function sendDeviceToken() {
+	// 		try {
+	// 			const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
+	// 			await sendToken(deviceToken);
+	// 			console.log('Device token sent successfully');
+	// 		} catch (error) {
+	// 			console.error('Error sending device token:', error);
+	// 		}
+	// 	}
 
-		sendDeviceToken();
-	}, []);
+	// 	sendDeviceToken();
+	// }, []);
 
 	// 로그아웃 실행
 	const handleLogout = () => {
