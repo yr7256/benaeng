@@ -40,7 +40,7 @@ function CircleGraph({ reverse = false, size, percent }: Props) {
 	 * 그래프 색상
 	 */
 	const graphColor = useMemo(() => {
-		const score = reverse ? 1 - percent : percent;
+		const score = reverse ? percent : 1 - percent;
 		// 안전군 : 66 초과
 		if (score > 0.66) return 'stroke-green text-green';
 		// 주의군 : 66 이하
