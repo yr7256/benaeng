@@ -39,6 +39,7 @@ const userSlice = createSlice({
 			temp.accessToken = '';
 		},
 		setIsDark(state, action) {
+			console.log('다크모드 reducer');
 			const temp = state;
 			temp.isDark = action.payload;
 		},
