@@ -28,7 +28,7 @@ function RefrigeratorCalendar() {
 			}
 			totalRecords[record].push(item.foodCategoryId);
 		});
-		if (item.purchaseCycle > 0) {
+		if (item.purchaseCycle >= 0) {
 			const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
 			const date = new Date(lastRecord);
 			date.setDate(date.getDate() + item.purchaseCycle);
