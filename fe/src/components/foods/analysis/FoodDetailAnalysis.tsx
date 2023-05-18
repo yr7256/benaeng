@@ -8,6 +8,7 @@ interface Props {
 }
 
 function FoodDetailAnalysis({ foodData }: Props) {
+	const isEmpty = foodData.subCategory === '더미' || foodData.subCategory === '기본 ';
 	const user = useAppSelector(selectUser);
 	const refrigerator = `/assets/${user.isDark ? 'dark' : 'light'}/empty-refrigerator.svg`;
 	const analysis = `/assets/${user.isDark ? 'dark' : 'light'}/empty-analysis.svg`;
@@ -15,7 +16,7 @@ function FoodDetailAnalysis({ foodData }: Props) {
 	if (foodData.subCategory === '더미') blur = 'blur-sm';
 	return (
 		<div className="relative w-full h-auto px-4 mx-auto my-6 ">
-			{foodData.subCategory === '더미' && (
+			{isEmpty && (
 				<>
 					<div className="absolute z-30 p-4 top-16">
 						<div className="text-center text-light/text dark:text-dark/text">
