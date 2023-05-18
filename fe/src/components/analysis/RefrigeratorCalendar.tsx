@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
@@ -72,6 +72,10 @@ function RefrigeratorCalendar() {
 	const filterCycle = CalendarDataQuery.data?.calData.filter(
 		item => nextPurchaseDate(item) === dateToyyyymmdd(selectedDatePurchases),
 	);
+
+	useEffect(() => {
+		CalendarDataQuery.refetch();
+	}, []);
 
 	return (
 		<div className="mt-6">
