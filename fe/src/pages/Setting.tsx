@@ -17,6 +17,7 @@ function Setting() {
 	const dispatch = useAppDispatch();
 	const navigator = useNavigate();
 	const userInfo = useAppSelector(selectUser);
+	console.log(userInfo);
 
 	// modal 상태 관리
 	const [alartLogout, setAlartLogout] = useState(false);
@@ -26,7 +27,7 @@ function Setting() {
 	const [isInit, setIsInit] = useState(false);
 
 	// 쿼리문
-	const mutation = useMutation([USER_API], () => usePutUser(userInfo));
+	useMutation([USER_API, userInfo], () => usePutUser(userInfo));
 	const sendTokenMutation = useMutation((deviceToken: string) => sendToken(deviceToken));
 	useQuery([FOOD_API, isInit], () => getFoodInit(), {
 		enabled: isInit,
@@ -35,9 +36,6 @@ function Setting() {
 			navigator('/');
 		},
 	});
-	useEffect(() => {
-		mutation.mutate();
-	}, [userInfo]);
 
 	useEffect(() => {
 		async function sendDeviceToken() {
