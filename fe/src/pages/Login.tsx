@@ -21,9 +21,6 @@ function Login() {
 			keepPreviousData: true,
 			staleTime: STALE_TIME,
 			cacheTime: CACHE_TIME,
-			onSettled: () => {
-				window.history.replaceState(null, '', '/');
-			},
 		});
 
 		if (!isLoading) {
@@ -33,6 +30,7 @@ function Login() {
 			} else {
 				setAlartModal(true);
 			}
+			window.history.replaceState(null, '', '/');
 		}
 	}
 	return (
