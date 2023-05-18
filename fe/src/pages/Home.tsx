@@ -14,6 +14,7 @@ import WarningFoodList from '../components/home/foodList/WarningFoodList';
 import ExpiredFoodList from '../components/home/foodList/ExpiredFoodList';
 import AddModal from '../components/home/modal/addModal/AddModal';
 import { getFoodList } from '../apis/foods';
+import sendToken from '../apis/token';
 
 declare global {
 	interface Window {
@@ -44,6 +45,20 @@ function Home({ refetch }: Props) {
 
 	useEffect(() => {
 		refetch();
+	}, []);
+
+	useEffect(() => {
+		async function sendDeviceToken() {
+			try {
+				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
+				await sendToken(deviceToken);
+				console.log('Device token sent successfully');
+			} catch (error) {
+				console.error('Error sending device token:', error);
+			}
+		}
+
+		sendDeviceToken();
 	}, []);
 
 	return (
