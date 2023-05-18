@@ -8,17 +8,19 @@ interface Props {
 }
 
 function FoodDetailAnalysis({ foodData }: Props) {
-	const isEmpty = foodData.subCategory === '더미' || foodData.subCategory === '기본 ';
+	console.log(foodData);
+	const isEmpty = foodData.subCategory === '더미' || foodData.subCategory === '기본';
+	console.log(isEmpty);
 	const user = useAppSelector(selectUser);
 	const refrigerator = `/assets/${user.isDark ? 'dark' : 'light'}/empty-refrigerator.svg`;
 	const analysis = `/assets/${user.isDark ? 'dark' : 'light'}/empty-analysis.svg`;
 	let blur = 'blur-0';
-	if (foodData.subCategory === '더미') blur = 'blur-sm';
+	if (foodData.subCategory === '더미' || foodData.subCategory === '기본') blur = 'blur-sm';
 	return (
 		<div className="relative w-full h-auto px-4 mx-auto my-6 ">
 			{isEmpty && (
 				<>
-					<div className="absolute z-30 p-4 top-16">
+					<div className="absolute z-30 p-4 top-16 w-full">
 						<div className="text-center text-light/text dark:text-dark/text">
 							{foodData.subCategory === '더미' ? '분석 데이터가 존재하지 않습니다.' : '카테고리를 선택해 주세요.'}
 						</div>
