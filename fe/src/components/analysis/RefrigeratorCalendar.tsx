@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import Calendar from './Calendar/Main';
 import Alarm from '../notice/alarm/Alarm';
 import FoodIcon from '../common/foodIcon/FoodIcon';
 import { getCalendarData } from '../../apis/foods';
-// import CalendarDataQuery.data? from './test.json';
+// import CalendarDataQuery from './test.json';
 import Category from '../../constants/category.json';
 import { CalendarData } from '../../types/AnalysisTypes';
+import { getTodayStr } from '../../utils/string';
 
 // 오늘 구매한 항목 데이터 받아야함
 
@@ -16,8 +18,8 @@ function RefrigeratorCalendar() {
 		select: res => res.data.data,
 	});
 
-	const today = new Date();
-	const [selectedDatePurchases, setSelectedDatePurchases] = useState<Date>(today);
+	const today = moment(getTodayStr(), 'YYYY-MM-DD');
+	const [selectedDatePurchases, setSelectedDatePurchases] = useState(today);
 	const totalRecords: { [key: string]: number[] } = {};
 	const totalCycles: { [key: string]: number[] } = {};
 
@@ -30,61 +32,50 @@ function RefrigeratorCalendar() {
 		});
 
 		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
-		const date = new Date(lastRecord);
-		date.setDate(date.getDate() + item.purchaseCycle);
+		const dateMoment = moment(lastRecord);
+		dateMoment.add(item.purchaseCycle, 'day');
+		const date = dateMoment.format('YYYY-MM-DD');
 
-		const nextPurchaseDate = date.toISOString().split('T')[0];
-		if (!totalCycles[nextPurchaseDate]) {
-			totalCycles[nextPurchaseDate] = [];
+		if (!totalCycles[date]) {
+			totalCycles[date] = [];
 		}
-		totalCycles[nextPurchaseDate].push(item.foodCategoryId);
+		totalCycles[date].push(item.foodCategoryId);
 	});
 	const getSubCategory = (foodCategoryId: number) => {
 		const categoryData = Category.data.find(category => category.foodCategoryId === foodCategoryId);
 		return categoryData ? categoryData.subCategory : '';
 	};
 
-	const dateToyyyymmdd = (date: Date): string => {
-		const year = date.getFullYear();
-		const month = String(date.getMonth() + 1).padStart(2, '0');
-		const day = String(date.getDate()).padStart(2, '0');
-
-		return `${year}-${month}-${day}`;
-	};
-
-	const dateTommdd = (date: Date): string => {
-		const month = String(date.getMonth() + 1);
-		const day = String(date.getDate());
-		return `${month}/${day}`;
-	};
-
 	const nextPurchaseDate = (item: CalendarData) => {
 		const lastRecord = item.purchaseRecords[item.purchaseRecords.length - 1];
-		const date = new Date(lastRecord);
-		date.setDate(date.getDate() + item.purchaseCycle);
-		return date.toISOString().split('T')[0];
+		const dateMoment = moment(lastRecord);
+		dateMoment.add(item.purchaseCycle, 'day');
+		const date = dateMoment.format('YYYY-MM-DD');
+		return date;
 	};
 
 	const filteredPurchases = CalendarDataQuery.data?.calData.filter(data =>
-		data.purchaseRecords.includes(dateToyyyymmdd(selectedDatePurchases)),
+		data.purchaseRecords.includes(selectedDatePurchases.format('YYYY-MM-DD')),
 	);
 
 	const filterCycle = CalendarDataQuery.data?.calData.filter(
-		item => item.purchaseCycle > 0 && nextPurchaseDate(item) === dateToyyyymmdd(selectedDatePurchases),
+		item => item.purchaseCycle > 0 && nextPurchaseDate(item) === selectedDatePurchases.format('YYYY-MM-DD'),
 	);
 
 	useEffect(() => {
 		CalendarDataQuery.refetch();
 	}, []);
 
-	console.log(CalendarDataQuery.data);
+	// console.log(CalendarDataQuery.data);
 
 	return (
 		<div className="mt-6">
 			<Calendar purchase={totalRecords} cycle={totalCycles} setSelectedDatePurchases={setSelectedDatePurchases} />
 			<div className="flex text-sm font-bold text-green mb-3 min-w-75.5 max-w-88">
-				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 슬슬
-				구매해야 할 항목
+				{selectedDatePurchases.format('MM-DD') === today.format('MM-DD')
+					? '오늘'
+					: selectedDatePurchases.format('MM-DD')}{' '}
+				슬슬 구매해야 할 항목
 			</div>
 			{filterCycle && filterCycle.length > 0 ? (
 				filterCycle.map(data => (
@@ -97,8 +88,10 @@ function RefrigeratorCalendar() {
 			)}
 			{/* // 음식명, 소분류, 알림 타입, d-day, 음식 id */}
 			<div className="flex text-sm font-bold text-yellow mt-3 mb-3 min-w-75.5 max-w-88">
-				{dateTommdd(selectedDatePurchases) === dateTommdd(today) ? '오늘' : dateTommdd(selectedDatePurchases)} 구매한
-				항목
+				{selectedDatePurchases.format('MM-DD') === today.format('MM-DD')
+					? '오늘'
+					: selectedDatePurchases.format('MM-DD')}{' '}
+				구매한 항목
 			</div>
 			<div className="flex flex-wrap px-5 py-6 border component stroke">
 				{filteredPurchases && filteredPurchases.length > 0 ? (
@@ -106,7 +99,7 @@ function RefrigeratorCalendar() {
 						<div className="flex w-1/4">
 							<div className="flex flex-col mx-auto my-2 text-xs font-bold">
 								<FoodIcon food={getSubCategory(data.foodCategoryId)} size="lg" />
-								<p className="mt-2 text-left">{data.foodName}</p>
+								<p className="w-16 mt-2 text-center truncate">{data.foodName}</p>
 							</div>
 						</div>
 					))
