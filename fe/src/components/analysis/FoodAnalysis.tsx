@@ -94,9 +94,14 @@ function FoodAnalysis(): JSX.Element {
 					<FoodDetailAnalysis foodData={query.data} />
 				</div>
 			)}
-			{!query.isFetching && !query.data && (
+			{!query.isFetching && !query.data && form.foodCategoryId > 0 && (
 				<div className="mt-6">
 					<FoodDetailAnalysis foodData={dummy} />
+				</div>
+			)}
+			{!query.isFetching && !query.data && (
+				<div className="mt-6">
+					<FoodDetailAnalysis foodData={{ ...dummy, subCategory: '기본' }} />
 				</div>
 			)}
 			<SearchCategoryModal
