@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import moment from 'moment';
 import Topbar from '../components/common/topbar/Topbar';
@@ -8,6 +8,7 @@ import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import { getAlarm, ALARM_API, putAlarm } from '../apis/alarm';
 import { getTodayStr } from '../utils/string';
+import Loading from '../components/common/loading/Loading';
 
 // 알림 화면
 
@@ -25,16 +26,20 @@ function Notice() {
 	const mutation = useMutation([ALARM_API], () => putAlarm());
 
 	// 날짜 별로 알림 메시지 분류
-	const day: AlarmData[][] = Array.from(Array(8), item => new Array(item));
-	if (!query.isFetching && query.data) {
-		query.data.forEach(item => {
-			// D-day 계산
-			const today = moment(getTodayStr(), 'YYYY-MM-DD');
-			const end = moment(item.createDate, 'YYYY-MM-DD');
-			const dDay = today.diff(end, 'days');
-			day[dDay]?.push(item);
-		});
-	}
+	const day = useMemo(() => {
+		const arr: AlarmData[][] = Array.from(Array(8), item => new Array(item));
+		if (!query.isFetching && query.data) {
+			query.data.forEach(item => {
+				// D-day 계산
+				const today = moment(getTodayStr(), 'YYYY-MM-DD');
+				const end = moment(item.createDate, 'YYYY-MM-DD');
+				const dDay = today.diff(end, 'days');
+				arr[dDay]?.push(item);
+			});
+		}
+		return arr;
+	}, [query.isFetching, query.data]);
+
 	const title: string[] = ['오늘', '어제', '그제', '3일 전', '4일 전', '5일 전', '6일 전', '일주일 전'];
 
 	// 렌더링 시 알림 읽음 처리
@@ -45,6 +50,7 @@ function Notice() {
 	return (
 		<div className="px-6 pt-10 page">
 			<Topbar />
+			{query.isFetching ? <Loading /> : undefined}
 			{day.map((array, index) => {
 				if (array.length > 1) {
 					return (
