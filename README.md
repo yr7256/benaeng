@@ -1,4 +1,4 @@
-![splash](https://i.imgur.com/j3JoJtJ.png)
+<img width="1240" alt="배너" src="https://github.com/syg9272/CT/assets/55950992/a490d858-29ae-44ba-a494-b4a309cc4697">
 
 > 
 > 
@@ -86,3 +86,37 @@ Git,  Jira, Notion, Mattermost, Figma
 ### ERD
 
 ![benaeng_ERD](https://i.imgur.com/9P31AIW.jpg)
+
+## 📱 기능
+
+### 로그인
+![소셜로그인](https://github.com/syg9272/CT/assets/55950992/489653e9-9474-42e2-b479-c3b65c96b0e0)
+
+### 식품 등록
+#### 바코드 자동 인식
+![식품 등록 - 바코드인식](https://github.com/syg9272/CT/assets/55950992/9dba95f7-c6f4-44cd-9b58-842a2716bce6)
+
+#### 바코드 입력
+![식품 등록 - 바코드 입력](https://github.com/syg9272/CT/assets/55950992/0ca7a85e-6f6e-4a9f-94ab-54833f69abba)
+
+#### 직접 입력
+![식품 등록 - 직접 입력](https://github.com/syg9272/CT/assets/55950992/004e34c7-074f-443d-80eb-b6b73b1310c6)
+
+
+### 식품 상세 정보
+![상세정보](https://github.com/syg9272/CT/assets/55950992/8e90bdb3-7157-4499-8775-5fbf8513bf39)
+
+
+### 소비 패턴 분석
+![분석](https://github.com/syg9272/CT/assets/55950992/077e1114-7c21-4e89-8547-8ecd7a9d5f73)
+
+
+### 설정
+![설정](https://github.com/syg9272/CT/assets/55950992/21da989d-2a91-4b75-b018-bc46e85629a1)
+
+
+### 알림
+![알림](https://github.com/syg9272/CT/assets/55950992/55a2a3bf-e2cc-4c85-a59f-4f50913e7642)
+
+## 🎥 UCC
+[서비스 소개 영상 보러 가기](https://youtu.be/wcGemNmuF48)
