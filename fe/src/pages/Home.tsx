@@ -52,9 +52,8 @@ function Home({ refetch }: Props) {
 			try {
 				const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
 				await sendToken(deviceToken);
-				console.log('Device token sent successfully');
 			} catch (error) {
-				console.error('Error sending device token:', error);
+				throw Error(`Error sending device token: ${error}`);
 			}
 		}
 
