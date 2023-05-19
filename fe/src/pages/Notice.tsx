@@ -65,7 +65,7 @@ function Notice() {
 								if (item) {
 									return (
 										// eslint-disable-next-line react/no-array-index-key
-										<div key={`item-${itemIndex}`} className="flex justify-center w-full my-4">
+										<div key={`item-${index}-${itemIndex}`} className="flex justify-center w-full my-4">
 											<Alarm
 												name={item.foodName}
 												food={item.foodCategoryId}
