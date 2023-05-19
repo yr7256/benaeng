@@ -30,15 +30,8 @@ function Notice() {
 		query.data.forEach(item => {
 			// D-day 계산
 			const today = moment(getTodayStr(), 'YYYY-MM-DD');
-			const dDay = moment(item.createDate, 'YYYY-MM-DD').diff(today, 'days');
-
-			// const start = new Date();
-			// const end = item.createDate.split('-');
-
-			// const sDate = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
-			// const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
-
-			// const dDay = Math.abs((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
+			const end = moment(item.createDate, 'YYYY-MM-DD');
+			const dDay = today.diff(end, 'days');
 			day[dDay]?.push(item);
 		});
 	}
