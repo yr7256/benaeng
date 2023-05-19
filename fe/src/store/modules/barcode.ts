@@ -25,8 +25,13 @@ export const getBarcodeData = createAsyncThunk('barcode/getBarcodeData', async (
 	// 변환된 file을 통해 요청을 보냅니다
 	const { data } = await getFoodBarcode(code);
 
-	// 유효하지 않은 바코드인 경우
+	// 요청 처리 실패인 경우
 	if (data.resultCode === '400') {
+		const barcode: BarcodeState = { ...initialState, status: 'fail' };
+		return JSON.stringify(barcode);
+	}
+	// 유효하지 않은 바코드인 경우
+	if (data.resultCode === '204') {
 		const barcode: BarcodeState = { ...initialState, status: 'fail' };
 		return JSON.stringify(barcode);
 	}
