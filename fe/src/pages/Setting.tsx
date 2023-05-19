@@ -18,20 +18,6 @@ function Setting() {
 	// modal 상태 관리
 	const [alartLogout, setAlartLogout] = useState(false);
 	const [alartInit, setAlartInit] = useState(false);
-	
-	// useEffect(() => {
-	// 	async function sendDeviceToken() {
-	// 		try {
-	// 			const deviceToken = await window.flutter_inappwebview.callHandler('requestToken');
-	// 			await sendToken(deviceToken);
-	// 			console.log('Device token sent successfully');
-	// 		} catch (error) {
-	// 			console.error('Error sending device token:', error);
-	// 		}
-	// 	}
-
-	// 	sendDeviceToken();
-	// }, []);
 
 	// 로그아웃 실행
 	const handleLogout = () => {
