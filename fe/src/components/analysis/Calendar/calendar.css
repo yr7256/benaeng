@@ -1,0 +1,58 @@
+.Calendar-Container {
+  height: 22.125rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.DateBox-Container {
+  width: 18.875rem;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin: auto;
+}
+
+.ControlDate-Container {
+  width: 100%;
+  height: 15%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.otherMonth {
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.WeekBox-Container {
+  border-bottom: 1px solid;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.Check-Container {
+  font-size: 0.75rem;
+  @apply text-light/boldStroke dark:text-dark/boldStroke;
+}
+
+.Check-Container > * {
+  margin-right: 0.5rem;
+}
+
+.PurchaseAndCycleDay {
+  @apply bg-yellow rounded-lg shadow-day shadow-green
+}
+
+.PurchaseDay {
+  @apply bg-yellow rounded-lg
+}
+
+.CycleDay {
+  @apply bg-green rounded-lg
+}
+
+.AlldayDayContainer > * {
+  @apply flex w-7 h-7 items-center justify-center
+}

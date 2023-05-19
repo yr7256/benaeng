@@ -1,0 +1,23 @@
+@media (max-width: 400px) {
+    #info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #info > div {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    #info > div > div {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    #info > div > div > p {
+        font-size: 14px;
+    }
+}

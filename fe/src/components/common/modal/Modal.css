@@ -1,0 +1,64 @@
+.slide-in-bottom {
+	-webkit-animation: slide-in-bottom 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-bottom 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.slide-out-bottom {
+	-webkit-animation: slide-out-bottom 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-bottom 0.25s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+
+ @-webkit-keyframes slide-out-bottom {
+  0% {
+    margin-top: 0;
+    opacity: 1;
+  }
+  90%{
+    opacity: 1;
+  }
+  100% {
+    margin-top: 1000px;
+    opacity: 0;
+  }
+}
+@keyframes slide-out-bottom {
+  0% {
+    margin-top: 0;
+    opacity: 1;
+  }
+  90%{
+    opacity: 1;
+  }
+  100% {
+    margin-top: 1000px;
+    opacity: 0;
+  }
+}
+
+ @-webkit-keyframes slide-in-bottom {
+  0% {
+    margin-top: 1000px;
+    opacity: 0;
+  }
+  10%{
+    opacity: 1;
+  }
+  100% {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+@keyframes slide-in-bottom {
+  0% {
+    margin-top: 1000px;
+    opacity: 0;
+  }
+  10%{
+    opacity: 1;
+  }
+  100% {
+    margin-top: 0;
+    opacity: 1;
+  }
+}

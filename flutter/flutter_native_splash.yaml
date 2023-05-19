@@ -1,0 +1,89 @@
+flutter_native_splash:
+  # 이 패키지는 Flutter의 기본 흰색 기본 스플래시 화면을 사용자 정의하는 기본 코드를 생성합니다.
+  # 배경색과 스플래시 이미지.
+  ## 생성 / 복원 명령어
+  # flutter pub run flutter_native_splash:create
+  # Flutter의 기본 흰색 시작 화면을 복원하려면 터미널에서 다음 명령을 실행합니다.
+  # flutter pub run flutter_native_splash:remove
+
+  ##  필수 매개변수 color / background_image
+  # 둘 중 하나만 사용할 수 있으며 색상과 background_image를 둘 다 설정할 수 없습니다.
+  color: "#F8F8F8"
+
+  ## 이후 내용은 선택적 매개변수들 입니다.
+
+  # image 키워드로 스플래시 화면에 사용되는 이미지를 지정할 수 있습니다.
+  # png 파일이며 4x 픽셀 밀도에 맞게 크기가 조정되어야 합니다.
+  image: assets/icon.png
+
+  # branding 속성을 사용하면 시작 화면에서 아래에 나오는 브랜딩으로 사용할 이미지를 지정할 수 있습니다.
+  # png 파일이어야 합니다. Android, iOS 및 웹에서 지원됩니다. 안드로이드 12의 경우, Android 12 섹션을 참조하세요.
+  #branding: assets/dart.png
+  # 브랜딩 이미지를 화면 하단에 배치하려면 bottom, bottomRight, 기본값은 bottom입니다.
+  #branding_mode: bottom
+
+  # color_dark, background_image_dark, image_dark, branding_dark는 다크모드 설정 변수입니다.
+  # A Set.
+  color_dark: "#000000"
+  #background_image_dark: "assets/dark-background.png"
+  image_dark: assets/icon.png
+  #branding_dark: assets/dart_dark.png
+
+  # Android 12는 이전 버전과 다르게 시작 화면을 처리합니다. 방문하시기 바랍니다
+  # https://developer.android.com/guide/topics/ui/splash-screen
+  # 다음은 Android 12 특정 매개변수입니다.
+  android_12:
+    # 이미지 매개변수는 스플래시 화면 아이콘 이미지를 설정합니다. 이 매개변수를 지정하지 않으면
+    # 앱의 런처 아이콘이 대신 사용됩니다.
+    # 스플래쉬 화면은 화면 중앙의 원에 잘려서 나오니 참고하세요.
+    # 아이콘 배경이 있는 앱 아이콘: 960×960 픽셀이어야 하며 원 안에 맞아야 합니다.
+    # 직경 640픽셀.
+    # 아이콘 배경이 없는 앱 아이콘: 1152×1152 픽셀이어야 하며 원 안에 맞아야 합니다.
+    # 직경 768픽셀.
+    image: assets/logo.png
+
+    # 스플래시 화면 배경색.
+    color: "#F8F8F8"
+
+    # 앱 아이콘 배경색.
+    icon_background_color: "#00C981"
+
+    # branding 속성을 사용하면 시작 화면에서 브랜딩으로 사용할 이미지를 지정할 수 있습니다.
+    # branding: assets/branding.png
+    # branding_dark: assets/branding_dark.png
+
+    # image_dark, color_dark, icon_background_color_dark, branding_dark 설정 값은 다크모들에 대해서 설정합니다
+    image_dark: assets/logo.png
+    color_dark: "#000000"
+    icon_background_color_dark: "#00C981"
+
+  ## 플랫폼.
+  # android, ios 및 web 매개변수를 사용하여 주어진 스플래시 화면 생성을 비활성화할 수 있습니다.
+  #android: false
+  #ios: false
+  #web: false
+
+  # 플랫폼별로 각각 지정할 수도 있습니다.
+  # 각 매개변수. 다음 매개변수를 모두 지정하거나 선택하거나 지정하지 않을 수 있습니다.
+  #color_android: "#42a5f5"
+  #color_dark_android: "#042a49"
+  #color_ios: "#42a5f5"
+  #color_dark_ios: "#042a49"
+  #color_web: "#42a5f5"
+  #color_dark_web: "#042a49"
+  #image_android: 자산/splash-android.png
+  #image_dark_android: 자산/splash-invert-android.png
+  #image_ios: 자산/splash-ios.png
+  #image_dark_ios: 자산/splash-invert-ios.png
+  #image_web: 자산/splash-web.png
+  #image_dark_web: 자산/splash-invert-web.png
+  # background_image_android: "assets/splash.png"
+  # background_image_dark_android: "assets/splash_dark.png"
+  #background_image_ios: "자산/배경-ios.png"
+  #background_image_dark_ios: "자산/dark-background-ios.png"
+  #background_image_web: "자산/배경-web.png"
+  #background_image_dark_web: "assets/dark-background-web.png"
+  #branding_android: assets/brand-android.png
+  #branding_dark_android: assets/dart_dark-android.png
+  #branding_ios: assets/brand-ios.png
+  #branding_dark_ios: assets/dart_dark-ios.png
