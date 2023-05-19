@@ -38,7 +38,7 @@ function Notice() {
 			});
 		}
 		return arr;
-	}, []);
+	}, [query.isFetching, query.data]);
 
 	const title: string[] = ['오늘', '어제', '그제', '3일 전', '4일 전', '5일 전', '6일 전', '일주일 전'];
 
