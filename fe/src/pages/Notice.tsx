@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 import Topbar from '../components/common/topbar/Topbar';
 import { AlarmData } from '../types/FoodTypes';
 import Alarm from '../components/notice/alarm/Alarm';
 import { useAppSelector } from '../hooks/useStore';
 import { selectUser } from '../store/modules/user';
 import { getAlarm, ALARM_API, putAlarm } from '../apis/alarm';
+import { getTodayStr } from '../utils/string';
 
 // 알림 화면
 
@@ -26,13 +28,17 @@ function Notice() {
 	const day: AlarmData[][] = Array.from(Array(8), item => new Array(item));
 	if (!query.isFetching && query.data) {
 		query.data.forEach(item => {
-			const start = new Date();
-			const end = item.createDate.split('-');
+			// D-day 계산
+			const today = moment(getTodayStr(), 'YYYY-MM-DD');
+			const dDay = moment(item.createDate, 'YYYY-MM-DD').diff(today, 'days');
 
-			const sDate = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
-			const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
+			// const start = new Date();
+			// const end = item.createDate.split('-');
 
-			const dDay = Math.abs((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
+			// const sDate = new Date(start.getFullYear(), start.getMonth() + 1, start.getDate());
+			// const eDate = new Date(Number(end[0]), Number(end[1]), Number(end[2]));
+
+			// const dDay = Math.abs((eDate.getTime() - sDate.getTime()) / (1000 * 60 * 60 * 24));
 			day[dDay]?.push(item);
 		});
 	}
