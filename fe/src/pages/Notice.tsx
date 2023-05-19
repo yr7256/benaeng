@@ -54,16 +54,18 @@ function Notice() {
 			{day.map((array, index) => {
 				if (array.length > 1) {
 					return (
-						<div key={array[1].foodId + array[1].type} className="w-full">
+						// eslint-disable-next-line react/no-array-index-key
+						<div key={`array-${index}`} className="w-full">
 							<div className="flex items-center justify-between w-full m-auto">
 								<hr className="w-1/3 border rounded-lg stroke" />
 								<div className="mx-4 text-light/boldStroke dark:text-dark/boldStroke">{title[index]}</div>
 								<hr className="w-1/3 border rounded-lg stroke" />
 							</div>
-							{array.map(item => {
+							{array.map((item, itemIndex) => {
 								if (item) {
 									return (
-										<div key={item.foodId} className="flex justify-center w-full my-4">
+										// eslint-disable-next-line react/no-array-index-key
+										<div key={`item-${index}-${itemIndex}`} className="flex justify-center w-full my-4">
 											<Alarm
 												name={item.foodName}
 												food={item.foodCategoryId}
