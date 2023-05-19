@@ -68,13 +68,13 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
         date = cal.getTime();
         List<AlarmDto> alarmDtoList =
                 queryFactory.select(Projections.fields(AlarmDto.class,
-                        alarm.type,
-                        alarm.status,
-                        alarm.createDate,
-                        alarm.dDay,
-                        alarm.foodName,
-                        myFood.id.as("foodId"),
-                        alarm.foodCategory.id.as("foodCategoryId")
+                                alarm.type,
+                                alarm.status,
+                                alarm.createDate,
+                                alarm.dDay,
+                                alarm.foodName,
+                                myFood.id.as("foodId"),
+                                alarm.foodCategory.id.as("foodCategoryId")
                         )).from(alarm)
                         .join(alarm.user, user)
                         .join(alarm.food, myFood)
@@ -102,6 +102,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .join(alarm.user, user)
                         .where(formattedDate.eq(date))
                         .where(user.isAlarm.eq(true))
+                        .where(alarm.status.eq(0))
                         .groupBy(user.id)
                         .fetch();
         List<FcmAlarmDto> fcmAlamDtoList = new ArrayList<>();
@@ -151,6 +152,7 @@ public class AlarmRepositoryCustomImpl implements AlarmRepositoryCustom{
                         .join(alarm.user, user)
                         .where(formattedDate.eq(date))
                         .where(user.isAlarm.eq(true))
+                        .where(alarm.status.eq(0))
                         .where(user.deviceToken.eq(deviceToken))
                         .groupBy(user.id)
                         .fetchOne();
