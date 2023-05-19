@@ -12,7 +12,7 @@ import java.util.Date;
 public class AlarmDto {
     private Integer type;
     private Integer status;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date createDate;
     private Integer dDay;
     private String foodName;
