@@ -1,0 +1,34 @@
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-inner-spin-button,
+input[type="month"]::-webkit-calendar-picker-indicator
+ {
+    display: none;
+    -webkit-appearance: none;
+}
+
+input[type="date"],
+input[type="month"] {
+  position: relative;
+  background-color: inherit;
+  display: flex;
+}
+input[type='date']::before,
+.dark input[type='date']::before,
+input[type='month']::before,
+.dark input[type='month']::before  {
+  content: attr(data-placeholder);
+  position: absolute;
+  align-self: center;
+  text-align: initial;
+  background-color: inherit;
+  width: 100%;
+}
+
+input[type='date']:focus::before,
+input[type='date']:valid::before,
+input[type='month']:focus::before,
+input[type='month']:valid::before {
+  display: none;
+}
+

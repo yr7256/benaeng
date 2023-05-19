@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "915170877884",
+    "project_id": "benaeng-d021a",
+    "storage_bucket": "benaeng-d021a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915170877884:android:3bc1611c7702d62fb44bb9",
+        "android_client_info": {
+          "package_name": "com.ssafy.benaeng"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915170877884-j32jnmistocjbekrqs8fihghtvu87ke2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjxTdRB3bRb8KqAMdoNks9-jQ62vXx5MU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915170877884-j32jnmistocjbekrqs8fihghtvu87ke2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "915170877884-h1muiqf61nsuc5ticnurkui094d5mu40.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ssafy.benaeng.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
