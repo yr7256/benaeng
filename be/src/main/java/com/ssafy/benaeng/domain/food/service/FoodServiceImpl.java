@@ -630,7 +630,7 @@ public class FoodServiceImpl implements FoodService {
         if (reportDetailDto.getPercent() > 0 && reportDetailDto.getPercent() <= 33) {
             reportDetailDto.getMsg().add("소비기한에 맞게 " + foodCategory.getSubCategory() + "을(를) 소비하고 있어요.");
         } else if (reportDetailDto.getPercent() > 33 && reportDetailDto.getPercent() <= 66) {
-            reportDetailDto.getMsg().add("소비기한 내" + foodCategory.getSubCategory() + "을(를) 소비하지 못하고 있어요.");
+            reportDetailDto.getMsg().add("소비기한 내 " + foodCategory.getSubCategory() + "을(를) 소비하지 못하고 있어요.");
         } else if (reportDetailDto.getPercent() > 66 && reportDetailDto.getPercent() <= 100) {
             reportDetailDto.getMsg().add("대부분의 " + foodCategory.getSubCategory() + "가 폐기되고 있어요, 더욱 신중한 구매가 필요해요.");
         }
