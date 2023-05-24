@@ -43,7 +43,7 @@
 
 ## 🛠 설치
 
-[Porting Manual](https://lab.ssafy.com/s08-final/S08P31B205/-/blob/develop/exec) 을 참고해주세요
+[Porting Manual](https://github.com/yr7256/benaeng/tree/master/exec) 을 참고해주세요
 
 ## ⚙ 기술
 
